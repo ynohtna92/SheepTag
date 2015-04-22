@@ -1,0 +1,11 @@
+"AddonInfo"
+{
+	"addonSteamAppID"		"816"
+	"addontitle"		"Sheep Tag"
+	"addonversion"		"0.1"
+	"addontagline"		"Sheep Tag"
+	"addonauthor"		"A_Dizzle"
+	"addonContent_Campaign"		"0"
+	"addonURL0"		""
+	"addonDescription"		"Sheep Tag"
+}

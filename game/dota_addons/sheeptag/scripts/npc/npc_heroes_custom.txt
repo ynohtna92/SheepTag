@@ -1,0 +1,68 @@
+// Dota Heroes File
+// NOTE: This is not for creating new heroes, this is for taking a currently existing hero as a template and overriding
+// the specified key-value combinations.  Use override_hero <hero_to_override> for this.
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: 
+	//=================================================================================================================
+	"npc_dota_hero_sheep"
+	{
+		"AbilityLayout"				"6"
+		"Model"						"models/props_gameplay/sheep01.vmdl"
+		"ModelScale"				".8"
+		"override_hero"				"npc_dota_hero_wisp"					// Hero to override
+		"Ability1"					"build_normal_farm"						// Ability 1
+		"Ability2"					"build_tiny_farm"						// Ability 2
+		"Ability3"					"build_hard_farm"						// Ability 3
+		"Ability4"					"build_upgraded_farm"					// Ability 4
+		"Ability5"					"build_stack_farm"
+		"Ability6"					"level2_abilities"
+		"Ability7"					""										// Hidden Abilities onwards
+
+		// Attack
+		//-----------------------------------------------------------------------------------------------------------
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+
+		// Attributes
+		//-----------------------------------------------------------------------------------------------------------
+
+		"AttributeBaseStrength"		"0"										// Base strength
+		"AttributeStrengthGain"		"0"										// Strength bonus per level.
+		"AttributeBaseIntelligence"	"0"										// Base intelligence
+		"AttributeIntelligenceGain"	"0"										// Intelligence bonus per level.
+		"AttributeBaseAgility"		"0"										// Base agility
+		"AttributeAgilityGain"		"0"										// Agility bonus per level.
+
+		"StatusHealth"				"20"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"50"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Bounty
+		//-----------------------------------------------------------------------------------------------------------
+
+		"BountyXP"					"0"										// Experience earn.
+		"BountyGoldMin"				"0"										// Gold earned min.
+		"BountyGoldMax"				"0"										// Gold earned max.
+
+		// Movement
+		//------------------------------------------------------------------------------------------------------------
+
+		"BoundsHullName"			"DOTA_HULL_SIZE_HERO"
+		"RingRadius"				"70"
+
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"360"									// Speed.
+		"MovementTurnRate"			"0.6"									// Turning rate.
+
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"		"800"									// Range of vision at night time.
+
+		// Misc
+		//------------------------------------------------------------------------------------------------------------
+
+		"HealthBarLabelOffset"			"-50"
+	}
+}

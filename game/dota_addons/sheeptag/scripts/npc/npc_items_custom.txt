@@ -1,0 +1,120 @@
+"DOTAAbilities"
+{
+
+	"item_delete_last_farm"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1705"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_delete_last_farm"
+		"ItemKillable"					"0"
+		"ItemSellable"					"0"
+		"ItemDroppable"					"0"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"0"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		"ItemCost"						"0"
+		"ItemPurchasable"				"0"
+		"SideShop"						"0"
+		
+		"MaxUpgradeLevel"				"1"
+		"ItemBaseLevel"					"1"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"				"CASTER"
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"delete_last_farm"
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed"					"900 1000 1100 1200"
+			}
+		}
+	}
+
+	"item_save_sheep"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1704"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityChannelTime"			"2.0"
+		//"Model"							"models/props_gameplay/salve_blue.mdl"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"save_sheep"
+		"ItemKillable"					"0"
+		"ItemSellable"					"0"
+		"ItemDroppable"					"0"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"120"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
+
+		"precache"
+		{
+			"particlefile"		"particles/units/heroes/hero_omniknight/omniknight_guardian_angel_omni.vpcf"
+		}
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		"ItemCost"						"0"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemPurchasable"				"0"
+		"SideShop"						"0"
+		
+		"MaxUpgradeLevel"				"1"
+		"ItemBaseLevel"					"1"
+		
+		"OnChannelSucceeded"
+		{
+			"RunScript"
+			{
+				"Target"				"TARGET"
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"save_sheep"
+			}
+			
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"channeltime"					"2.0"
+			}
+		}
+	}
+}

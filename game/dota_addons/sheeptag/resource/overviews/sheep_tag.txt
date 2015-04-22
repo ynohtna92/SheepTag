@@ -1,0 +1,8 @@
+sheep_tag
+{
+	material materials/overviews/sheep_tag.vmat
+	pos_x -5376
+	pos_y 5376
+	scale 10.500
+}
+

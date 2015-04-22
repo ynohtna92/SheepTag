@@ -1,0 +1,1397 @@
+	// Dota Units File
+"DOTAUnits"
+{
+	"Version"	"1"
+  
+   	"old_hard_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_barracks_melee001.vmdl"
+		"ModelScale"				"0.1"
+		"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"make_invis"		// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+		"Ability7"					""			// Ability 7 - Extra.
+		"Ability8"					""			// Ability 8 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+		"MagicalResistance"				"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+		"AttackRate"				"1"			// Speed of attack.
+		"AttackAnimationPoint"		"0.5"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
+		"AttackRange"				"500"		// Range within a target can be attacked.
+		"ProjectileModel"			"" // Particle system model for projectile.
+		"ProjectileSpeed"			"900"		// Speed of projectile.
+
+		// Attributes
+		//----------------------------------------------------------------
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"0"			// Base strength
+		"AttributeStrengthGain"		"0"			// Strength bonus per level.
+		"AttributeBaseIntelligence"	"0"			// Base intelligence
+		"AttributeIntelligenceGain"	"0"			// Intelligence bonus per level.
+		"AttributeBaseAgility"		"0"			// Base agility
+		"AttributeAgilityGain"		"0"			// Agility bonus per level.
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"2"			// Gold earned min.
+		"BountyGoldMax"				"2"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_BUILDING"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"160"
+		"HealthBarOffset"			"170"
+		
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_GOODGUYS"			// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"0"		// Range of vision during day light.
+		"VisionNighttimeRange"		"0"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"frost_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/heroes/undying/undying_tower.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"invisibility"			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"5"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"12"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"200"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1800"		// Range of vision during day light.
+		"VisionNighttimeRange"		"1800"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"sentry_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue010.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"true_sight"			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"12"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"200"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"300"			// Base mana.
+		"StatusManaRegen"			"2"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1800"		// Range of vision during day light.
+		"VisionNighttimeRange"		"1800"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"magic_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"invisibility"			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"5"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"52"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"200"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"300"			// Base mana.
+		"StatusManaRegen"			"2"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"aura_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					""			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"45"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"200"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"300"			// Base mana.
+		"StatusManaRegen"			"2"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"stack_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/buildings/building_racks_melee_reference.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					""			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"12"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"40"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"money_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					""			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"30"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"15"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"invisible_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"magic_farm_upgrade"		// Ability 2.
+		"Ability3"					"invisible"			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"8"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"120"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"strong_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"frost_farm_upgrade"		// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"12"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"360"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"upgraded_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"frost_farm_upgrade"		// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"4"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"240"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"hard_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_barracks_melee001.vmdl"	// Model.
+		"ModelScale"				"0.1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"make_invis"		// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"5"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"10"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"120"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"120"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"wide_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"make_invis"		// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"4"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"120"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+ 	"tiny_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"1"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"make_invis"		// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"0"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"64"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"20"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+  	"normal_farm"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
+		"ModelScale"				"0.2"
+		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"self_destruct"			// Ability 1.
+		"Ability2"					"frost_farm_upgrade"		// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"3"			// Physical protection.
+		"MagicalResistance"			"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+
+		// Building Cost Stats
+		//----------------------------------------------------------------
+		"GoldCost"					"0"
+		"LumberCost"				"0"
+		"BuildTime"					"0.4"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"1"			// Gold earned min.
+		"BountyGoldMax"				"1"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"90"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"120"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_STRUCTURE"
+		"UnitRelationShipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_BUILDING"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"600"		// Range of vision during day light.
+		"VisionNighttimeRange"		"600"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+  	// note: npc_dota_creature will autolearn abilities to creatureLevel*2.
+	"npc_bh_dummy"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_creature"	// Class of entity of link to.
+		"Model"						"models/development/invisiblebox.vmdl"	// Model.
+		"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"bh_dummy"			// Ability 1.
+		"Ability2"					""			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+		"Ability7"					""			// Ability 7 - Extra.
+		"Ability8"					""			// Ability 8 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+		"MagicalResistance"				"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+		"AttackRate"				"1"			// Speed of attack.
+		"AttackAnimationPoint"		"0.5"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
+		"AttackRange"				"500"		// Range within a target can be attacked.
+		"ProjectileModel"			"" // Particle system model for projectile.
+		"ProjectileSpeed"			"900"		// Speed of projectile.
+
+		// Attributes
+		//----------------------------------------------------------------
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"0"			// Base strength
+		"AttributeStrengthGain"		"0"			// Strength bonus per level.
+		"AttributeBaseIntelligence"	"0"			// Base intelligence
+		"AttributeIntelligenceGain"	"0"			// Intelligence bonus per level.
+		"AttributeBaseAgility"		"0"			// Base agility
+		"AttributeAgilityGain"		"0"			// Agility bonus per level.
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"0"			// Gold earned min.
+		"BountyGoldMax"				"0"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"			// Type of locomotion - ground, air
+		"MovementSpeed"				"450"		// Speed
+		"MovementTurnRate"			"1.0"		// Turning rate.
+		"FollowRange"				"250"		// Distance to keep when following
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_GOODGUYS"			// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"0"		// Range of vision during day light.
+		"VisionNighttimeRange"		"0"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+
+  	"npc_dummy_unit"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_base_additive"	// Class of entity of link to.
+		"Model"						"models/development/invisiblebox.vmdl"	// Model.
+		"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					"sheeptag_dummy_unit"			// Ability 1.
+		"Ability2"					""			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+		"Ability7"					""			// Ability 7 - Extra.
+		"Ability8"					""			// Ability 8 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+		"MagicalResistance"				"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+		"AttackRate"				"1"			// Speed of attack.
+		"AttackAnimationPoint"		"0.5"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
+		"AttackRange"				"500"		// Range within a target can be attacked.
+		"ProjectileModel"			"" // Particle system model for projectile.
+		"ProjectileSpeed"			"900"		// Speed of projectile.
+
+		// Attributes
+		//----------------------------------------------------------------
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"0"			// Base strength
+		"AttributeStrengthGain"		"0"			// Strength bonus per level.
+		"AttributeBaseIntelligence"	"0"			// Base intelligence
+		"AttributeIntelligenceGain"	"0"			// Intelligence bonus per level.
+		"AttributeBaseAgility"		"0"			// Base agility
+		"AttributeAgilityGain"		"0"			// Agility bonus per level.
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"0"			// Gold earned min.
+		"BountyGoldMax"				"0"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"			// Type of locomotion - ground, air
+		"MovementSpeed"				"450"		// Speed
+		"MovementTurnRate"			"1.0"		// Turning rate.
+		"FollowRange"				"250"		// Distance to keep when following
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_GOODGUYS"			// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"0"		// Range of vision during day light.
+		"VisionNighttimeRange"		"0"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}	
+
+	"npc_dummy_blank"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_base_additive"	// Class of entity of link to.
+		"Model"						"models/development/invisiblebox.vmdl"	// Model.
+		"SoundSet"					"Creep_Good_Range"					// Name of sound set.
+		"Level"						"0"
+		"UnitLabel"					"healing_ward"
+		
+		// Abilities
+		//----------------------------------------------------------------
+		
+		"Ability1"					""			// Ability 1.
+		"Ability2"					""			// Ability 2.
+		"Ability3"					""			// Ability 3.
+		"Ability4"					""			// Ability 4.
+		"Ability5"					""			// Ability 5.
+		"Ability6"					""			// Ability 6 - Extra.
+		"Ability7"					""			// Ability 7 - Extra.
+		"Ability8"					""			// Ability 8 - Extra.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+		"MagicalResistance"				"0"			// Magical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackDamageMin"			"0"			// Damage range min.
+		"AttackDamageMax"			"0"			// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+		"AttackRate"				"1"			// Speed of attack.
+		"AttackAnimationPoint"		"0.5"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
+		"AttackRange"				"500"		// Range within a target can be attacked.
+		"ProjectileModel"			"" // Particle system model for projectile.
+		"ProjectileSpeed"			"900"		// Speed of projectile.
+
+		// Attributes
+		//----------------------------------------------------------------
+		"AttributePrimary"			"DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength"		"0"			// Base strength
+		"AttributeStrengthGain"		"0"			// Strength bonus per level.
+		"AttributeBaseIntelligence"	"0"			// Base intelligence
+		"AttributeIntelligenceGain"	"0"			// Intelligence bonus per level.
+		"AttributeBaseAgility"		"0"			// Base agility
+		"AttributeAgilityGain"		"0"			// Agility bonus per level.
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"			// Experience earn.
+		"BountyGoldMin"				"0"			// Gold earned min.
+		"BountyGoldMax"				"0"			// Gold earned max.
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_HERO"			// Hull type used for navigation/locomotion.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"			// Type of locomotion - ground, air
+		"MovementSpeed"				"450"		// Speed
+		"MovementTurnRate"			"1.0"		// Turning rate.
+		"FollowRange"				"250"		// Distance to keep when following
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1"			// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_GOODGUYS"			// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"0"		// Range of vision during day light.
+		"VisionNighttimeRange"		"0"		// Range of vision at night time.
+
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
+	}
+}
