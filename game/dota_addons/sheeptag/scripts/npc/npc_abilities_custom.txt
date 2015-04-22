@@ -47,6 +47,165 @@
 		}
 	}
 
+	"money_farm_income"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"alchemist_goblins_greed"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+        "Modifiers"
+        {
+            "gold_farm_datadriven"
+            {
+            	"Passive" "1"
+                "IsDebuff" "0"
+                "IsPurgable" "0"            
+                "ThinkInterval" "%interval"
+                "OnIntervalThink"
+                {
+                    "RunScript"
+                    {
+                        "ScriptFile"        "scripts/vscripts/abilities.lua"
+                        "Function"          "money_farm_income"
+                        "income"			"%income"
+                    }
+                }
+            }
+        }
+
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"income"					"1"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"interval"					"4.0"
+			}
+		}
+	}
+
+	"sentry_auras"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			""
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_ALL"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"modifier_sentry_aura_datadriven"
+			{
+				"EffectName"		"particles/items_fx/aura_shivas.vpcf"
+				"EffectAttachType" 	"follow_origin"
+
+				"Passive" "1"
+				"IsHidden" "1"
+				"Aura" "modifier_sentry_aura"
+				"Aura_Radius" "%radius"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+
+				"OnCreated"
+				{
+					"FireEffect"
+					{
+						"EffectName"		"particles/items_fx/aura_vlads.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+					"FireEffect"
+					{
+						"EffectName"		"particles/items_fx/aura_endurance.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+					"FireEffect"
+					{
+						"EffectName"		"particles/items_fx/aura_assault.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+				}
+			}
+
+			"modifier_sentry_aura"
+			{
+				"IsHidden" "0"
+				"IsDebuff" "0"
+				"IsPurgable" "0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%mana_regen"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"	"%hp_regen"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"	"%armor_bonus"
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%speed_bonus"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%attack_rate_bonus"
+				}
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"900"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"mana_regen"				"1.5"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"armor_bonus"				"3"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"speed_bonus"				"2"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"attack_rate_bonus"			"12"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"hp_regen"					"1"
+			}
+		}
+
+		"precache"
+		{
+			"particle"	"particles/items_fx/aura_shivas.vpcf"
+			"particle"	"particles/items_fx/aura_vlads.vpcf"
+			"particle"	"particles/items_fx/aura_endurance.vpcf"
+			"particle"	"particles/items_fx/aura_assault.vpcf"
+		}
+	}
+
 	"true_sight"
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -67,7 +226,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"				"1100"
+				"radius"				"700"
 			}
 		}
 
@@ -122,7 +281,7 @@
 			}
 		}
 
-		
+
 		"precache"
 		{
 			"particle"	"particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf"
@@ -143,7 +302,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"Modifiers"
 		{
-			"Modifier_Invisible"
+			"modifier_invisible"
 			{
 				//"EffectName"		"particles/items2_fx/smoke_of_deceit_buff.vpcf" Need a riki like invis effect
 				//"EffectAttachType" 	"follow_origin"

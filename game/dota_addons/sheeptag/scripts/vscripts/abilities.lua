@@ -82,19 +82,19 @@ function build( keys )
 		-- FindClearSpace for the builder
 
 		FindClearSpaceForUnit(keys.caster, keys.caster:GetAbsOrigin(), true)
-		color_unit(unit)
-		
+
 		-- start the building with 0 mana.
 		unit:SetMana(0)
 
+		-- Custom for this map
+		color_unit(unit)
+		table.insert(keys.caster.farms, 1, unit)
 		Timers:CreateTimer(0, function()
 			local point = unit:GetAbsOrigin()
 			local gridNavBlocker = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = point})
 
 			unit.blocker = gridNavBlocker	
-			unit:SetAbsOrigin(point)
-
-			
+			unit:SetAbsOrigin(point)			
 		end)
 
 	end)
@@ -104,8 +104,9 @@ function build( keys )
 		end
 		-- Play construction complete sound.
 		-- Give building its abilities
+		InitAbilities(unit)
 		-- add the mana
-		unit:SetMana(unit:GetMaxMana())
+		--unit:SetMana(unit:GetMaxMana())
 	end)
 
 	-- These callbacks will only fire when the state between below half health/above half health changes.
@@ -198,6 +199,7 @@ function delete_last_farm( keys )
 		local ent = cast.farms[1]
 		if IsValidEntity(ent) and ent:IsAlive() then
 			-- we found the first valid farm.
+			print("Deleting last placed for pID:" .. cast:GetPlayerID())
 			ent:RemoveBuilding(true)
 			table.remove(cast.farms, 1)
 			break;
@@ -223,6 +225,18 @@ end
 
 function frost_farm_upgrade( keys )
 	
+end
+
+function money_farm_income( keys )
+	print(keys.income)
+	if keys.caster == nil or keys.caster:GetPlayerOwner() == nil then
+		return nil
+	end
+
+	local gold = keys.income
+
+	PopupNumbers(keys.caster, "gold", Vector(255,200,33), 1.0, gold, '#', nil)
+	keys.caster:GetPlayerOwner():GetAssignedHero():ModifyGold(gold,false,0)
 end
 
 function contruction_animation( unit, duration )

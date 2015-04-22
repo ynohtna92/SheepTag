@@ -670,10 +670,7 @@ function BuildingHelper:InitializeBuildingEntity(keys)
 			--unit.fScaleInterval=unit.fScaleInterval-.1*unit.fScaleInterval
 			bScaling=true
 		end
-	end
-
-
-	
+	end	
 
 	-- Health Timers
 	-- If the tick would be faster than 1 frame, adjust the HP gained per frame
@@ -797,9 +794,14 @@ function BuildingHelper:InitializeBuildingEntity(keys)
 	end)
 
 	function unit:RemoveBuilding(bForceKill)
-		self:OpenSquares(unit.squaresOccupied, "string")
+		BuildingHelper:OpenSquares( unit.squaresOccupied, "vector" )
 		if bForceKill then
-			unit:ForceKill(true)
+			unit:RemoveSelf()
+		end	
+
+		if unit.blocker ~= nil then
+			DoEntFireByInstanceHandle(unit.blocker, "Disable", "1", 0, nil, nil)
+			DoEntFireByInstanceHandle(unit.blocker, "Kill", "1", 1, nil, nil)
 		end
 	end
 
@@ -825,11 +827,6 @@ function BuildingHelper:InitializeBuildingEntity(keys)
 		ClearParticleTable(player.stickyGhosts[1])
 		--print("Clearing sticky ghost.")
 		table.remove(player.stickyGhosts, 1)
-	end
-
-	if unit.blocker ~= nil then
-		DoEntFireByInstanceHandle(unit.blocker, "Disable", "1", 0, nil, nil)
-		DoEntFireByInstanceHandle(unit.blocker, "Kill", "1", 1, nil, nil)
 	end
 end
 

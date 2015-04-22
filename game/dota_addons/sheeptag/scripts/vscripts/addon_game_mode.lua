@@ -49,6 +49,7 @@ function Precache( context )
 		PrecacheResource("particle_folder", "particles/econ/items/tinker/boots_of_travel", context)
 		PrecacheResource("particle", "particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf", context)
 		PrecacheResource( "particle", "particles/items2_fx/smoke_of_deceit_buff.vpcf", context )
+		PrecacheResource( "particle", "particles/msg_fx/msg_gold.vpcf", context )
 	
 		-- Models can also be precached by folder or individually
 		-- PrecacheModel should generally used over PrecacheResource for individual models

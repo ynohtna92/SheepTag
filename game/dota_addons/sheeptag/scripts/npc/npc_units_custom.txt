@@ -98,7 +98,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/heroes/undying/undying_tower.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -177,7 +177,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue010.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -256,7 +256,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -335,7 +335,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -346,7 +346,7 @@
 		//----------------------------------------------------------------
 		
 		"Ability1"					"self_destruct"			// Ability 1.
-		"Ability2"					""			// Ability 2.
+		"Ability2"					"sentry_auras"			// Ability 2.
 		"Ability3"					""			// Ability 3.
 		"Ability4"					""			// Ability 4.
 		"Ability5"					""			// Ability 5.
@@ -414,7 +414,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/buildings/building_racks_melee_reference.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -493,7 +493,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -504,7 +504,7 @@
 		//----------------------------------------------------------------
 		
 		"Ability1"					"self_destruct"			// Ability 1.
-		"Ability2"					""			// Ability 2.
+		"Ability2"					"money_farm_income"			// Ability 2.
 		"Ability3"					""			// Ability 3.
 		"Ability4"					""			// Ability 4.
 		"Ability5"					""			// Ability 5.
@@ -572,7 +572,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -651,7 +651,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -730,7 +730,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -809,7 +809,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_barracks_melee001.vmdl"	// Model.
 		"ModelScale"				"0.1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -888,7 +888,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -967,7 +967,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"1"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
@@ -1046,7 +1046,7 @@
 	{
 		// General
 		//
-		"BaseClass"					"npc_dota_building"	// Class of entity of link to.
+		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/props_structures/good_statue008.vmdl"	// Model.
 		"ModelScale"				"0.2"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.

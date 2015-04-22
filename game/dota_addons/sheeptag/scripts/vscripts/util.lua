@@ -17,6 +17,26 @@ function HasFullInventory( unit )
 	return count == 6
 end
 
+function PopupNumbers(target, pfx, color, lifetime, number, presymbol, postsymbol)
+    local pfxPath = string.format("particles/msg_fx/msg_%s.vpcf", pfx)
+    local pidx = ParticleManager:CreateParticle(pfxPath, PATTACH_ABSORIGIN_FOLLOW, target) -- target:GetOwner()
+
+    local digits = 0
+    if number ~= nil then
+        digits = #tostring(number)
+    end
+    if presymbol ~= nil then
+        digits = digits + 1
+    end
+    if postsymbol ~= nil then
+        digits = digits + 1
+    end
+
+    ParticleManager:SetParticleControl(pidx, 1, Vector(tonumber(presymbol), tonumber(number), tonumber(postsymbol)))
+    ParticleManager:SetParticleControl(pidx, 2, Vector(lifetime, digits, 0))
+    ParticleManager:SetParticleControl(pidx, 3, color)
+end
+
 -- Returns a shallow copy of the passed table.
 function shallowcopy(orig)
 	local orig_type = type(orig)
@@ -59,7 +79,7 @@ function InitAbilities( hero )
 	for i=0, hero:GetAbilityCount()-1 do
 		local abil = hero:GetAbilityByIndex(i)
 		if abil ~= nil then
-			if hero:GetAbilityPoints() > 0 then
+			if hero:IsRealHero() and hero:GetAbilityPoints() > 0 then
 				hero:UpgradeAbility(abil)
 			else
 				abil:SetLevel(1)
