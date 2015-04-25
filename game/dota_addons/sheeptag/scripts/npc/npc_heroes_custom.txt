@@ -23,7 +23,8 @@
 		// Attack
 		//-----------------------------------------------------------------------------------------------------------
 
-		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		//"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------
@@ -123,5 +124,72 @@
 		//------------------------------------------------------------------------------------------------------------
 
 		"HealthBarLabelOffset"			"-50"
+	}
+
+	"npc_dota_hero_shepherd"
+	{
+		"AbilityLayout"				"4"
+		"Model"						"models/heroes/lycan/lycan_wolf.vmdl"
+		"ModelScale"				".8"
+		"override_hero"				"npc_dota_hero_lycan"		// Hero to override
+		"Ability1"					""						// Ability 1
+		"Ability2"					""						// Ability 2
+		"Ability3"					""						// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""
+		"Ability6"					""
+		"Ability7"					""							// Hidden Abilities onwards
+
+		// Attack
+		//-----------------------------------------------------------------------------------------------------------
+		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+
+		"AttackDamageMin"            "150"       // Damage range min.
+		"AttackDamageMax"            "150"       // Damage range max.
+		"AttackRate"                 "1.5"     // Speed of attack.
+		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
+		"AttackRange"                "150"     // Range within a target can be attacked.
+		"AttackRangeBuffer"          "20"     // Extra range the target can move without canceling the attack
+
+		// Attributes
+		//-----------------------------------------------------------------------------------------------------------
+
+		"AttributeBaseStrength"		"0"										// Base strength
+		"AttributeStrengthGain"		"0"										// Strength bonus per level.
+		"AttributeBaseIntelligence"	"0"										// Base intelligence
+		"AttributeIntelligenceGain"	"0"										// Intelligence bonus per level.
+		"AttributeBaseAgility"		"0"										// Base agility
+		"AttributeAgilityGain"		"0"										// Agility bonus per level.
+
+		"StatusHealth"				"2000"			// Base health.
+		"StatusHealthRegen"			"0.5"			// Health regeneration rate.
+		"StatusMana"				"300"			// Base mana.
+		"StatusManaRegen"			"0.25"			// Mana regeneration rate.
+
+		// Bounty
+		//-----------------------------------------------------------------------------------------------------------
+
+		"BountyXP"					"0"										// Experience earn.
+		"BountyGoldMin"				"0"										// Gold earned min.
+		"BountyGoldMax"				"0"										// Gold earned max.
+
+		// Movement
+		//------------------------------------------------------------------------------------------------------------
+
+		"BoundsHullName"			"DOTA_HULL_SIZE_HERO"
+		"RingRadius"				"90"
+
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"420"									// Speed.
+		"MovementTurnRate"			"0.4"									// Turning rate.
+
+		"VisionDaytimeRange"		"1800"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+
+		// Misc
+		//------------------------------------------------------------------------------------------------------------
+
+		"HealthBarLabelOffset"			"-1"
 	}
 }

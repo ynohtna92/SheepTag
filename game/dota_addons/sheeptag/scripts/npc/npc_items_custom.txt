@@ -198,4 +198,191 @@
 			"particle"	"particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf"
 		}
 	}
+
+	//=================================================================================================================
+	// Potion Of Speed
+	//=================================================================================================================
+	"item_potion_of_speed"
+	{
+		"ID"							"1001"
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_greater_salve"
+		"Model"							"models/props_gameplay/salve_red.mdl"
+
+		// Stats		
+		//-------------------------------------------------------------------------------------------------------------
+
+		"AbilityCastRange"				"100"
+		"AbilityCastPoint"				"0.0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"25"
+		"ItemShopTags"					"move_speed;consumable"
+		"ItemQuality"					"consumable"
+		"ItemStackable"					"5"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+		"ItemPurchasable"				"1"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target" "CURSOR_TARGET"
+				"ModifierName" "modifier_item_potion_of_speed"
+			}
+			"FireSound"
+			{
+				"Target" "UNIT"
+				"EffectName" "DOTA_Item.HealingSalve.Activate"
+			}
+			"SpendCharge"
+			{}
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_potion_of_speed"
+			{
+				"TextureName" "item_greater_salve"
+				"EffectName" "particles/generic_gameplay/rune_haste_owner.vpcf"
+				"EffectAttachType" "follow_origin"
+				"Duration" "%buff_duration"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%bonus_movement_pct"
+				}
+				"OnTakeDamage"
+				{
+					"RemoveModifier"
+					{
+						"Target" "UNIT"
+						"ModifierName" "modifier_item_potion_of_speed"
+					}
+				}
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"buff_duration"			"20"
+			}			
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_movement_pct"		"8"
+			}
+		}
+
+		"precache"
+		{
+			"particle"	"particles/generic_gameplay/rune_haste_owner.vpcf"
+		}
+	}
+
+	//=================================================================================================================
+	// Potion Of Strength
+	//=================================================================================================================
+	"item_potion_of_strength"
+	{
+		"ID"							"1002"
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_greater_salve"
+		"Model"							"models/props_gameplay/salve_red.mdl"
+
+		// Stats		
+		//-------------------------------------------------------------------------------------------------------------
+
+		"AbilityCastRange"				"100"
+		"AbilityCastPoint"				"0.0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"30"
+		"ItemShopTags"					"move_speed;consumable"
+		"ItemQuality"					"consumable"
+		"ItemStackable"					"5"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+		"ItemPurchasable"				"1"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target" "CURSOR_TARGET"
+				"ModifierName" "modifier_item_potion_of_strength"
+			}
+			"FireSound"
+			{
+				"Target" "UNIT"
+				"EffectName" "DOTA_Item.HealingSalve.Activate"
+			}
+			"SpendCharge"
+			{}
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_potion_of_strength"
+			{
+				"TextureName" "item_greater_salve"
+				"StatusEffectName"	"particles/status_fx/status_effect_gods_strength.vpcf"
+  				"StatusEffectPriority" "15"
+				"EffectName" "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf"
+				"EffectAttachType" "follow_origin"
+				"Duration" "%buff_duration"
+				"OnAttack"
+				{
+                    "RunScript"
+                    {
+                        "ScriptFile"        "scripts/vscripts/abilities.lua"
+                        "Function"          "potion_of_strength"
+                    }
+                    "RemoveModifier"
+                    {
+						"ModifierName"	"modifier_item_potion_of_strength"
+						"Target" 		"ATTACKER"
+                    }
+				}
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"buff_duration"			"5"
+			}
+		}
+
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf"
+			"particle"	"particles/status_fx/status_effect_gods_strength.vpcf"
+		}
+	}
 }

@@ -49,6 +49,10 @@ function Precache( context )
 		PrecacheResource("particle", "particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf", context)
 		PrecacheResource( "particle", "particles/items2_fx/smoke_of_deceit_buff.vpcf", context )
 		PrecacheResource( "particle", "particles/msg_fx/msg_gold.vpcf", context )
+
+		-- Items
+		PrecacheResource( "particle", "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf", context )
+		PrecacheResource( "particle", "particles/generic_gameplay/rune_haste_owner.vpcf", context )
 	
 		-- Models can also be precached by folder or individually
 		-- PrecacheModel should generally used over PrecacheResource for individual models
@@ -64,6 +68,7 @@ function Precache( context )
 		PrecacheModel("models/heroes/undying/undying_tower.vmdl", context)
 		PrecacheModel("models/items/hex/sheep_hex/sheep_hex.vmdl", context)
 		PrecacheModel("models/props_gameplay/sheep01.vmdl", context)
+		PrecacheModel("models/heroes/lycan/lycan_wolf.vmdl", context)
 
 		Farm:Precache(context)
 end

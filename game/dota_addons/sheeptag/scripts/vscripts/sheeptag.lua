@@ -1,5 +1,10 @@
 print ('[SHEEPTAG] sheeptag.lua' )
 
+DEBUG = true
+THINK_TIME = 0.1
+
+VERSION = "B250415"
+
 ENABLE_HERO_RESPAWN = true              -- Should the heroes automatically respawn on a timer or stay dead until manually respawned
 UNIVERSAL_SHOP_MODE = false             -- Should the main shop contain Secret Shop items as well as regular items
 ALLOW_SAME_HERO_SELECTION = true        -- Should we let people select the same hero as each other
@@ -118,10 +123,12 @@ function SheepTag:OnHeroInGame(hero)
     end)]]
 
     Timers:CreateTimer(4, function()
-      GameRules:SendCustomMessage("Welcome to <font color='#FF1493'>Sheep Tag!</font> [v1.5]", 0, 0)
-      GameRules:SendCustomMessage("<font color='#FFFF33'>Developer</font>: Myll", 0, 0)
-      --GameRules:SendCustomMessage("<font color='#FFFF33'>Special Thanks</font>: BMD", 0, 0) --7FFF00
-      --GameRules:SendCustomMessage("<font color='#7FFF00'>Steam Group</font>: steamcommunity.com/groups/slideninjaslide", 0, 0)
+      GameRules:SendCustomMessage("<b>Welcome to Sheep Tag!</b> [".. VERSION .. "]", 0, 0)
+      GameRules:SendCustomMessage("Main Developer & Mapper: <font color='#FF1493'>A_Dizzle</font>", 0, 0)
+      GameRules:SendCustomMessage("Co-Developers: <font color='#FF1493'>Myll</font> (Coder)", 0, 0)
+      GameRules:SendCustomMessage("WC3 Developers: <font color='#FF1493'>Chakra</font>, <font color='#FF1493'>XXXandBEER</font>, <font color='#FF1493'>GosuSheep</font> and lastly <font color='#FF1493'>Star[MD}</font>.", 0, 0)
+      GameRules:SendCustomMessage("Special Thanks: <font color='#FF1493'>BMD, Noya & Jacklarnes</font> and everyone on IRC", 0, 0)
+      GameRules:SendCustomMessage("Support this project on Github at https://github.com/ynohtna92/SheepTag", 0, 0)
     end)
 
     Timers:CreateTimer(5, function()
@@ -161,9 +168,11 @@ function SheepTag:OnHeroInGame(hero)
 
     local item = CreateItem("item_destroy_all_farms", hero, hero)
     hero:AddItem(item)
-    
+
     local item = CreateItem("item_build_aura_farm", hero, hero)
     hero:AddItem(item)
+  elseif heroName == "npc_dota_hero_lycan" then
+    hero:SetAbilityPoints(0)
   end
 end
 

@@ -317,6 +317,11 @@ function far_sight( event )
     end
 end
 
+-- ITEMS
+function potion_of_strength( keys )
+	print('Potion of Strength Attack')
+end
+
 function debug_teleport( keys )
 	print(keys.target_points[1])
 	FindClearSpaceForUnit(keys.caster, keys.target_points[1], true)

@@ -3,6 +3,8 @@
 	"consumables"
 	{
 		"item"		"item_boots_of_speed"
+		"item"		"item_potion_of_speed"
+		"item"		"item_potion_of_strength"
 	}
 
 	"attributes"
