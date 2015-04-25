@@ -10,12 +10,14 @@ LEVEL1_ABILITIES =
 
 LEVEL2_ABILITIES = 
 {
-	[1] = "build_aura_farm",
+	--[1] = "build_aura_farm",
+	[1] = "build_sentry_farm",
 	[2] = "build_strong_farm",
-	--[3] = "build_wide_farm",
-	[3] = "build_sentry_farm",
+	[3] = "build_wide_farm",
 	[4] = "build_savings_farm",
+	--[4] = "invisibility",
 	[5] = "build_invisible_farm",
+	--[5] = "far_sight",
 	[6] = "level1_abilities",
 }
 --[[
@@ -82,6 +84,7 @@ function build( keys )
 		-- FindClearSpace for the builder
 
 		FindClearSpaceForUnit(keys.caster, keys.caster:GetAbsOrigin(), true)
+		keys.caster:RemoveModifierByName("modifier_invisibility_datadriven")
 
 		-- start the building with 0 mana.
 		unit:SetMana(0)
@@ -89,14 +92,38 @@ function build( keys )
 		-- Custom for this map
 		color_unit(unit)
 		table.insert(keys.caster.farms, 1, unit)
-		Timers:CreateTimer(0, function()
-			local point = unit:GetAbsOrigin()
-			local gridNavBlocker = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = point})
+		name = unit:GetUnitName()
+		-- One tick later this will happen
+		if name ~= "tiny_farm" then
+			Timers:CreateTimer(0, function()
+				if name == "hard_farm" or name == "wide_farm" then
+					local origin = unit:GetAbsOrigin()
+					local size = 64
+					if name == "wide_farm" then
+						size = 32
+					end
+						
+					local points = { Vector(origin.x-size, origin.y-size, origin.z),
+						Vector(origin.x-size, origin.y+size, origin.z),
+						Vector(origin.x+size, origin.y-size, origin.z),
+						Vector(origin.x+size, origin.y+size, origin.z)
+					}
 
-			unit.blocker = gridNavBlocker	
-			unit:SetAbsOrigin(point)			
-		end)
-
+					unit.blocker = {}
+					for i=1,#points do
+						local obstruction = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = points[i]})
+						unit.blocker[i] = obstruction
+					end
+					unit:SetAbsOrigin(origin)
+				else
+					local point = unit:GetAbsOrigin()
+					local gridNavBlocker = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = point})
+					unit.blocker = {}
+					unit.blocker[1] = gridNavBlocker	
+					unit:SetAbsOrigin(point)
+				end		
+			end)
+		end
 	end)
 	keys:OnConstructionCompleted(function(unit)
 		if Debug_BH then
@@ -106,7 +133,7 @@ function build( keys )
 		-- Give building its abilities
 		InitAbilities(unit)
 		-- add the mana
-		--unit:SetMana(unit:GetMaxMana())
+		unit:SetMana(unit:GetMaxMana())
 	end)
 
 	-- These callbacks will only fire when the state between below half health/above half health changes.
@@ -192,6 +219,17 @@ end
 
 function delete_last_farm( keys )
 	local cast = keys.caster
+	print("Deleting last placed for pID:" .. cast:GetPlayerID())
+	remove_farms(cast, true)
+end
+
+function destory_all_farms( keys )
+	local cast = keys.caster
+	print("Destroying all farms for pID:" .. cast:GetPlayerID())
+	remove_farms(cast, false)
+end
+
+function remove_farms( cast , bool )
 
 	-- ensure the table has entries
 
@@ -199,10 +237,11 @@ function delete_last_farm( keys )
 		local ent = cast.farms[1]
 		if IsValidEntity(ent) and ent:IsAlive() then
 			-- we found the first valid farm.
-			print("Deleting last placed for pID:" .. cast:GetPlayerID())
 			ent:RemoveBuilding(true)
 			table.remove(cast.farms, 1)
-			break;
+			if bool then
+				break;
+			end
 		else
 			-- this farm was already destroyed with self_destruct ability.
 			-- it should not be in this table, so clean it up now.
@@ -212,7 +251,7 @@ function delete_last_farm( keys )
 end
 
 function save_sheep( keys )
-	
+	print("Sheep Saved!")
 end
 
 function make_invis( keys )
@@ -228,7 +267,7 @@ function frost_farm_upgrade( keys )
 end
 
 function money_farm_income( keys )
-	print(keys.income)
+	--print(keys.income)
 	if keys.caster == nil or keys.caster:GetPlayerOwner() == nil then
 		return nil
 	end
@@ -246,7 +285,43 @@ function contruction_animation( unit, duration )
 	end)
 end
 
+--[[
+	Author: Noya
+	Date: 17.01.2015.
+	Gives vision over an area and shows a particle to the team
+]]
+function far_sight( event )
+	print('Far Sight Cast')
+	local caster = event.caster
+	local ability = event.ability
+	local level = ability:GetLevel()
+	local reveal_radius = ability:GetLevelSpecialValueFor( "radius", level - 1 )
+	local duration = ability:GetLevelSpecialValueFor( "duration", level - 1 )
+
+	local allHeroes = HeroList:GetAllHeroes()
+	local particleName = "particles/items_fx/dust_of_appearance.vpcf"
+	local target = event.target_points[1]
+
+	-- Particle for team
+	for _, v in pairs( allHeroes ) do
+		if v:GetPlayerID() and v:GetTeam() == caster:GetTeam() then
+			local fxIndex = ParticleManager:CreateParticleForPlayer( particleName, PATTACH_WORLDORIGIN, v, PlayerResource:GetPlayer( v:GetPlayerID() ) )
+			ParticleManager:SetParticleControl( fxIndex, 0, target )
+			ParticleManager:SetParticleControl( fxIndex, 1, Vector(reveal_radius,0,reveal_radius) )
+		end
+	end
+
+	-- Vision
+	if level == 1 then
+		ability:CreateVisibilityNode(target, reveal_radius, duration)
+    end
+end
+
 function debug_teleport( keys )
 	print(keys.target_points[1])
 	FindClearSpaceForUnit(keys.caster, keys.target_points[1], true)
+end
+
+function test( keys )
+	print('test')
 end

@@ -47,6 +47,243 @@
 		}
 	}
 
+	"sheep_spirit"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"invulnerable"
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+
+		"Modifiers"
+		{
+			"modifier_sheep_spirit"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"States"
+				{
+					"MODIFIER_STATE_INVULNERABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	}
+
+	"invisibility"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"BaseClass"						"ability_datadriven"
+		//"HotKeyOverride"				"F"
+		"AbilityTextureName"			"riki_permanent_invisibility"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"		
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+		"AbilityCastRange"				"300"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0"
+		"AbilityManaCost"				"1"
+	
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_invisibility_datadriven"
+				"Target" 		"TARGET"
+				"Duration"		"%duration"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_invisibility_datadriven"
+			{
+				"IsBuff"		"1"
+				"IsPurgeable"	"0"
+
+				"OnCreated"
+				{
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_invisibility"
+						"Target"		"TARGET"
+					}
+				}
+
+				"OnDestroy"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_invisibility"
+						"Target"
+						{
+							"Center"	"TARGET"
+							"Flags" 	"DOTA_UNIT_TARGET_FLAG_DEAD"
+						}
+					}
+				}
+
+				"OnAttack"
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_invisibility_datadriven"
+						"Target" 		"ATTACKER"
+					}
+				}
+
+				// Done in abilites.lua
+				//"OnAbilityExecuted"
+				// Any ability (including items) was used by the unit with this modifier.
+				//{
+				//	"RemoveModifier"
+				//	{
+				//		"ModifierName"	"modifier_invisibility_datadriven"
+				//		"Target" 		"UNIT"
+				//	}
+				//}
+			}
+
+			"modifier_invisibility"
+			{
+				"IsHidden"	"1"
+				"EffectName"	"particles/generic_hero_status/status_invisibility_start.vpcf"
+				"EffectAttachType" "follow_origin"
+				"StatusEffectName"	"particles/status_fx/status_effect_blur.vpcf"
+  				"StatusEffectPriority" "15"
+				"States"
+		    	{
+		    		"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_ENABLED"
+		    	}
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"120"
+			}
+		}
+
+		"precache"
+		{
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_treant.vsndevts"
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts"
+			"particle"		"particles/units/heroes/hero_invoker/invoker_ghost_walk.vpcf"
+			"particle"		"particles/units/heroes/hero_templar_assassin/templar_assassin_meld.vpcf"
+			"particle"		"particles/status_fx/status_effect_ghost.vpcf"
+			"particle"		"particles/generic_hero_status/status_invisibility_start.vpcf"
+			"particle"		"particles/status_fx/status_effect_illusion.vpcf"
+			"particle"		"particles/generic_hero_status/status_invisibility_start_glow.vpcf"
+			"particle"		"particles/status_fx/status_effect_building_placement_good.vpcf"
+			"particle"		"particles/status_fx/status_effect_building_placement_bad.vpcf"
+			"particle"		"particles/status_fx/status_effect_item_editor.vpcf"
+			"particle"		"particles/generic_hero_status/status_invisibility_start_ground.vpcf"
+			"particle"		"particles/status_fx/status_effect_blur.vpcf"
+			"particle"		"particles/status_fx/status_effect_electrical.vpcf"
+		}
+	}
+
+	"far_sight"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AOE"
+		"BaseClass"						"ability_datadriven"
+		//"HotKeyOverride"				"F"
+		"AbilityTextureName"			"beastmaster_call_of_the_wild_hawk"
+		"AOERadius"						"%radius"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+		"AbilityCastRange"				"0"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0"
+		"AbilityManaCost"				"125"
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"		"POINT"
+				"ScriptFile"	"scripts/vscripts/abilities.lua"
+				"Function"		"far_sight"
+			}
+
+			"FireSound"
+			{
+				"Target" "TARGET"
+				"EffectName" "Hero_Treant.Overgrowth.Cast"
+			}
+
+			"CreateThinker"
+			{
+				"ModifierName"	"modifier_far_sight_datadriven"
+				"Target" 		"POINT"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_far_sight_datadriven"
+			{	
+				"IsHidden"			"1"
+				"Duration"			"%duration"
+				"Aura"          	"modifier_far_sight_vision"
+				"Aura_Radius"   	"%reveal_radius"
+				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types"    	"DOTA_UNIT_TARGET_ALL"
+			}
+
+			"modifier_far_sight_vision"
+			{
+				"States"
+				{
+					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_DISABLED"
+				}
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"600"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"5.0"
+			}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/items_fx/dust_of_appearance.vpcf"
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_treant.vsndevts"
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts"
+			"soundfile"		"soundevents/game_sounds_items.vsndevts"
+		}
+	}
+
 	"money_farm_income"
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -63,6 +300,7 @@
         {
             "gold_farm_datadriven"
             {
+            	"IsHidden" "1"
             	"Passive" "1"
                 "IsDebuff" "0"
                 "IsPurgable" "0"            
@@ -101,7 +339,7 @@
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"BaseClass"						"ability_datadriven"
-		"AbilityTextureName"			""
+		"AbilityTextureName"			"legion_commander_press_the_attack"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_ALL"
 
@@ -147,6 +385,8 @@
 
 			"modifier_sentry_aura"
 			{
+				"EffectName"		"particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf"
+				"EffectAttachType" 	"follow_origin"
 				"IsHidden" "0"
 				"IsDebuff" "0"
 				"IsPurgable" "0"
@@ -178,7 +418,7 @@
 			"03"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"armor_bonus"				"3"
+				"hp_regen"					"1"
 			}
 			"04"
 			{
@@ -193,7 +433,7 @@
 			"06"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"hp_regen"					"1"
+				"armor_bonus"				"3"
 			}
 		}
 
@@ -203,6 +443,7 @@
 			"particle"	"particles/items_fx/aura_vlads.vpcf"
 			"particle"	"particles/items_fx/aura_endurance.vpcf"
 			"particle"	"particles/items_fx/aura_assault.vpcf"
+			"particle"	"particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf"
 		}
 	}
 
@@ -210,14 +451,11 @@
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"BaseClass"						"ability_datadriven"
-		"AbilityTextureName"			""
+		"AbilityTextureName"			"true_sight"
 		
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
 		"MaxLevel"						"1"
-
-		// Ability Actions
-		//-------------------------------------------------------------------------------------------------------------
 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -230,12 +468,29 @@
 			}
 		}
 
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+
 		"Modifiers"
 		{
 			"modifier_truesight_datadriven"
 			{
-				"EffectName"		"particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf"
-				"EffectAttachType" 	"follow_origin"
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"Target"
+						{
+							"Center"	"TARGET"
+							"Types"		"DOTA_UNIT_TARGET_CREEP"
+						}
+						"EffectName"		"particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+				}
+
+				//"EffectName"		"particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf"
+				//"EffectAttachType" 	"follow_origin"
 				"Passive"			"1"
 				"IsHidden"			"1"
 		
@@ -273,14 +528,13 @@
 			"modifier_truesight_reveal"
 			{
 				"IsHidden"			"1"
-				"Duration"			"0.5"	//The True Sight effect lingers for 0.5 seconds.
+				//"Duration"			"0.5"	//The True Sight effect lingers for 0.5 seconds.
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"	"MODIFIER_STATE_VALUE_DISABLED"
 				}
 			}
 		}
-
 
 		"precache"
 		{
@@ -324,10 +578,11 @@
 
 	"make_invis"
 	{
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"brewmaster_storm_wind_walk"
 		"AbilityGoldCost"				"8"
+		"AbilityChannelTime"			"1.0"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -339,8 +594,8 @@
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"0"
-		
-		"OnSpellStart"
+
+		"OnChannelSucceeded"
 		{
 			"RunScript"
 			{
@@ -355,6 +610,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"self_destruct"
+		//"HotKeyOverride"				"D"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -667,7 +923,7 @@
 		"AbilityCastRange"				"100"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
-		"MaxScale"						"0.6"
+		"MaxScale"						"0.55"
 		"PlayerCanControl"				"1" //bool. Should the player issuing this build command be able to control the building once built?
 		//"CancelsBuildingGhost"			"0" //bool
 		// Note: if unit uses a npc_dota_hero baseclass, you must use the npc_dota_hero name.

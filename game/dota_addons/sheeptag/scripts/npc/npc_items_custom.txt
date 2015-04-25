@@ -1,6 +1,48 @@
 "DOTAAbilities"
 {
 
+	"item_destroy_all_farms"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1706"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_destroy_all_farms"
+		"ItemKillable"					"0"
+		"ItemSellable"					"0"
+		"ItemDroppable"					"0"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"0"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		"ItemCost"						"0"
+		"ItemPurchasable"				"0"
+		"SideShop"						"0"
+		
+		"MaxUpgradeLevel"				"1"
+		"ItemBaseLevel"					"1"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"				"CASTER"
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"destory_all_farms"
+				"all_farms"				"1"
+			}
+		}
+	}
+
 	"item_delete_last_farm"
 	{
 		// General
@@ -40,17 +82,6 @@
 				"Function"				"delete_last_farm"
 			}
 		}
-
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"speed"					"900 1000 1100 1200"
-			}
-		}
 	}
 
 	"item_save_sheep"
@@ -58,10 +89,10 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"1704"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
-		"AbilityChannelTime"			"2.0"
+		"AbilityUnitTargetFlags" 		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 		//"Model"							"models/props_gameplay/salve_blue.mdl"
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"save_sheep"
@@ -72,10 +103,9 @@
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastRange"				"120"
-		"AbilityCastPoint"				"0.0"
+		"AbilityCastPoint"				"0.3"
 		"AbilityCooldown"				"0"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
-		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
 
 		"precache"
 		{
@@ -95,26 +125,77 @@
 		"MaxUpgradeLevel"				"1"
 		"ItemBaseLevel"					"1"
 		
-		"OnChannelSucceeded"
+		"OnSpellStart"
 		{
 			"RunScript"
 			{
-				"Target"				"TARGET"
+				"Target"				"TARGET"					
 				"ScriptFile"			"scripts/vscripts/abilities.lua"
 				"Function"				"save_sheep"
 			}
 			
 		}
+	}
 
-		// Special	
+	"item_build_aura_farm"
+	{
+		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
+		"ID"							"1703"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_build_aura_farm"
+		"ItemKillable"					"0"
+		"ItemSellable"					"0"
+		"ItemDroppable"					"0"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"100"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		"ItemCost"						"0"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemPurchasable"				"0"
+		"SideShop"						"0"
+
+		// BuildingHelper info
+		"Building"						"1" //bool
+		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
+		"BuildTime"						".4"
+		"AbilityCastRange"				"100"
+		"UpdateHealth"					"1" //bool
+		"Scale"							"1" //bool
+		"MaxScale"						"0.7"
+		"PlayerCanControl"				"1" //bool. Should the player issuing this build command be able to control the building once built?
+		//"CancelsBuildingGhost"			"0" //bool
+		// Note: if unit uses a npc_dota_hero baseclass, you must use the npc_dota_hero name.
+		"UnitName"						"aura_farm"
+		"AbilityGoldCost"				"45"
+		// End of BuildingHelper info
+		
+		"MaxUpgradeLevel"				"1"
+		"ItemBaseLevel"					"1"
+		
+		"OnSpellStart"
 		{
-			"01"
+			"RunScript"
 			{
-				"var_type"				"FIELD_FLOAT"
-				"channeltime"					"2.0"
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"build"
 			}
+		}
+
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf"
 		}
 	}
 }

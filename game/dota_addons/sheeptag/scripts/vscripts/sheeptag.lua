@@ -137,32 +137,34 @@ function SheepTag:OnHeroInGame(hero)
 
   ShowGenericPopupToPlayer(hero.player, "#sheeptag_instructions_title", "#sheeptag_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
 
-  --InitAbilities(hero)
-
-  for i,v in ipairs(LEVEL1_ABILITIES) do
-    hero:FindAbilityByName(v):SetLevel(1)
-  end
+  local heroName = hero:GetUnitName()
+  if heroName == "npc_dota_hero_wisp" then
     hero:SetAbilityPoints(0)
+    local item = CreateItem("item_save_sheep", hero, hero)
+    hero:AddItem(item)
+    hero:FindAbilityByName("sheep_spirit"):SetLevel(1)
+  elseif heroName == "npc_dota_hero_necrolyte" then
+    InitAbilities(hero)
+    
+    hero.farms = {}
+    hero:SetHullRadius(10)
 
-  hero.farms = {}
-  hero:SetHullRadius(10)
+    -- This line for example will set the starting gold of every hero to 500 unreliable gold
+    hero:SetGold(500, false)
 
-  -- This line for example will set the starting gold of every hero to 500 unreliable gold
-  hero:SetGold(500, false)
+    -- These lines will create an item and add it to the player, effectively ensuring they start with the item
+    local item = CreateItem("item_delete_last_farm", hero, hero)
+    hero:AddItem(item)
 
-  -- These lines will create an item and add it to the player, effectively ensuring they start with the item
-  local item = CreateItem("item_delete_last_farm", hero, hero)
-  hero:AddItem(item)
+    local item = CreateItem("item_save_sheep", hero, hero)
+    hero:AddItem(item)
 
-  local item = CreateItem("item_save_sheep", hero, hero)
-  hero:AddItem(item)
-
-  --[[ --These lines if uncommented will replace the W ability of any hero that loads into the game
-    --with the "example_ability" ability
-
-  local abil = hero:GetAbilityByIndex(1)
-  hero:RemoveAbility(abil:GetAbilityName())
-  hero:AddAbility("example_ability")]]
+    local item = CreateItem("item_destroy_all_farms", hero, hero)
+    hero:AddItem(item)
+    
+    local item = CreateItem("item_build_aura_farm", hero, hero)
+    hero:AddItem(item)
+  end
 end
 
 --[[
@@ -579,6 +581,8 @@ function SheepTag:InitSheepTag()
   self.nDireKills = 0
 
   self.bSeenWaitForPlayers = false
+
+  self.center = Entities:FindByName(nil, "spawn_center")
 
   -- BH Snippet
   -- This can be called with an optional argument: nHalfMapLength (see readme)

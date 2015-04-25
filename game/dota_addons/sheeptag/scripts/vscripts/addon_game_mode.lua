@@ -44,7 +44,6 @@ function Precache( context )
 		-- Particles can be precached individually or by folder
 		-- It it likely that precaching a single particle system will precache all of its children, but this may not be guaranteed
 		PrecacheResource("particle", "particles/econ/generic/generic_aoe_explosion_sphere_1/generic_aoe_explosion_sphere_1.vpcf", context)
-		PrecacheResource("particle_folder", "particles/test_particle", context)
 		PrecacheResource("particle", "particles/econ/wards/portal/ward_portal_core/ward_portal_eye_sentry.vpcf", context)
 		PrecacheResource("particle_folder", "particles/econ/items/tinker/boots_of_travel", context)
 		PrecacheResource("particle", "particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf", context)
@@ -65,19 +64,6 @@ function Precache( context )
 		PrecacheModel("models/heroes/undying/undying_tower.vmdl", context)
 		PrecacheModel("models/items/hex/sheep_hex/sheep_hex.vmdl", context)
 		PrecacheModel("models/props_gameplay/sheep01.vmdl", context)
-		
-		-- Sounds can precached here like anything else
-		PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
-
-		-- Entire items can be precached by name
-		-- Abilities can also be precached in this way despite the name
-		PrecacheItemByNameSync("example_ability", context)
-		PrecacheItemByNameSync("item_example_item", context)
-
-		-- Entire heroes (sound effects/voice/models/particles) can be precached with PrecacheUnitByNameSync
-		-- Custom units from npc_units_custom.txt can also have all of their abilities and precache{} blocks precached in this way
-		PrecacheUnitByNameSync("npc_dota_hero_ancient_apparition", context)
-		PrecacheUnitByNameSync("npc_dota_hero_enigma", context)
 
 		Farm:Precache(context)
 end

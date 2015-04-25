@@ -800,8 +800,10 @@ function BuildingHelper:InitializeBuildingEntity(keys)
 		end	
 
 		if unit.blocker ~= nil then
-			DoEntFireByInstanceHandle(unit.blocker, "Disable", "1", 0, nil, nil)
-			DoEntFireByInstanceHandle(unit.blocker, "Kill", "1", 1, nil, nil)
+			for i=1,#unit.blocker do
+				DoEntFireByInstanceHandle(unit.blocker[i], "Disable", "1", 0, nil, nil)
+				DoEntFireByInstanceHandle(unit.blocker[i], "Kill", "1", 1, nil, nil)
+			end
 		end
 	end
 
