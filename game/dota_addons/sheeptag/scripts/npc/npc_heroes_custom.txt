@@ -178,7 +178,7 @@
 		//------------------------------------------------------------------------------------------------------------
 
 		"BoundsHullName"			"DOTA_HULL_SIZE_HERO"
-		"RingRadius"				"90"
+		"RingRadius"				"60"
 
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"				"420"									// Speed.

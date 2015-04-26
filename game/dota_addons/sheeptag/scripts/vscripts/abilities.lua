@@ -327,10 +327,70 @@ function potion_of_strength( keys )
 	print('Potion of Strength Attack')
 end
 
+function potion_of_mana( keys )
+	print('Potion of Mana')
+	keys.target:SetMana(keys.target:GetMaxMana())
+end
+
 -- Modifiers
 function farm_death( keys )
 	PrintTable(keys)
+	farm_bounty(keys)
 	keys.caster:RemoveBuilding(true)
+	-- maybe some sick particle effects here
+end
+
+function farm_bounty( keys )
+	local farm = keys.caster
+	local name = keys.caster:GetUnitName()
+	local shep = keys.attacker
+	local bounty = 0
+
+	if name == "normal_farm" then
+		bounty = 1
+	elseif name == "tiny_farm" then
+		if farm:HasModifier("modifier_invisible") then
+			bounty = 4
+		else
+			bounty = 1
+		end
+	elseif name == "hard_farm" then
+		if farm:HasModifier("modifier_invisible") then
+			bounty = 5
+		else
+			bounty = 2
+		end
+	elseif name == "wide_farm" then
+		if farm:HasModifier("modifier_invisible") then
+			bounty = 5
+		else
+			bounty = 2
+		end
+	elseif name == "invisible_farm" then
+		bounty = 3
+	elseif name == "magic_farm" then
+		bounty = 4
+	elseif name == "money_farm" then
+		bounty = 4
+	elseif name == "upgraded_farm" then
+		bounty = 2
+	elseif name == "strong_farm" then
+		bounty = 3
+	elseif name == "stack_farm" then
+		bounty = 6
+	elseif name == "sentry_farm" then
+		bounty = 4
+	elseif name == "aura_farm" then
+		bounty = 4
+	elseif name == "frost_farm" then
+		bounty = 4
+	end
+
+	if shep:HasModifier("modifier_item_mining_scythe") then
+		bounty = (bounty * 2) + 1
+	end
+	PopupNumbers(farm, "gold", Vector(255,200,33), 1.0, bounty, '#', nil)
+	shep:GetPlayerOwner():GetAssignedHero():ModifyGold(bounty,false,0)
 end
 
 function debug_teleport( keys )

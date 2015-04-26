@@ -2,9 +2,13 @@
 {
 	"consumables"
 	{
-		"item"		"item_boots_of_speed"
 		"item"		"item_potion_of_speed"
 		"item"		"item_potion_of_strength"
+		"item"		"item_potion_of_mana"
+		"item"		"item_cloak_of_flames"
+		"item"		"item_endurance_aura"
+		"item"		"item_brilliance_aura"
+		"item"		"item_war_drums"
 	}
 
 	"attributes"

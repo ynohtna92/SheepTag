@@ -200,6 +200,10 @@
 	}
 
 	//=================================================================================================================
+	// SHOP 1
+	//=================================================================================================================
+
+	//=================================================================================================================
 	// Potion Of Speed
 	//=================================================================================================================
 	"item_potion_of_speed"
@@ -385,8 +389,348 @@
 			"particle"	"particles/status_fx/status_effect_gods_strength.vpcf"
 		}
 	}
+
+	//=================================================================================================================
+	// Potion Of Mana
+	//=================================================================================================================
+	"item_potion_of_mana"
+	{
+		"ID"							"1003"
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_potion_of_mana"
+		"Model"							"models/props_gameplay/salve_blue.mdl"
+
+		// Stats		
+		//-------------------------------------------------------------------------------------------------------------
+
+		"AbilityCastRange"				"100"
+		"AbilityCastPoint"				"0.0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"35"
+		"ItemShopTags"					"mana;consumable"
+		"ItemQuality"					"consumable"
+		"ItemStackable"					"5"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+		"ItemPurchasable"				"1"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"		"TARGET"
+				"ScriptFile"	"scripts/vscripts/abilities.lua"
+				"Function"		"potion_of_mana"
+			}
+			"FireSound"
+			{
+				"Target" "UNIT"
+				"EffectName" "DOTA_Item.HealingSalve.Activate"
+			}
+			"SpendCharge"
+			{}
+		}
+	}
     
+	"item_cloak_of_flames"
+	{
+		"ID"							"1004" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"			"item_cloak_of_flames"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"160"
+		"ItemShopTags"					"damage;aura"
+		"ItemQuality"					"component"
+		"ItemAliases"					"cloak;burn"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+
+		"Modifiers"
+		{
+			"modifier_item_cloak_of_flames_datadriven"
+			{	
+				"IsHidden"			"1"
+				"Passive"			"1"
+				"EffectName"			"particles/items2_fx/radiance_owner.vpcf"
+				"EffectAttachType"		"follow_origin"
+				"Aura"          	"modifier_cloak_of_flames_burn"
+				"Aura_Radius"   	"%radius"
+				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types"    	"DOTA_UNIT_TARGET_CREEP"
+			}
+
+			"modifier_cloak_of_flames_burn"
+			{
+				"IsDebuff"				"1"
+				"EffectName"			"particles/items2_fx/radiance.vpcf"
+				"EffectAttachType"		"follow_origin"
+				"ThinkInterval" 		"%interval"
+                "OnIntervalThink"
+                {
+                    "Damage"
+                    {
+						"Target"	"UNIT"
+						"Type" 		"DAMAGE_TYPE_PURE" 
+						"Damage"   "%damage_per_second"
+                    }
+                }
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_per_second"			"15"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"224"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"interval"				"1"
+			}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/items2_fx/radiance_owner.vpcf"
+			"particle"		"particles/items2_fx/radiance.vpcf"
+		}
+	}
+
+	"item_endurance_aura"
+	{
+		"ID"							"1005" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"			"item_endurance_aura"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"80"
+		"ItemShopTags"					"attack_speed;move_speed;aura"
+		"ItemQuality"					"component"
+		"ItemAliases"					"aura;endurance"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+
+		"Modifiers"
+		{
+			"modifier_item_endurance_aura_datadriven"
+			{	
+				"IsHidden"			"1"
+				"Passive"			"1"
+				"Aura"          	"modifier_endurance_aura"
+				"Aura_Radius"   	"%radius"
+				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types"    	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			}
+
+			"modifier_endurance_aura"
+			{
+				"EffectName"			"particles/items_fx/aura_endurance.vpcf"
+				"EffectAttachType"		"follow_origin"
+				"IsHidden" "0"
+				"IsDebuff" "0"
+				"IsPurgable" "0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%speed_bonus"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%attack_rate_bonus"
+				}
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"900"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"speed_bonus"				"3"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"attack_rate_bonus"			"15"
+			}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/items_fx/aura_endurance.vpcf"
+		}
+	}
+
+	"item_brilliance_aura"
+	{
+		"ID"							"1006" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"			"item_brilliance_aura"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"70"
+		"ItemShopTags"					"mana_regen;;aura"
+		"ItemQuality"					"component"
+		"ItemAliases"					"aura;mana"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+
+		"Modifiers"
+		{
+			"modifier_item_brilliance_aura_datadriven"
+			{	
+				"IsHidden"			"1"
+				"Passive"			"1"
+				"Aura"          	"modifier_brilliance_aura"
+				"Aura_Radius"   	"%radius"
+				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types"    	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			}
+
+			"modifier_brilliance_aura"
+			{
+				"EffectName"		"particles/items_fx/aura_shivas.vpcf"
+				"EffectAttachType" 	"follow_origin"
+				"IsHidden" "0"
+				"IsDebuff" "0"
+				"IsPurgable" "0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%mana_regen"
+				}
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"900"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"mana_regen"				"2.15"
+			}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/items_fx/aura_shivas.vpcf"
+		}
+	}
+
+	"item_war_drums"
+	{
+		"ID"							"1007" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"			"item_war_drums"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"150"
+		"ItemShopTags"					"dammage;aura"
+		"ItemQuality"					"component"
+		"ItemAliases"					"aura;drums"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+
+		"Modifiers"
+		{
+			"modifier_item_war_drums_datadriven"
+			{	
+				"IsHidden"			"0"
+				"Passive"			"1"
+				"Aura"          	"modifier_war_drums"
+				"Aura_Radius"   	"%radius"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+			}
+
+			"modifier_war_drums"
+			{
+				"EffectName"			"particles/items_fx/aura_assault.vpcf"
+				"EffectAttachType"		"follow_origin"
+				"IsHidden" "0"
+				"IsDebuff" "0"
+				"IsPurgable" "0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%attack_damage"
+				}
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"900"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"attack_damage"				"16"
+			}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/items_fx/aura_assault.vpcf"
+		}
+	}
     
+	//=================================================================================================================
+	// SHOP 2
+	//=================================================================================================================
+
 	"item_claws_16"
 	{
 		"ID"							"1720" 
@@ -518,7 +862,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_yasha_lg"
+		"AbilityTextureName"			"item_claws_of_velocity"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -571,7 +915,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_sange_lg"
+		"AbilityTextureName"			"item_claws_of_attack"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -749,7 +1093,7 @@
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"40"
-		"ItemShopTags"					"damage"
+		"ItemShopTags"					"mana_regen"
 		"ItemQuality"					"component"
 		"ItemAliases"					"gloves"
 		"SideShop"						"0"
@@ -796,7 +1140,7 @@
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"65"
-		"ItemShopTags"					"damage"
+		"ItemShopTags"					"see_invis"
 		"ItemQuality"					"component"
 		"ItemAliases"					"gem"
 		"SideShop"						"0"
@@ -890,32 +1234,96 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AOE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"item_ultimate_orb"
+		"AOERadius"						"%radius"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"20"
-		"ItemShopTags"					"damage"
+		"ItemShopTags"					"see_invis"
 		"ItemQuality"					"component"
 		"ItemAliases"					"gem"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
 		"SideShop"						"0"
+		"AbilityManaCost"				"100"
+
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"		"POINT"
+				"ScriptFile"	"scripts/vscripts/abilities.lua"
+				"Function"		"far_sight"
+			}
+
+			"FireSound"
+			{
+				"Target" "TARGET"
+				"EffectName" "Hero_Treant.Overgrowth.Cast"
+			}
+
+			"CreateThinker"
+			{
+				"ModifierName"	"modifier_far_sight_datadriven"
+				"Target" 		"POINT"
+			}
+
+			"SpendCharge"
+			{}
+		}
 
 		"Modifiers"
 		{
-			"modifier_item_gloves_of_haste"
-			{
-				"Passive"			"1"
+			"modifier_item_crystal_ball_datadriven"
+			{	
 				"IsHidden"			"1"
-				
-				"Properties"
+				"Duration"			"%duration"
+				"Aura"          	"modifier_crystal_ball_vision"
+				"Aura_Radius"   	"%reveal_radius"
+				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types"    	"DOTA_UNIT_TARGET_ALL"
+			}
+
+			"modifier_crystal_ball_vision"
+			{
+				"States"
 				{
-					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  "%bonus_mana_regen"
+					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_DISABLED"
 				}
 			}
 		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"600"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"5.0"
+			}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/items_fx/dust_of_appearance.vpcf"
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_treant.vsndevts"
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts"
+			"soundfile"		"soundevents/game_sounds_items.vsndevts"
+		}
+
 	}
 
 	//=================================================================================================================

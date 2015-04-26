@@ -158,7 +158,7 @@
 				"IsHidden"	"1"
 				"EffectName"	"particles/generic_hero_status/status_invisibility_start.vpcf"
 				"EffectAttachType" "follow_origin"
-				"StatusEffectName"	"particles/status_fx/status_effect_blur.vpcf "
+				"StatusEffectName"	"particles/status_fx/status_effect_blur.vpcf"
   				"StatusEffectPriority" "15"
 				"States"
 		    	{

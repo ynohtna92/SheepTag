@@ -608,6 +608,15 @@ function SheepTag:CaptureSheepTag()
   if mode == nil then
     -- Set SheepTag parameters
     mode = GameRules:GetGameModeEntity()
+
+    -- Hide some HUD elements
+    --mode:SetHUDVisible(DOTA_HUD_VISIBILITY_TOP_HEROES, false)
+    mode:SetHUDVisible(DOTA_HUD_VISIBILITY_TOP_SCOREBOARD, false)
+    mode:SetHUDVisible(DOTA_HUD_VISIBILITY_INVENTORY_COURIER, false) -- no courier
+    --mode:SetRecommendedItemsDisabled( RECOMMENDED_BUILDS_DISABLED ) BROKEN use entry below
+    mode:SetHUDVisible( DOTA_HUD_VISIBILITY_SHOP_SUGGESTEDITEMS, false ) 
+    --mode:SetHUDVisible(8, false)
+
     mode:SetRecommendedItemsDisabled( RECOMMENDED_BUILDS_DISABLED )
     mode:SetCameraDistanceOverride( CAMERA_DISTANCE_OVERRIDE )
     mode:SetCustomBuybackCostEnabled( CUSTOM_BUYBACK_COST_ENABLED )
