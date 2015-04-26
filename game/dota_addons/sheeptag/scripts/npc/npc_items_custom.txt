@@ -212,7 +212,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"BaseClass"						"item_datadriven"
-		"AbilityTextureName"			"item_greater_salve"
+		"AbilityTextureName"			"item_potion_of_speed"
 		"Model"							"models/props_gameplay/salve_red.mdl"
 
 		// Stats		
@@ -306,7 +306,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"BaseClass"						"item_datadriven"
-		"AbilityTextureName"			"item_greater_salve"
+		"AbilityTextureName"			"item_potion_of_strength"
 		"Model"							"models/props_gameplay/salve_red.mdl"
 
 		// Stats		
@@ -389,14 +389,13 @@
     
 	"item_claws_16"
 	{
+		"ID"							"1720" 
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
-		"ID"							"1720"  
+		"BaseClass"						"item_blades_of_attack"
+ 
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"Model"							"models/props_gameplay/red_box.vmdl" 
-		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_blades_of_attack"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -405,6 +404,7 @@
 		"ItemQuality"					"component"
 		"ItemAliases"					"claws"
 		"SideShop"						"0"
+		"ItemPurchasable"				"1"
 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -416,33 +416,16 @@
 				"bonus_damage"			"16"
 			}
 		}
-		
-		"Modifiers"
-		{
-			"modifier_item_claws_16"
-			{
-				"Passive"			"1"
-				"IsHidden"			"1"
-				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
-				}
-			}
-		}
 	}
 
 	"item_claws_45"
 	{
+		"ID"							"1721" 
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
-		"ID"							"1721"  
+		"BaseClass"						"item_blades_of_attack"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"Model"							"models/props_gameplay/red_box.vmdl" 
-		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_broadsword"
+		"AbilityTextureName"			"item_claws_45"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -451,6 +434,7 @@
 		"ItemQuality"					"component"
 		"ItemAliases"					"claws"
 		"SideShop"						"0"
+		"ItemPurchasable"				"1"
 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -462,29 +446,15 @@
 				"bonus_damage"			"45"
 			}
 		}
-		
-		"Modifiers"
-		{
-			"modifier_item_claws_45"
-			{
-				"Passive"			"1"
-				"IsHidden"			"1"
-				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
-				}
-			}
-		}
 	}
 
-	"item_claws_of_velocity_recipe"
+	"item_recipe_claws_of_velocity"
 	{
+		"ID"							"1722" 
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
-		"ID"							"1722"  
+		"BaseClass"						"item_datadriven" 
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
@@ -497,14 +467,24 @@
 		"ItemQuality"					"component"
 		"ItemAliases"					"claws_velocity_recipe"
 		"SideShop"						"0"
+		"ItemRecipe"          "1" //destroyed after combine
+		"ItemResult"          "item_claws_of_velocity" //the result of combining the ItemRequire
+
+		"ItemDisassembleRule" "DOTA_ITEM_DISASSEMBLE_NEVER"
+
+		"ItemRequirements"
+		{
+			"01" "item_gloves_of_haste;item_claws_45"
+		}
 	}
 
-	"item_claws_of_attack_recipe"
+	"item_recipe_claws_of_attack"
 	{
+		"ID"							"1723" 
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"ID"							"1723"  
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
@@ -517,18 +497,28 @@
 		"ItemQuality"					"component"
 		"ItemAliases"					"claws_attack_recipe"
 		"SideShop"						"0"
+		"ItemRecipe"          "1" //destroyed after combine
+		"ItemResult"          "item_claws_of_attack" //the result of combining the ItemRequire
+
+		"ItemDisassembleRule" "DOTA_ITEM_DISASSEMBLE_NEVER"
+
+		"ItemRequirements"
+		{
+			"01" "item_claws_45;item_claws_45"
+		}
 	}
 
 	"item_claws_of_velocity"
 	{
+		"ID"							"1724"
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"ID"							"1724"  
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_blade_of_alacrity"
+		"AbilityTextureName"			"item_yasha_lg"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -573,14 +563,15 @@
 
 	"item_claws_of_attack"
 	{
+		"ID"							"1725"  
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"ID"							"1725"  
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_ogre_axe"
+		"AbilityTextureName"			"item_sange_lg"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -619,10 +610,11 @@
 
 	"item_mining_scythe"
 	{
+		"ID"							"1726" 
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
-		"ID"							"1726"  
+		"BaseClass"						"item_datadriven" 
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
@@ -641,18 +633,7 @@
 			"modifier_item_mining_scythe"
 			{
 				"Passive"			"1"
-				"IsHidden"			"1"
-
-				"OnAttackLanded"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"items.lua"
-						"Function"		"mining_scythe_on_attack"
-					}
-				}
-				
-				
+				"IsHidden"			"1"				
 			}
 		}
 	}
@@ -660,10 +641,11 @@
 
 	"item_necklace_of_invulnerability"
 	{
+		"ID"							"1727"  
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"ID"							"1727"  
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
@@ -694,22 +676,22 @@
 
 	"item_boots_of_speed"
 	{
+		"ID"							"1728"  
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
-		"ID"							"1728"  
+		"BaseClass"						"item_boots"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"Model"							"models/props_gameplay/red_box.vmdl" 
-		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_boots"
+		"Model"							"models/props_gameplay/boots_of_speed.vmdl" 
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"80"
-		"ItemShopTags"					"damage"
+		"ItemShopTags"					"move_speed"
 		"ItemQuality"					"component"
 		"ItemAliases"					"boots"
 		"SideShop"						"0"
+		"ItemPurchasable"				"1"
 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -718,43 +700,28 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_move_speed"		"30"
-			}
-		}
-		
-		"Modifiers"
-		{
-			"modifier_item_gloves_of_haste"
-			{
-				"Passive"			"1"
-				"IsHidden"			"1"
-				
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"  "%bonus_move_speed"
-				}
+				"bonus_movement_speed"		"30"
 			}
 		}
 	}
 
 	"item_gloves_of_haste"
 	{
+		"ID"							"1729"  
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"item_datadriven"
-		"ID"							"1729"  
+		"BaseClass"						"item_gloves"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"Model"							"models/props_gameplay/red_box.vmdl" 
-		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_gloves"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemCost"						"80"
-		"ItemShopTags"					"damage"
+		"ItemShopTags"					"attack;speed"
 		"ItemQuality"					"component"
 		"ItemAliases"					"gloves"
 		"SideShop"						"0"
+		"ItemPurchasable"				"1"
 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -764,21 +731,6 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_attack_speed"    "23"
-			}
-		}
-		
-		"Modifiers"
-		{
-			"modifier_item_gloves_of_haste"
-			{
-				"Passive"			"1"
-				"IsHidden"			"1"
-				"Attributes" 		"MODIFIER_ATTRIBUTE_MULTIPLE"
-				
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%bonus_attack_speed"
-				}
 			}
 		}
 	}
@@ -792,7 +744,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_sobi_mask"
+		"AbilityTextureName"			"item_sobi_mask2"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -831,12 +783,13 @@
 
 	"item_gem_of_seeing"
 	{
+		"ID"							"1731" 
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"ID"							"1731"  
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"Model"							"models/props_gameplay/red_box.vmdl" 
+		"Model"							"models/props_gameplay/gem01.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
 		"AbilityTextureName"			"item_gem"
 		
@@ -850,7 +803,7 @@
 
 		"Modifiers"
 		{
-			"modifier_truesight_datadriven"
+			"modifier_item_gem_datadriven"
 			{
 				"OnCreated"
 				{
@@ -888,13 +841,13 @@
 						{
 							"RemoveModifier"
 							{
-								"ModifierName"	"modifier_truesight_reveal"
+								"ModifierName"	"modifier_truesight_gem_reveal"
 								"Target" 		"TARGET"
 							}
 
 							"ApplyModifier"
 							{
-								"ModifierName"	"modifier_truesight_reveal"
+								"ModifierName"	"modifier_truesight_gem_reveal"
 								"Target" 		"TARGET"
 							}
 						}
@@ -902,7 +855,7 @@
 				}		
 			}
 
-			"modifier_truesight_reveal"
+			"modifier_truesight_gem_reveal"
 			{
 				"IsHidden"			"1"
 				//"Duration"			"0.5"	//The True Sight effect lingers for 0.5 seconds.
@@ -910,6 +863,17 @@
 				{
 					"MODIFIER_STATE_INVISIBLE"	"MODIFIER_STATE_VALUE_DISABLED"
 				}
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"700"
 			}
 		}
 
@@ -921,10 +885,11 @@
 
 	"item_crystal_ball"
 	{
+		"ID"							"1732" 
+
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"ID"							"1732"  
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
@@ -951,5 +916,38 @@
 				}
 			}
 		}
+	}
+
+	//=================================================================================================================
+	// Apply Modifiers (not really an item)
+	//=================================================================================================================
+	"item_apply_modifiers"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"                            "1020"  // unique ID number for this item.  Do not change this once 
+		"BaseClass"                     "item_datadriven"
+		"ItemBaseLevel"                 "1"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"              "9999"
+		"AbilityCastPoint"              "0.0"
+
+		"Modifiers"
+		{
+			"modifier_farm_death_datadriven"
+			{
+				"IsHidden"					"1"
+				"OnDeath"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"scripts/vscripts/abilities.lua"
+						"Function"				"farm_death"
+					}
+				}
+			}
+		}  
 	}
 }

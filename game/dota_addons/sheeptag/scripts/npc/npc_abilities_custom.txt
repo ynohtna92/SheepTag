@@ -158,7 +158,7 @@
 				"IsHidden"	"1"
 				"EffectName"	"particles/generic_hero_status/status_invisibility_start.vpcf"
 				"EffectAttachType" "follow_origin"
-				"StatusEffectName"	"particles/status_fx/status_effect_blur.vpcf"
+				"StatusEffectName"	"particles/status_fx/status_effect_blur.vpcf "
   				"StatusEffectPriority" "15"
 				"States"
 		    	{
@@ -1769,6 +1769,33 @@
 	}
 
 	// END OF BUILDING HELPER ABILITIES
+	
+	"debug_teleport"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"zuus_arc_lightning"
 
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		//"AbilityCastRange"				"5000"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0"
+		"MaxLevel"						"1"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"				"POINT"
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"debug_teleport"
+			}
+		}
+	}
 }
 

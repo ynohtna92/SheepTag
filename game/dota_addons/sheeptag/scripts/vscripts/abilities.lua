@@ -84,7 +84,12 @@ function build( keys )
 		-- FindClearSpace for the builder
 
 		FindClearSpaceForUnit(keys.caster, keys.caster:GetAbsOrigin(), true)
+
+		-- Break Sheep Invis
 		keys.caster:RemoveModifierByName("modifier_invisibility_datadriven")
+
+		-- This modifier will delete the farm, manage particle effects when it dies.
+		GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_death_datadriven", -1)
 
 		-- start the building with 0 mana.
 		unit:SetMana(0)
@@ -320,6 +325,12 @@ end
 -- ITEMS
 function potion_of_strength( keys )
 	print('Potion of Strength Attack')
+end
+
+-- Modifiers
+function farm_death( keys )
+	PrintTable(keys)
+	keys.caster:RemoveBuilding(true)
 end
 
 function debug_teleport( keys )
