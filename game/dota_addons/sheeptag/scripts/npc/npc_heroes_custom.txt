@@ -9,6 +9,7 @@
 	"npc_dota_hero_sheep"
 	{
 		"AbilityLayout"				"6"
+		//"Model"						"models/development/invisiblebox.vmdl"
 		"Model"						"models/courier/defense3_sheep/defense3_sheep.mdl"
 		"ModelScale"				".8"
 		"override_hero"				"npc_dota_hero_necrolyte"		// Hero to override
@@ -64,7 +65,7 @@
 		// Misc
 		//------------------------------------------------------------------------------------------------------------
 
-		"HealthBarLabelOffset"			"-50"
+		"HealthBarOffset"			"100"
 	}
 
 	"npc_dota_hero_sheep_spirit"
@@ -119,25 +120,20 @@
 
 		"VisionDaytimeRange"		"600"
 		"VisionNighttimeRange"		"600"									// Range of vision at night time.
-
-		// Misc
-		//------------------------------------------------------------------------------------------------------------
-
-		"HealthBarLabelOffset"			"-50"
 	}
 
 	"npc_dota_hero_shepherd"
 	{
-		"AbilityLayout"				"4"
+		"AbilityLayout"				"6"
 		"Model"						"models/heroes/lycan/lycan_wolf.vmdl"
 		"ModelScale"				".8"
 		"override_hero"				"npc_dota_hero_lycan"		// Hero to override
-		"Ability1"					""						// Ability 1
-		"Ability2"					""						// Ability 2
-		"Ability3"					""						// Ability 3
-		"Ability4"					""					// Ability 4
-		"Ability5"					""
-		"Ability6"					""
+		"Ability1"					"shepherd_invulernability"						// Ability 1
+		"Ability2"					"shepherd_sentry_ward"						// Ability 2
+		"Ability3"					"shepherd_mirrorimage"						// Ability 3
+		"Ability4"					"shepherd_antistack"					// Ability 4
+		"Ability5"					"far_sight"
+		"Ability6"					"invisibility"
 		"Ability7"					""							// Hidden Abilities onwards
 
 		// Attack
@@ -150,7 +146,7 @@
 		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
 		"AttackRange"                "150"     // Range within a target can be attacked.
-		"AttackRangeBuffer"          "20"     // Extra range the target can move without canceling the attack
+		"AttackRangeBuffer"          "30"     // Extra range the target can move without canceling the attack
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------
@@ -190,6 +186,6 @@
 		// Misc
 		//------------------------------------------------------------------------------------------------------------
 
-		"HealthBarLabelOffset"			"-1"
+		"HealthBarOffset"			"150"
 	}
 }

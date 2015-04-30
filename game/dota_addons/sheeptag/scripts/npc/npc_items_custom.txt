@@ -246,7 +246,7 @@
 			"FireSound"
 			{
 				"Target" "UNIT"
-				"EffectName" "DOTA_Item.HealingSalve.Activate"
+				"EffectName" "General.RunePickUp"
 			}
 			"SpendCharge"
 			{}
@@ -256,7 +256,7 @@
 		{
 			"modifier_item_potion_of_speed"
 			{
-				"TextureName" "item_greater_salve"
+				"TextureName" "item_potion_of_speed"
 				"EffectName" "particles/generic_gameplay/rune_haste_owner.vpcf"
 				"EffectAttachType" "follow_origin"
 				"Duration" "%buff_duration"
@@ -282,13 +282,13 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"buff_duration"			"20"
-			}			
+				"bonus_movement_pct"		"8"
+			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_movement_pct"		"8"
-			}
+				"buff_duration"			"20"
+			}			
 		}
 
 		"precache"
@@ -434,10 +434,16 @@
 			"FireSound"
 			{
 				"Target" "UNIT"
-				"EffectName" "DOTA_Item.HealingSalve.Activate"
+				"EffectName" "DOTA_Item.MagicWand.Activate"
 			}
 			"SpendCharge"
 			{}
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_items.vsndevts"
+			"particle"	"particles/items2_fx/magic_wand.vpcf"
 		}
 	}
     
@@ -484,7 +490,7 @@
                 {
                     "Damage"
                     {
-						"Target"	"UNIT"
+						"Target"	"TARGET"
 						"Type" 		"DAMAGE_TYPE_PURE" 
 						"Damage"   "%damage_per_second"
                     }
@@ -726,7 +732,226 @@
 			"particle"		"particles/items_fx/aura_assault.vpcf"
 		}
 	}
+
+	"item_sheep_locator"
+	{
+		"ID"							"1008" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityTextureName"			"item_sheep_locator"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"40"
+		"ItemShopTags"					"sheep;consumable"
+		"ItemQuality"					"consumable"
+		"ItemStackable"					"1"
+		"ItemAliases"					"sheep;locate"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{				
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"sheep_locator"
+			}
+			"FireSound"
+			{
+				"Target" "UNIT"
+				"EffectName" "General.Ping"
+			}
+			"SpendCharge"
+			{}
+		}
+	}
     
+	"item_bomber"
+	{
+		"ID"							"1009" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityTextureName"			"item_bomber"
+		"AOERadius"						"%radius"
+		"AbilityCastRange"				"900"
+		"AbilityCooldown"				"60"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+
+		"ItemCost"						"65"
+		"ItemShopTags"					"damage;consumable"
+		"ItemQuality"					"consumable"
+		"ItemStackable"					"1"
+		"ItemAliases"					"damage;area"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"EffectName"			"Hero_Warlock.RainOfChaos_buildup"
+				"Target"				"CASTER"
+			}
+
+			//TODO Fix particles on this item
+			"FireEffect"
+			{
+				"EffectName"        "particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf"
+				"EffectAttachType"  "follow_origin"
+				"Target"            "POINT"
+			}	
+			"DelayedAction"
+			{
+				"Delay"     "%delay"
+				"Action"    
+				{
+					"DestroyTrees"
+					{
+						"Target"	"POINT"
+						"Radius"	"%radius"
+					}
+
+					"Damage"
+					{
+						"Type" 		"DAMAGE_TYPE_MAGICAL"
+						"Damage" 	"%damage"
+						"Target"
+						{
+							"Center"	"POINT"
+							"Radius"	"%radius"
+							"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+						}
+					}
+					"SpendCharge"
+					{}
+				}
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"135"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"duration"					"2"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"delay"						"0.5"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"50"
+			}
+		}
+
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
+		}
+	}
+
+	"item_golem"
+	{
+		"ID"							"1010" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityTextureName"			"item_golem"
+		"AbilityCastRange"				"900"
+		"AbilityCooldown"				"60"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+
+		"ItemCost"						"100"
+		"ItemShopTags"					"summon;consumable"
+		"ItemQuality"					"consumable"
+		"ItemStackable"					"1"
+		"ItemAliases"					"damage;unit;summon;golem"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+
+		"OnSpellStart"
+		{
+			"SpawnUnit"
+			{
+				"UnitName"		"golem_datadriven"
+				"Target"		"POINT"
+				"Duration"		"%duration"
+				"UnitCount"		"1"
+				"GrantsGold"	"0"
+				"GrantsXP"		"0"
+				"SpawnRadius"	"64"
+				"OnSpawn"
+				{
+					"FireSound"
+					{
+						"Target" "TARGET"
+						"EffectName" "DOTA_Item.SentryWard.Activate"
+					}
+
+					"FireEffect"
+					{
+						"Target"			"TARGET"
+						"EffectName"		"particles/items2_fx/ward_spawn_generic.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+				}
+			}
+			"SpendCharge"
+			{}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"duration"					"180"
+			}
+		}
+
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
+		}
+	}
+
 	//=================================================================================================================
 	// SHOP 2
 	//=================================================================================================================
@@ -1079,7 +1304,7 @@
 		}
 	}
 
-	"item_sobi_mask"
+	"item_sobi_mask2"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
@@ -1237,8 +1462,10 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AOE"
 		"Model"							"models/props_gameplay/red_box.vmdl" 
 		"Effect"						"particles/generic_gameplay/dropped_item.vpcf"
-		"AbilityTextureName"			"item_ultimate_orb"
+		"AbilityTextureName"			"item_crystal_ball"
 		"AOERadius"						"%radius"
+
+		"AbilityCooldown"				"10"
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -1263,15 +1490,9 @@
 				"Function"		"far_sight"
 			}
 
-			"FireSound"
-			{
-				"Target" "TARGET"
-				"EffectName" "Hero_Treant.Overgrowth.Cast"
-			}
-
 			"CreateThinker"
 			{
-				"ModifierName"	"modifier_far_sight_datadriven"
+				"ModifierName"	"modifier_item_crystal_ball_datadriven"
 				"Target" 		"POINT"
 			}
 
@@ -1307,7 +1528,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"600"
+				"radius"					"1800"
 			}
 			"02"
 			{
@@ -1319,8 +1540,6 @@
 		"precache"
 		{
 			"particle"		"particles/items_fx/dust_of_appearance.vpcf"
-			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_treant.vsndevts"
-			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts"
 			"soundfile"		"soundevents/game_sounds_items.vsndevts"
 		}
 
@@ -1354,6 +1573,15 @@
 						"ScriptFile"			"scripts/vscripts/abilities.lua"
 						"Function"				"farm_death"
 					}
+				}
+			}
+
+			"modifier_farm_built_datadriven"
+			{
+				"IsHidden"					"1"
+				"States"
+				{
+					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}  

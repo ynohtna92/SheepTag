@@ -134,6 +134,12 @@ function build( keys )
 		if Debug_BH then
 			print("Completed construction of " .. unit:GetUnitName())
 		end
+
+		-- Remove Health Bar
+		Timers:CreateTimer(0, function()
+			GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_built_datadriven", -1)
+		end)
+
 		-- Play construction complete sound.
 		-- Give building its abilities
 		InitAbilities(unit)
@@ -268,7 +274,11 @@ function make_invis( keys )
 end
 
 function frost_farm_upgrade( keys )
-	
+	print('Upgrade to Frost Farm')
+end
+
+function magic_farm_upgrade( keys )
+	print('Upgrade to Magic Farm')
 end
 
 function money_farm_income( keys )
@@ -316,9 +326,12 @@ function far_sight( event )
 		end
 	end
 
+	-- Sound
+	caster:EmitSound("DOTA_Item.DustOfAppearance.Activate")
+
 	-- Vision
 	if level == 1 then
-		ability:CreateVisibilityNode(target, reveal_radius, duration)
+		ability:CreateVisibilityNode(target + Vector(0,0,1024), reveal_radius, duration)
     end
 end
 
@@ -329,7 +342,14 @@ end
 
 function potion_of_mana( keys )
 	print('Potion of Mana')
+	local particle = ParticleManager:CreateParticle("particles/items2_fx/magic_wand.vpcf", PATTACH_ABSORIGIN_FOLLOW, keys.target)
+	ParticleManager:SetParticleControl( particle, 0, keys.target:GetAbsOrigin() )
+	ParticleManager:SetParticleControl( particle, 1, Vector(50,0,0) )
 	keys.target:SetMana(keys.target:GetMaxMana())
+end
+
+function sheep_locator( keys )
+	print('Locate Sheeps')
 end
 
 -- Modifiers

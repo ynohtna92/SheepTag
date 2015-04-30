@@ -172,7 +172,7 @@ function SheepTag:OnHeroInGame(hero)
     local item = CreateItem("item_build_aura_farm", hero, hero)
     hero:AddItem(item)
   elseif heroName == "npc_dota_hero_lycan" then
-    hero:SetAbilityPoints(0)
+    InitAbilities(hero)
   end
 end
 
@@ -631,7 +631,7 @@ function SheepTag:CaptureSheepTag()
     --mode:SetBotThinkingEnabled( USE_STANDARD_DOTA_BOT_THINKING )
     mode:SetTowerBackdoorProtectionEnabled( ENABLE_TOWER_BACKDOOR_PROTECTION )
 
-    mode:SetFogOfWarDisabled( DISABLE_FOG_OF_WAR_ENTIRELY )
+    --mode:SetFogOfWarDisabled( DISABLE_FOG_OF_WAR_ENTIRELY )
     mode:SetGoldSoundDisabled( DISABLE_GOLD_SOUNDS )
     mode:SetRemoveIllusionsOnDeath( REMOVE_ILLUSIONS_ON_DEATH )
 

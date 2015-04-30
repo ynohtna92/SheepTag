@@ -47,6 +47,49 @@
 		}
 	}
 
+	"magic_farm_upgrade"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"build_magic_farm"
+		"AbilityGoldCost"				"30"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0"
+		"AbilityCooldown"				"0"
+		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
+		"MaxLevel"						"1"
+
+		// BuildingHelper info
+		"Building"						"1" //bool
+		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
+		"BuildTime"						".4"
+		"AbilityCastRange"				"100"
+		"UpdateHealth"					"1" //bool
+		"Scale"							"1" //bool
+		"MaxScale"						"0.7"
+		"PlayerCanControl"				"1" //bool. Should the player issuing this build command be able to control the building once built?
+		//"CancelsBuildingGhost"			"0" //bool
+		// Note: if unit uses a npc_dota_hero baseclass, you must use the npc_dota_hero name.
+		"UnitName"						"magic_farm"
+		"AbilityGoldCost"				"52"
+		// End of BuildingHelper info
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"magic_farm_upgrade"
+			}
+		}
+	}
+
 	"sheep_spirit"
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
@@ -74,6 +117,293 @@
 		}
 	}
 
+	"shepherd_invulernability"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"omniknight_repel"
+	
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+		"AbilityCooldown"				"20"
+		"AbilityManaCost"				"125"		
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target" "CASTER"
+				"ModifierName" "modifier_shepherd_invulernability"
+			}
+			"FireSound"
+			{
+				"Target" "UNIT"
+				"EffectName" "DOTA_Item.BlackKingBar.Activate"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_shepherd_invulernability"
+			{
+				"TextureName" "omniknight_repel"
+				"EffectName" "particles/items_fx/black_king_bar_avatar.vpcf"
+				"EffectAttachType" "follow_origin"
+				"Duration" "%duration"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"		"1"
+				}
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"6"
+			}			
+		}
+
+		"precache"
+		{
+			"particle"	"particles/items_fx/black_king_bar_avatar.vpcf"
+		}
+	}
+
+	"shepherd_sentry_ward"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"sentry_ward"
+	
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+		"AbilityCooldown"				"150"
+		"AbilityCastRange"				"500"
+		"AbilityManaCost"				"50"	
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"OnSpellStart"
+		{
+			"SpawnUnit"
+			{
+				"UnitName"		"sentry_ward_datadriven"
+				//"UnitName"		"npc_dota_sentry_wards"
+				"Target"		"POINT"
+				"Duration"		"%duration"
+				"UnitCount"		"1"
+				"GrantsGold"	"3"
+				"GrantsXP"		"0"
+				"SpawnRadius"	"0"
+				"OnSpawn"
+				{
+					"FireSound"
+					{
+						"Target" "TARGET"
+						"EffectName" "DOTA_Item.SentryWard.Activate"
+					}
+
+					"FireEffect"
+					{
+						"Target"			"TARGET"
+						"EffectName"		"particles/items2_fx/ward_spawn_generic.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_sentry_ward"
+						"Target" 		"TARGET"
+					}
+				}
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_sentry_ward"
+			{
+				//"IsHidden" "1"
+				"Aura"          	"modifier_sentry_ward_aura"
+				"Aura_Radius"   	"%radius"
+				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types"    	"DOTA_UNIT_TARGET_ALL"
+				"Duration"			"%duration"
+				"States"
+				{
+					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_UNIT_COLLISION"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+
+			"modifier_sentry_ward_aura"
+			{
+				"IsHidden"	"1"
+				"States"
+				{
+					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_DISABLED"
+				}
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"300"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"900"
+			}	
+		}
+
+		"precache"
+		{
+			"particle"	"particles/items2_fx/ward_spawn_generic.vpcf"
+		}
+	}
+
+	"shepherd_mirrorimage"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"terrorblade_conjure_image"
+	
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+		"AbilityCooldown"				"0"
+		"AbilityManaCost"				"125"		
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"OnSpellStart"
+		{
+			"FireSound"
+			{
+				"Target" "CASTER"
+				"EffectName" "Hero_Centaur.HoofStomp"
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"60"
+			}			
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+			"particle"	"particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
+			"particle"	"particles/generic_gameplay/generic_silenced.vpcf"
+		}
+	}
+
+	"shepherd_antistack"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"centaur_hoof_stomp"
+	
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+		"AbilityCooldown"				"20"
+		"AbilityManaCost"				"125"		
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+		"OnSpellStart"
+		{
+			"FireEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
+				"EffectAttachType" 	"follow_origin"
+				"EffectRadius"		"%radius"
+				"Target" 			"CASTER"
+				"ControlPoints"
+				{
+					"01"	"%radius 0 %radius"
+				}
+			}
+
+			"FireSound"
+			{
+				"Target" "CASTER"
+				"EffectName" "Hero_Centaur.HoofStomp"
+			}
+
+			"ActOnTargets"
+			{
+				"Target"
+				{
+					"Center"  				"CASTER"
+					"Radius" 				"%radius"
+					"Teams" 				"DOTA_UNIT_TARGET_TEAM_ENEMY"
+					"Types" 				"DOTA_UNIT_TARGET_HERO"
+				}
+
+				"Action"
+				{
+					"ApplyModifier"
+					{
+						"Target" 		"TARGET"
+						"ModifierName"	"modifier_shepherd_antistack"
+					}
+				}
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_shepherd_antistack"
+			{
+				"TextureName" "centaur_hoof_stomp"
+				"EffectName" "particles/generic_gameplay/generic_silenced.vpcf"
+				"EffectAttachType" "follow_overhead"
+				"Duration" "%duration"
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"4"
+			}			
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+			"particle"	"particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
+			"particle"	"particles/generic_gameplay/generic_silenced.vpcf"
+		}
+	}
+
 	"invisibility"
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
@@ -81,7 +411,7 @@
 		//"HotKeyOverride"				"F"
 		"AbilityTextureName"			"riki_permanent_invisibility"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"		
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"		
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -225,12 +555,6 @@
 				"Function"		"far_sight"
 			}
 
-			"FireSound"
-			{
-				"Target" "TARGET"
-				"EffectName" "Hero_Treant.Overgrowth.Cast"
-			}
-
 			"CreateThinker"
 			{
 				"ModifierName"	"modifier_far_sight_datadriven"
@@ -278,8 +602,6 @@
 		"precache"
 		{
 			"particle"		"particles/items_fx/dust_of_appearance.vpcf"
-			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_treant.vsndevts"
-			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts"
 			"soundfile"		"soundevents/game_sounds_items.vsndevts"
 		}
 	}
@@ -563,7 +885,7 @@
 				"Passive" "1"
 				"IsHidden" "0"
 				"TextureName"	"brewmaster_storm_wind_walk"
-				"Properties"
+				"State"
 				{
 					 "MODIFIER_STATE_INVISIBLE" "MODIFIER_STATE_VALUE_ENABLED"
 				}

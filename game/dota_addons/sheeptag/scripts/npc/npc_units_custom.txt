@@ -94,6 +94,129 @@
 		"AttackDesire"				"1.5"		// How much bots want to attack them vs other non-hero things
 	}
 
+	"golem_datadriven"
+	{
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/warlock/warlock_demon.mdl"	// Model.
+		"BaseClass"					"npc_dota_warlock_golem"
+		"SoundSet"					"Hero_WarlockGolem"			// Name of sound set.
+		//"IdleSoundLoop"				"Hero_WarlockGolem.Spawn_Loop"
+		"IsSummoned"				"1"
+		"IsAncient"					"1"
+		"ModelScale"					".70"
+		//"ConsideredHero"			"1"
+		"UnitLabel"			"golem"
+	
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""			// Ability 1
+		"Ability2"					""			// Ability 2
+		"Ability3"					""			// Ability 3
+		"Ability4"					""			// Ability 4
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"6"			// Physical protection.
+		"MagicalResistance"				"33"		// Magical protection.  // this should be 33, switch it back once we implement Resistant Skin
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"29"		// Damage range min.
+		"AttackDamageMax"			"29"		// Damage range max.	
+		"AttackRate"				"1.2"		// Speed of attack.
+		"AttackAnimationPoint"		"0.26"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"150"		// Range within a target can be acquired.
+		"AttackRange"				"150"		// Range within a target can be attacked.
+		"AttackRangeBuffer"          "30"     // Extra range the target can move without canceling the attack
+		"ProjectileModel"			""			// Particle system model for projectile.
+		"ProjectileSpeed"			"0"			// Speed of projectile.		   
+
+		// Bounds
+		//----------------------------------------------------------------
+		"HealthBarOffset"			"240"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"		// Experience earn.
+		"BountyGoldMin"				"0"		// Gold earned min.
+		"BountyGoldMax"				"0"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"420"		// Speed.
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"900"		// Base health.
+		"StatusHealthRegen"			"15"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1400"		// Range of vision during day light.
+		"VisionNighttimeRange"		"1400"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"							// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_LIGHT"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_HERO"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"VoiceFile" 				"scripts/voscripts/game_sounds_vo_warlock_golem.txt"
+		//Inventory
+		"HasInventory"				"0"	
+	}
+
+	"sentry_ward_datadriven"
+	{
+		// General
+		//
+		"BaseClass"					"npc_dota_ward_base_truesight"	// Class of entity of link to.
+		"Model"						"models/props_gameplay/default_ward.mdl"	// Model.
+		"SoundSet"					""					// Name of sound set.
+		"Level"						"0"
+		"Skin"						"1"
+		"ModelScale"					"1"
+		"MinimapIcon"					"minimap_ward_invis"
+		"MinimapIconSize"				"300"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"			// Hull type used for navigation/locomotion.
+		"HealthBarOffset"			"140"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_NONE"			// Type of locomotion - ground, air
+	
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"200"		// Base health.
+		"StatusHealthRegen"			"0"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_GOODGUYS"			// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+
+		"BountyGoldMin"				"3"			// Gold earned min.
+		"BountyGoldMax"				"3"			// Gold earned max.
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"0"		// Range of vision during day light.
+		"VisionNighttimeRange"		"0"		// Range of vision at night time.
+	}
+
  	"frost_farm"
 	{
 		// General
@@ -131,7 +254,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"12"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"13"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -210,7 +333,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"12"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"4"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -268,7 +391,7 @@
 		
 		"Ability1"					"self_destruct"			// Ability 1.
 		"Ability2"					"invisibility"			// Ability 2.
-		"Ability3"					""			// Ability 3.
+		"Ability3"					"invisible"			// Ability 3.
 		"Ability4"					""			// Ability 4.
 		"Ability5"					""			// Ability 5.
 		"Ability6"					""			// Ability 6 - Extra.
@@ -289,7 +412,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"52"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -368,7 +491,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"45"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -447,7 +570,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"12"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -526,7 +649,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"30"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -584,7 +707,7 @@
 		
 		"Ability1"					"self_destruct"			// Ability 1.
 		"Ability2"					"magic_farm_upgrade"		// Ability 2.
-		"Ability3"					""			// Ability 3.
+		"Ability3"					"invisible"			// Ability 3.
 		"Ability4"					""			// Ability 4.
 		"Ability5"					""			// Ability 5.
 		"Ability6"					""			// Ability 6 - Extra.
@@ -605,7 +728,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"8"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -684,7 +807,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"12"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -763,7 +886,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"4"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -842,7 +965,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"10"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -921,7 +1044,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"4"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -1000,7 +1123,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"0"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -1079,7 +1202,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"0"
 		"LumberCost"				"0"
-		"BuildTime"					"0.4"
+		"BuildTime"					"1"
 
 		// Bounty
 		//----------------------------------------------------------------

@@ -9,6 +9,9 @@
 		"item"		"item_endurance_aura"
 		"item"		"item_brilliance_aura"
 		"item"		"item_war_drums"
+		"item"		"item_sheep_locator"
+		"item"		"item_bomber"
+		"item"		"item_golem"
 	}
 
 	"attributes"
@@ -23,7 +26,7 @@
 		"item"		"item_boots_of_speed"
 		"item"		"item_necklace_of_invulnerability"
 		"item"		"item_gloves_of_haste"
-		"item"		"item_sobi_mask"
+		"item"		"item_sobi_mask2"
 		"item"		"item_gem_of_seeing"
 		"item"		"item_crystal_ball"
 	}

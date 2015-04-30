@@ -49,10 +49,14 @@ function Precache( context )
 		PrecacheResource("particle", "particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf", context)
 		PrecacheResource( "particle", "particles/items2_fx/smoke_of_deceit_buff.vpcf", context )
 		PrecacheResource( "particle", "particles/msg_fx/msg_gold.vpcf", context )
+		PrecacheResource( "particle", "particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf", context )
+		PrecacheResource( "particle", "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf", context )
 
 		-- Items
 		PrecacheResource( "particle", "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf", context )
 		PrecacheResource( "particle", "particles/generic_gameplay/rune_haste_owner.vpcf", context )
+		PrecacheResource( "particle", "particles/items2_fx/magic_wand.vpcf", context )
+		PrecacheResource( "particle", "particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf", context )
 	
 		-- Models can also be precached by folder or individually
 		-- PrecacheModel should generally used over PrecacheResource for individual models
@@ -69,6 +73,13 @@ function Precache( context )
 		PrecacheModel("models/items/hex/sheep_hex/sheep_hex.vmdl", context)
 		PrecacheModel("models/props_gameplay/sheep01.vmdl", context)
 		PrecacheModel("models/heroes/lycan/lycan_wolf.vmdl", context)
+		PrecacheModel("models/props_gameplay/default_ward.vmdl", context)
+		PrecacheModel("models/heroes/warlock/warlock_demon.mdl", context)
+
+		-- Sounds
+		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context )
+		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts", context )
+		PrecacheResource( "soundfile", "soundevents/game_sounds_items.vsndevts", context )
 
 		Farm:Precache(context)
 end
