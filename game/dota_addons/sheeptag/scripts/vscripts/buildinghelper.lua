@@ -593,6 +593,8 @@ function BuildingHelper:InitializeBuildingEntity(keys)
 	local playersHero = buildingTable["playersHero"]
 	local player = buildingTable["player"]
 
+	local builderPos = builder:GetAbsOrigin()
+
 	-- create building entity
 	print("UnitName: " .. order.unitName)
 	local unit = CreateUnitByName(order.unitName, order.pos, false, playersHero, nil, order.team)
@@ -600,6 +602,8 @@ function BuildingHelper:InitializeBuildingEntity(keys)
 	building.isBuilding = true
 	-- store reference to the buildingTable in the unit.
 	unit.buildingTable = buildingTable
+
+	builder:SetAbsOrigin(builderPos)
 
 	-- Close the squares
 	BuildingHelper:CloseSquares(squaresToClose, "vector")

@@ -150,7 +150,7 @@ function SheepTag:OnHeroInGame(hero)
     local item = CreateItem("item_save_sheep", hero, hero)
     hero:AddItem(item)
     hero:FindAbilityByName("sheep_spirit"):SetLevel(1)
-  elseif heroName == "npc_dota_hero_necrolyte" then
+  elseif heroName == "npc_dota_hero_riki" then
     InitAbilities(hero)
     
     hero.farms = {}
@@ -173,6 +173,7 @@ function SheepTag:OnHeroInGame(hero)
     hero:AddItem(item)
   elseif heroName == "npc_dota_hero_lycan" then
     InitAbilities(hero)
+    hero:SetHullRadius(33) -- A hull radius of 32 will make pathing do weird things.
   end
 end
 
@@ -246,6 +247,11 @@ function SheepTag:OnNPCSpawned(keys)
   if npc:IsRealHero() and npc.bFirstSpawned == nil then
     npc.bFirstSpawned = true
     SheepTag:OnHeroInGame(npc)
+  end 
+
+  if npc:GetUnitName() == "golem_datadriven" then
+    npc:SetHullRadius(33)
+    print('Golem Spawn')
   end
 end
 
@@ -537,6 +543,34 @@ function SheepTag:InitSheepTag()
   -- Commands can be registered for debugging purposes or as functions that can be called by the custom Scaleform UI
   Convars:RegisterCommand( "command_example", Dynamic_Wrap(SheepTag, 'ExampleConsoleCommand'), "A console command example", 0 )
 
+  Convars:RegisterCommand('player_say', function(...)
+    local arg = {...}
+    table.remove(arg,1)
+    local sayType = arg[1]
+    table.remove(arg,1)
+
+    local cmdPlayer = Convars:GetCommandClient()
+    keys = {}
+    keys.ply = cmdPlayer
+    keys.teamOnly = false
+    keys.text = table.concat(arg, " ")
+
+    if (sayType == 4) then
+      -- Student messages
+    elseif (sayType == 3) then
+      -- Coach messages
+    elseif (sayType == 2) then
+      -- Team only
+      keys.teamOnly = true
+      -- Call your player_say function here like
+      self:PlayerSay(keys)
+    else
+      -- All chat
+      -- Call your player_say function here like
+      self:PlayerSay(keys)
+    end
+  end, 'player say', 0)
+
   -- Fill server with fake clients
   -- Fake clients don't use the default bot AI for buying items or moving down lanes and are sometimes necessary for debugging
   Convars:RegisterCommand('fake', function()
@@ -675,6 +709,58 @@ function SheepTag:OnConnectFull(keys)
     self.vBroadcasters[keys.userid] = 1
     return
   end
+end
+
+function SheepTag:PlayerSay(keys)
+  --print ('[SHEEPTAG] PlayerSay')
+  --PrintTable(keys)
+
+  local ply = keys.ply
+  local plyID = ply:GetPlayerID()
+  local hero = ply:GetAssignedHero()
+  local txt = keys.text
+
+  print(plyID)
+
+  if keys.teamOnly then
+    -- This text was team-only
+  end
+
+  if txt == nil or txt == "" then
+    return
+  end
+
+  if DEBUG and string.find(keys.text, "^-gold") then
+    print("Giving gold to player")
+    for k,v in pairs(HeroList:GetAllHeroes()) do
+      v:SetGold(50000, false)
+      GameRules:SetUseUniversalShopMode( true )
+    end
+  end
+
+  if string.find(keys.text, "^-unstuck") or string.find(keys.text, "^-u") then
+    FindClearSpaceForUnit(hero, hero:GetAbsOrigin(), true)
+  end
+
+  if string.find(keys.text, "^-buy") then
+    local item = split(txt, " ")[2]
+    if item ~= nil then
+      CMDbuy(hero, item)
+    end
+  end
+
+  if string.find(keys.text, "^-sell") then
+    local item = split(txt, " ")[2]
+    if item ~= nil then
+      CMDsell(hero, item)
+    end
+  end
+
+  --[[
+  if string.find(keys.text, "^-reset") and plyID == 0 then
+    GameMode:ResetGame()
+  end
+  ]]
 end
 
 -- This is an example console command

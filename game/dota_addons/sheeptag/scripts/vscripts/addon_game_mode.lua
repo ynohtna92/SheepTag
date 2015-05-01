@@ -57,10 +57,12 @@ function Precache( context )
 		PrecacheResource( "particle", "particles/generic_gameplay/rune_haste_owner.vpcf", context )
 		PrecacheResource( "particle", "particles/items2_fx/magic_wand.vpcf", context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf", context )
-	
+		PrecacheResource( "particle", "particles/items2_fx/orchid_pop.vpcf", context )
+		PrecacheResource( "particle", "particles/units/heroes/hero_jakiro/jakiro_liquid_fire_debuff.vpcf", context )
+
 		-- Models can also be precached by folder or individually
 		-- PrecacheModel should generally used over PrecacheResource for individual models
-		PrecacheResource("model_folder", "particles/heroes/antimage", context)
+		PrecacheResource("model_folder", "particles/heroes/jakiro", context)
 		PrecacheResource("model", "particles/heroes/viper/viper.vmdl", context)
 		PrecacheModel("models/heroes/viper/viper.vmdl", context)
 		PrecacheModel("models/courier/defense3_sheep/defense3_sheep.mdl", context)
@@ -80,6 +82,10 @@ function Precache( context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_items.vsndevts", context )
+
+		-- Custom Particles
+		PrecacheResource("particle_folder", "particles/sun_strike", context)
+		PrecacheResource("particle_folder", "particles/destroy_fire", context)
 
 		Farm:Precache(context)
 end

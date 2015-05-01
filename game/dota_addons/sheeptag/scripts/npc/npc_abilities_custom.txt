@@ -117,7 +117,7 @@
 		}
 	}
 
-	"shepherd_invulernability"
+	"shepherd_invulnerability"
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"BaseClass"						"ability_datadriven"
@@ -136,7 +136,7 @@
 			"ApplyModifier"
 			{
 				"Target" "CASTER"
-				"ModifierName" "modifier_shepherd_invulernability"
+				"ModifierName" "modifier_shepherd_invulnerability"
 			}
 			"FireSound"
 			{
@@ -147,7 +147,7 @@
 
 		"Modifiers"
 		{
-			"modifier_shepherd_invulernability"
+			"modifier_shepherd_invulnerability"
 			{
 				"TextureName" "omniknight_repel"
 				"EffectName" "particles/items_fx/black_king_bar_avatar.vpcf"
@@ -296,8 +296,74 @@
 			"FireSound"
 			{
 				"Target" "CASTER"
-				"EffectName" "Hero_Centaur.HoofStomp"
+				"EffectName" "Hero_PhantomLancer.Doppelwalk"
 			}
+			"FireEffect"
+			{
+				"EffectName"        "particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf"
+				"EffectAttachType"  "follow_origin"
+				"Target"            "CASTER"
+			}
+
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities.lua"
+				"Function"		"mirror_image_start"
+			}
+			"DelayedAction"
+			{
+				"Delay"		"%delay"
+				"Action"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"mirror_image"
+						"duration"		"%duration"
+					}
+				}
+			}
+			"SpawnUnit"
+			{
+				"UnitName"		"golem_datadriven"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"ScriptSelectPoints"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"get_mirrorimage_summon_points"
+						"Target"	"CASTER"
+						"Count"	"1"
+					}
+				}
+				"Duration"		"%duration"
+				"UnitCount"		"1"
+				"GrantsGold"	"0"
+				"GrantsXP"		"0"
+				"SpawnRadius"	"34"
+				"OnSpawn"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"set_unit_forward"
+					}
+
+					"FireSound"
+					{
+						"Target" "TARGET"
+						"EffectName" "General.Illusion.Create"
+					}
+
+					"FireEffect"
+					{
+						"Target"			"TARGET"
+						"EffectName"		"particles/generic_gameplay/illusion_created.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+				}
+			}	
 		}
 		
 		// Special	
@@ -308,14 +374,19 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"duration"				"60"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"delay"				"1"
 			}			
 		}
 
 		"precache"
 		{
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
-			"particle"	"particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
-			"particle"	"particles/generic_gameplay/generic_silenced.vpcf"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_phantom_lancer.vsndevts"
+			"particle"	"particles/generic_gameplay/illusion_created.vpcf"
+			"particle" "particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf"
 		}
 	}
 
@@ -446,6 +517,12 @@
 					{
 						"ModifierName"	"modifier_invisibility"
 						"Target"		"TARGET"
+					}
+
+					"FireSound"
+					{
+						"Target"	"TARGET"
+						"EffectName"	"Hero_Invoker.GhostWalk"
 					}
 				}
 
@@ -1017,7 +1094,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1027,7 +1103,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.7"
@@ -1060,7 +1136,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1070,7 +1145,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.7"
@@ -1103,7 +1178,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1113,7 +1187,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.7"
@@ -1146,7 +1220,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1156,7 +1229,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.7"
@@ -1189,7 +1262,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1199,7 +1271,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.7"
@@ -1232,7 +1304,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1242,7 +1313,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.55"
@@ -1275,7 +1346,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1285,7 +1355,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.7"
@@ -1318,7 +1388,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1328,7 +1397,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"4" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"250"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"0.7"
@@ -1361,7 +1430,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1371,7 +1439,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"3" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"220"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						"1"
@@ -1404,7 +1472,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1447,7 +1514,6 @@
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"100"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0.1"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
@@ -1457,7 +1523,7 @@
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
 		"BuildTime"						".4"
-		"AbilityCastRange"				"100"
+		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
 		"MaxScale"						".7"

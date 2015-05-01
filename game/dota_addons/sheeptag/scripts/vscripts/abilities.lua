@@ -15,50 +15,9 @@ LEVEL2_ABILITIES =
 	[2] = "build_strong_farm",
 	[3] = "build_wide_farm",
 	[4] = "build_savings_farm",
-	--[4] = "invisibility",
 	[5] = "build_invisible_farm",
-	--[5] = "far_sight",
 	[6] = "level1_abilities",
 }
---[[
-function build( keys )
-	local point = keys.target_points[1]
-	local farm = nil
-	local name = keys.ability:GetAbilityName()
-	if name == "build_normal_farm" then
-		farm = Farm:NormalFarm(point, keys.caster)
-	elseif name == "build_tiny_farm" then
-		farm = Farm:TinyFarm(point, keys.caster)
-	elseif name == "build_hard_farm" then
-		farm = Farm:HardFarm(point, keys.caster)
-	elseif name == "build_upgraded_farm" then
-		farm = Farm:UpgradedFarm(point, keys.caster)
-	elseif name == "build_stack_farm" then
-		farm = Farm:StackFarm(point, keys.caster)
-	elseif name == "build_aura_farm" then
-		farm = Farm:AuraFarm(point, keys.caster)
-	elseif name == "build_strong_farm" then
-		farm = Farm:StrongFarm(point, keys.caster)
-	elseif name == "build_wide_farm" then
-		farm = Farm:WideFarm(point, keys.caster)
-	elseif name == "build_savings_farm" then
-		farm = Farm:SavingsFarm(point, keys.caster)
-	elseif name == "build_invisible_farm" then
-		farm = Farm:InvisibleFarm(point, keys.caster)
-	end
-
-	if farm == nil or not farm.buildSuccess then
-		return
-	end
-
-	table.insert(keys.caster.farms, 1, farm)
-
-	-- Valid farm at this point.
-	if farm.think then
-		farm:Think()
-	end
-end
-]]
 
 -- The following three functions are necessary for building helper.
 function build( keys )
@@ -83,7 +42,7 @@ function build( keys )
 		-- Play construction sound
 		-- FindClearSpace for the builder
 
-		FindClearSpaceForUnit(keys.caster, keys.caster:GetAbsOrigin(), true)
+		FindClearSpaceForUnit(keys.caster, keys.caster:GetAbsOrigin(), false)
 
 		-- Break Sheep Invis
 		keys.caster:RemoveModifierByName("modifier_invisibility_datadriven")
@@ -335,6 +294,112 @@ function far_sight( event )
     end
 end
 
+function mirror_image_start ( keys )
+	print('Mirror Image Cast')
+	keys.caster:AddNoDraw()
+	local caster = keys.caster
+	local mirrorimage = caster.mirrorimage or {}
+	for _,unit in pairs(mirrorimage) do	
+	if unit and IsValidEntity(unit) then
+		unit:ForceKill(true)
+		end
+	end
+	-- Reset table
+	caster.mirrorimage = {}
+end
+
+function mirror_image ( keys )
+	print('Mirror Image Finish')
+	local illusion_duration = keys.duration
+	local illusion_outgoing_damage = -100
+	local illusion_incoming_damage = 0
+
+	local caster = keys.caster
+	local player_id = caster:GetPlayerID()
+	local team = caster:GetTeam()
+	local fv = caster:GetForwardVector()
+	local origin = caster:GetAbsOrigin()
+	local distance = 150
+	ang_right = QAngle(0, -60, 0)
+	ang_left = QAngle(0, 60, 0)
+	local front_position = origin + fv * distance
+	point_left = RotatePosition(origin, ang_left, front_position)
+	point_right = RotatePosition(origin, ang_right, front_position)
+	local positions = {}
+		table.insert(positions, point_left)
+		table.insert(positions, point_right)
+	local rand = math.random(1,2)
+	local rand2 = 1
+	if rand == 1 then
+		rand2 = 2
+	end
+	print(rand)
+
+	--[[ ============================================================================================================
+		Author: Rook, with help from Noya
+		Date: February 2, 2015
+		Returns a reference to a newly-created illusion unit.
+	================================================================================================================= ]]
+	-- Create illusion
+	local illusion = CreateUnitByName(caster:GetUnitName(), positions[rand], true, caster, nil, team)
+	illusion:SetPlayerID(player_id)
+	illusion:SetControllableByPlayer(player_id, true)
+
+	--Level up the illusion to the caster's level.
+	local caster_level = keys.caster:GetLevel()
+	for i = 1, caster_level - 1 do
+		illusion:HeroLevelUp(false)
+	end
+
+	--Set the illusion's available skill points to 0 and teach it the abilities the caster has.
+	illusion:SetAbilityPoints(0)
+	for ability_slot = 0, 15 do
+		local individual_ability = keys.caster:GetAbilityByIndex(ability_slot)
+		if individual_ability ~= nil then 
+			local illusion_ability = illusion:FindAbilityByName(individual_ability:GetAbilityName())
+			if illusion_ability ~= nil then
+				illusion_ability:SetLevel(individual_ability:GetLevel())
+			end
+		end
+	end
+
+	--Set the illusion's available skill points to 0 and teach it the abilities the caster has.
+	illusion:SetAbilityPoints(0)
+	for ability_slot = 0, 15 do
+		local individual_ability = keys.caster:GetAbilityByIndex(ability_slot)
+		if individual_ability ~= nil then 
+			local illusion_ability = illusion:FindAbilityByName(individual_ability:GetAbilityName())
+			if illusion_ability ~= nil then
+				illusion_ability:SetLevel(individual_ability:GetLevel())
+			end
+		end
+	end
+
+	--Recreate the caster's items for the illusion.
+	for item_slot = 0, 5 do
+		local individual_item = keys.caster:GetItemInSlot(item_slot)
+		if individual_item ~= nil then
+			local illusion_duplicate_item = CreateItem(individual_item:GetName(), illusion, illusion)
+			illusion:AddItem(illusion_duplicate_item)
+		end
+	end
+
+	illusion:AddNewModifier(keys.caster, keys.ability, "modifier_illusion", {duration = illusion_duration, outgoing_damage = illusion_outgoing_damage, incoming_damage = illusion_incoming_damage})
+	illusion:MakeIllusion()
+	illusion:SetHealth(caster:GetHealth())
+	illusion:SetMana(caster:GetMana())
+	illusion:SetForwardVector(fv)
+
+	-- Add to caster to find later
+	table.insert(caster.mirrorimage, illusion)
+
+	caster:SetAbsOrigin(positions[rand2])
+	FindClearSpaceForUnit(caster, positions[rand2], false)
+	Timers:CreateTimer(0.05, function()
+		caster:RemoveNoDraw()
+	end)
+end
+
 -- ITEMS
 function potion_of_strength( keys )
 	print('Potion of Strength Attack')
@@ -352,12 +417,37 @@ function sheep_locator( keys )
 	print('Locate Sheeps')
 end
 
+function get_golem_summon_point ( keys )
+	local caster = keys.caster
+	local fv = caster:GetForwardVector()
+	local origin = caster:GetAbsOrigin()
+	local point = origin + fv * 200
+	local result = {}
+		table.insert(result, point)
+	return result
+end
+
+function set_unit_forward( keys )
+	local caster = keys.caster
+	local target = keys.target
+	local fv = caster:GetForwardVector()
+	local origin = caster:GetAbsOrigin()
+	target:SetForwardVector(fv)
+end
+
 -- Modifiers
 function farm_death( keys )
-	PrintTable(keys)
-	farm_bounty(keys)
+	if keys.attacker:GetUnitName() ~= "npc_dota_hero_riki" then
+		farm_bounty(keys)
+	end
+
+	EmitSoundOn("Building_Tombstone.Destruction", keys.caster)
+	local particle = ParticleManager:CreateParticle("particles/dire_fx/bad_barracks_destruction_fire2.vpcf", PATTACH_ABSORIGIN, keys.attacker)
+	ParticleManager:SetParticleControl( particle, 0, keys.caster:GetAbsOrigin())
+	local particle2 = ParticleManager:CreateParticle("particles/sun_strike/invoker_sun_strike_ground.vpcf", PATTACH_ABSORIGIN, keys.attacker)
+	ParticleManager:SetParticleControl( particle2, 0, keys.caster:GetAbsOrigin())
+
 	keys.caster:RemoveBuilding(true)
-	-- maybe some sick particle effects here
 end
 
 function farm_bounty( keys )
@@ -409,7 +499,8 @@ function farm_bounty( keys )
 	if shep:HasModifier("modifier_item_mining_scythe") then
 		bounty = (bounty * 2) + 1
 	end
-	PopupNumbers(farm, "gold", Vector(255,200,33), 1.0, bounty, '#', nil)
+	print(bounty)
+	PopupNumbers(shep, "gold", Vector(255,200,33), 1.0, bounty, '#', nil)
 	shep:GetPlayerOwner():GetAssignedHero():ModifyGold(bounty,false,0)
 end
 

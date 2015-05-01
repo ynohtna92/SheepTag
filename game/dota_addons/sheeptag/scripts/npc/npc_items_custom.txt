@@ -689,7 +689,7 @@
 		{
 			"modifier_item_war_drums_datadriven"
 			{	
-				"IsHidden"			"0"
+				"IsHidden"			"1"
 				"Passive"			"1"
 				"Aura"          	"modifier_war_drums"
 				"Aura_Radius"   	"%radius"
@@ -885,7 +885,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityTextureName"			"item_golem"
 		"AbilityCastRange"				"900"
 		"AbilityCooldown"				"60"
@@ -908,24 +908,39 @@
 			"SpawnUnit"
 			{
 				"UnitName"		"golem_datadriven"
-				"Target"		"POINT"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"ScriptSelectPoints"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"get_golem_summon_point"
+						"Target"	"CASTER"
+						"Count"	"1"
+					}
+				}
 				"Duration"		"%duration"
 				"UnitCount"		"1"
 				"GrantsGold"	"0"
 				"GrantsXP"		"0"
-				"SpawnRadius"	"64"
+				"SpawnRadius"	"34"
 				"OnSpawn"
 				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"set_unit_forward"
+					}
 					"FireSound"
 					{
 						"Target" "TARGET"
-						"EffectName" "DOTA_Item.SentryWard.Activate"
+						"EffectName" "DOTA_Item.Necronomicon.Activate"
 					}
 
 					"FireEffect"
 					{
 						"Target"			"TARGET"
-						"EffectName"		"particles/items2_fx/ward_spawn_generic.vpcf"
+						"EffectName"		"particles/units/heroes/hero_lycan/lycan_summon_wolves_spawn.vpcf"
 						"EffectAttachType" 	"follow_origin"
 					}
 				}
@@ -947,7 +962,7 @@
 
 		"precache"
 		{
-			"particle"	"particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf"
+			"particle"	"particles/units/heroes/hero_lycan/lycan_summon_wolves_spawn.vpcf"
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		}
 	}
@@ -1582,6 +1597,7 @@
 				"States"
 				{
 					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_SPECIALLY_DENIABLE"	"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}  

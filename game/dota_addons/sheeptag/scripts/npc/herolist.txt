@@ -6,6 +6,6 @@
 "CustomHeroList"
 {
 	"npc_dota_hero_wisp" "1"
-	"npc_dota_hero_necrolyte" "1"
 	"npc_dota_hero_lycan" "1"
+	"npc_dota_hero_riki"	"1"
 }

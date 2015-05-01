@@ -125,7 +125,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"29"		// Damage range min.
 		"AttackDamageMax"			"29"		// Damage range max.	
-		"AttackRate"				"1.2"		// Speed of attack.
+		"AttackRate"				"0.6"		// Speed of attack.
 		"AttackAnimationPoint"		"0.26"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"150"		// Range within a target can be acquired.
 		"AttackRange"				"150"		// Range within a target can be attacked.
@@ -254,7 +254,7 @@
 		//----------------------------------------------------------------
 		"GoldCost"					"12"
 		"LumberCost"				"0"
-		"BuildTime"					"13"
+		"BuildTime"					"8"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -348,7 +348,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"				"0"
 
 		// Status
@@ -427,7 +427,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"				"0"
 
 		// Status

@@ -12,7 +12,7 @@
 		//"Model"						"models/development/invisiblebox.vmdl"
 		"Model"						"models/courier/defense3_sheep/defense3_sheep.mdl"
 		"ModelScale"				".8"
-		"override_hero"				"npc_dota_hero_necrolyte"		// Hero to override
+		"override_hero"				"npc_dota_hero_riki"		// Hero to override
 		"Ability1"					"build_normal_farm"						// Ability 1
 		"Ability2"					"build_tiny_farm"						// Ability 2
 		"Ability3"					"build_hard_farm"						// Ability 3
@@ -23,9 +23,14 @@
 
 		// Attack
 		//-----------------------------------------------------------------------------------------------------------
-
-		//"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
 		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+
+		"AttackDamageMin"            "900"       // Damage range min.
+		"AttackDamageMax"            "900"       // Damage range max.
+		"AttackRate"                 "1.5"     // Speed of attack.
+		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
+		"AttackRange"                "150"     // Range within a target can be attacked.
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------
@@ -128,7 +133,7 @@
 		"Model"						"models/heroes/lycan/lycan_wolf.vmdl"
 		"ModelScale"				".8"
 		"override_hero"				"npc_dota_hero_lycan"		// Hero to override
-		"Ability1"					"shepherd_invulernability"						// Ability 1
+		"Ability1"					"shepherd_invulnerability"						// Ability 1
 		"Ability2"					"shepherd_sentry_ward"						// Ability 2
 		"Ability3"					"shepherd_mirrorimage"						// Ability 3
 		"Ability4"					"shepherd_antistack"					// Ability 4
@@ -146,7 +151,6 @@
 		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
 		"AttackRange"                "150"     // Range within a target can be attacked.
-		"AttackRangeBuffer"          "30"     // Extra range the target can move without canceling the attack
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------
