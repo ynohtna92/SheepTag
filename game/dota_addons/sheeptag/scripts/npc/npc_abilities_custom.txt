@@ -508,7 +508,7 @@
 		"BaseClass"						"ability_datadriven"
 		//"HotKeyOverride"				"F"
 		"AbilityTextureName"			"riki_permanent_invisibility"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"		
 
 		// Stats
@@ -989,10 +989,11 @@
 				//"EffectAttachType" 	"follow_origin"
 				"Passive" "1"
 				"IsHidden" "0"
+				"IsDebuff"	"0"
 				"TextureName"	"brewmaster_storm_wind_walk"
-				"State"
+				"States"
 				{
-					 "MODIFIER_STATE_INVISIBLE" "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
