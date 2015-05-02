@@ -719,8 +719,9 @@ function SheepTag:PlayerSay(keys)
   local plyID = ply:GetPlayerID()
   local hero = ply:GetAssignedHero()
   local txt = keys.text
+  local args = split(txt, " ")
 
-  print(plyID)
+  print(plyID, txt)
 
   if keys.teamOnly then
     -- This text was team-only
@@ -738,22 +739,40 @@ function SheepTag:PlayerSay(keys)
     end
   end
 
+  -- Player Commands
+
   if string.find(keys.text, "^-unstuck") or string.find(keys.text, "^-u") then
     FindClearSpaceForUnit(hero, hero:GetAbsOrigin(), true)
   end
 
-  if string.find(keys.text, "^-buy") then
-    local item = split(txt, " ")[2]
-    if item ~= nil then
-      CMDbuy(hero, item)
+  if args[1] == "-buy" then
+    if args[2] ~= nil then
+      CommandBuy(hero, args[2])
     end
   end
 
-  if string.find(keys.text, "^-sell") then
-    local item = split(txt, " ")[2]
-    if item ~= nil then
-      CMDsell(hero, item)
+  if args[1] == "-sell" then
+    if args[2] ~= nil then
+      CommandSell(hero, args[2])
     end
+  end
+
+  if args[1] == "-sellall" then
+    CommandSellAll(hero)
+  end
+
+  if args[1] == "-g" then
+    if args[2] ~= nil then
+      CommandGive(hero, args[2], args[3])
+    end
+  end
+  
+  if args[1] == "-d" then
+    CommandDestroy(hero)
+  end
+
+  if args[1] == "-ds" then
+    CommandDestroyExclude(hero)
   end
 
   --[[

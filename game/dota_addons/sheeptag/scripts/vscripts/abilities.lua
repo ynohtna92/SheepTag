@@ -199,16 +199,21 @@ function destory_all_farms( keys )
 	remove_farms(cast, false)
 end
 
-function remove_farms( cast , bool )
+function remove_farms( cast , bool, exclude, farm )
+	exclude = exclude or false
+	farm = farm or 'money_farm'
 
 	-- ensure the table has entries
-
 	while #cast.farms > 0 do
 		local ent = cast.farms[1]
 		if IsValidEntity(ent) and ent:IsAlive() then
 			-- we found the first valid farm.
-			ent:RemoveBuilding(true)
-			table.remove(cast.farms, 1)
+			if exclude and ent:GetUnitName() == farm then
+				-- do nothing
+			else
+				ent:RemoveBuilding(true)
+				table.remove(cast.farms, 1)
+			end
 			if bool then
 				break;
 			end

@@ -7,6 +7,7 @@ BASE_MODULES = {
 	'FlashUtil',
 	'farm',
 	'abilities',
+	'commands',
 	'sheeptag',
 }
 
