@@ -149,8 +149,8 @@
 		"AttackDamageMax"            "150"       // Damage range max.
 		"AttackRate"                 "1.5"     // Speed of attack.
 		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
-		"AttackRange"                "150"     // Range within a target can be attacked.
+		"AttackAcquisitionRange"     "120"     // Range within a target can be acquired.
+		"AttackRange"                "120"     // Range within a target can be attacked.
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------

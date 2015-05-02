@@ -836,7 +836,7 @@
 							"Center"	"POINT"
 							"Radius"	"%radius"
 							"Teams"		"DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+							"Types"		"DOTA_UNIT_TARGET_BASIC"
 						}
 					}
 					"SpendCharge"
@@ -1403,8 +1403,6 @@
 					}
 				}
 
-				//"EffectName"		"particles/econ/wards/f2p/f2p_ward/ward_true_sight.vpcf"
-				//"EffectAttachType" 	"follow_origin"
 				"Passive"			"1"
 				"IsHidden"			"1"
 		
@@ -1418,7 +1416,7 @@
 							"Center"  	"TARGET"
 							"Radius" 	"%radius"
 							"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+							"Types" 	"DOTA_UNIT_TARGET_ALL"
 						}
 					
 						"Action"    
@@ -1442,7 +1440,7 @@
 			"modifier_truesight_gem_reveal"
 			{
 				"IsHidden"			"1"
-				//"Duration"			"0.5"	//The True Sight effect lingers for 0.5 seconds.
+				"Duration"			"0.1"	//The True Sight effect lingers for 0.1 seconds.
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"	"MODIFIER_STATE_VALUE_DISABLED"

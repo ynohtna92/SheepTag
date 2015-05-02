@@ -233,21 +233,48 @@
 			"modifier_sentry_ward"
 			{
 				//"IsHidden" "1"
-				"Aura"          	"modifier_sentry_ward_aura"
-				"Aura_Radius"   	"%radius"
-				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-				"Aura_Types"    	"DOTA_UNIT_TARGET_ALL"
 				"Duration"			"%duration"
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NO_UNIT_COLLISION"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
+
+				"ThinkInterval"  "0.03"
+				"OnIntervalThink"
+				{
+					"ActOnTargets"
+					{
+						"Target"
+						{
+							"Center"  	"TARGET"
+							"Radius" 	"%radius"
+							"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types" 	"DOTA_UNIT_TARGET_ALL"
+						}
+					
+						"Action"    
+						{
+							"RemoveModifier"
+							{
+								"ModifierName"	"modifier_sentry_ward_reveal"
+								"Target" 		"TARGET"
+							}
+
+							"ApplyModifier"
+							{
+								"ModifierName"	"modifier_sentry_ward_reveal"
+								"Target" 		"TARGET"
+							}
+						}
+					}			
+				}
 			}
 
-			"modifier_sentry_ward_aura"
+			"modifier_sentry_ward_reveal"
 			{
 				"IsHidden"	"1"
+				"Duration"	"0.1"
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_DISABLED"
@@ -481,7 +508,7 @@
 		"BaseClass"						"ability_datadriven"
 		//"HotKeyOverride"				"F"
 		"AbilityTextureName"			"riki_permanent_invisibility"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"		
 
 		// Stats
@@ -653,6 +680,7 @@
 
 			"modifier_far_sight_vision"
 			{
+				"IsDebuff"	"1"
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_DISABLED"
@@ -903,7 +931,7 @@
 							"Center"  	"TARGET"
 							"Radius" 	"%radius"
 							"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-							"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+							"Types" 	"DOTA_UNIT_TARGET_ALL"
 						}
 					
 						"Action"    
@@ -927,7 +955,7 @@
 			"modifier_truesight_reveal"
 			{
 				"IsHidden"			"1"
-				//"Duration"			"0.5"	//The True Sight effect lingers for 0.5 seconds.
+				"Duration"			"0.1"	//The True Sight effect lingers for 0.1 seconds.
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"	"MODIFIER_STATE_VALUE_DISABLED"

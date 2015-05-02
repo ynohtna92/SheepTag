@@ -1,9 +1,20 @@
+--[[
+Last modified: 02/05/2015
+Author: A_Dizzle
+Co-Author: Myll
+]]
+
 print ('[SHEEPTAG] sheeptag.lua' )
 
 DEBUG = true
 THINK_TIME = 0.1
 
-VERSION = "B250415"
+VERSION = "B020515"
+
+-- Game Variables
+STARTING_GOLD = 0
+ROUND_TIME = 10 -- Minutes
+
 
 ENABLE_HERO_RESPAWN = true              -- Should the heroes automatically respawn on a timer or stay dead until manually respawned
 UNIVERSAL_SHOP_MODE = false             -- Should the main shop contain Secret Shop items as well as regular items
@@ -59,7 +70,6 @@ if SheepTag == nil then
   --print ( '[SHEEPTAG] creating sheeptag game mode' )
   SheepTag = class({})
 end
-
 
 --[[
   This function should be used to set up Async precache calls at the beginning of the game.  The Precache() function 
@@ -775,11 +785,29 @@ function SheepTag:PlayerSay(keys)
     CommandDestroyExclude(hero)
   end
 
+  if args[1] == "-end" then
+    Timers:CreateTimer(3, function()
+      GameRules:SetGameWinner(hero:GetTeam())
+      GameRules:SetSafeToLeave( true )
+    end)
+    self.EndMessage()
+  end
   --[[
   if string.find(keys.text, "^-reset") and plyID == 0 then
     GameMode:ResetGame()
   end
   ]]
+end
+
+function SheepTag:CheckIfRoundEnd()
+
+end
+
+function SheepTag:EndMessage()
+  GameRules:SendCustomMessage("Thank you for playing Sheep Tag!", 0, 0)
+  GameRules:SendCustomMessage("<font color='#7FFF00'>Remember to share your feedback on the Workshop Page</font>.", 0, 0)
+  GameRules:SendCustomMessage("https://github.com/ynohtna92/SheepTag", 0, 0)
+  GameRules:SendCustomMessage(" ", 0, 0)
 end
 
 -- This is an example console command

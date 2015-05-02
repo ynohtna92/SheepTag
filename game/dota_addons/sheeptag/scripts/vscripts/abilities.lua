@@ -394,6 +394,7 @@ function mirror_image ( keys )
 	illusion:SetHealth(caster:GetHealth())
 	illusion:SetMana(caster:GetMana())
 	illusion:SetForwardVector(fv)
+	FindClearSpaceForUnit(illusion, positions[rand], false)
 
 	-- Add to caster to find later
 	table.insert(caster.mirrorimage, illusion)
@@ -403,6 +404,7 @@ function mirror_image ( keys )
 	Timers:CreateTimer(0.05, function()
 		caster:RemoveNoDraw()
 	end)
+	caster.stop()
 end
 
 -- ITEMS
