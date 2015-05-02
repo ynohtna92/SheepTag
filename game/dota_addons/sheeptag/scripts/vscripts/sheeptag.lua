@@ -13,8 +13,12 @@ VERSION = "B020515"
 
 -- Game Variables
 STARTING_GOLD = 0
-ROUND_TIME = 10 -- Minutes
-
+ROUND_TIME = 600
+SHEPHERD_GOLD_TICK_TIME = 60
+SHEPHERD_GOLD_PER_TICK = 20
+SHEPHERD_SPAWN = 10
+SHEEP_GOLD_TICK_TIME = 1
+SHEEP_GOLD_PER_TICK = 1
 
 ENABLE_HERO_RESPAWN = true              -- Should the heroes automatically respawn on a timer or stay dead until manually respawned
 UNIVERSAL_SHOP_MODE = false             -- Should the main shop contain Secret Shop items as well as regular items
@@ -87,12 +91,12 @@ end
   holdout).
 ]]
 function SheepTag:PostLoadPrecache()
-  --print("[SHEEPTAG] Performing Post-Load precache")
+  print("[SHEEPTAG] Performing Post-Load precache")
   --PrecacheItemByNameAsync("item_example_item", function(...) end)
   --PrecacheItemByNameAsync("example_ability", function(...) end)
-
-  PrecacheUnitByNameAsync("npc_dota_hero_viper", function(...) end)
-  PrecacheUnitByNameAsync("npc_dota_hero_enigma", function(...) end)
+  PrecacheUnitByNameAsync("npc_dota_hero_riki", function(...) end)
+  PrecacheUnitByNameAsync("npc_dota_hero_lycan", function(...) end)
+  PrecacheUnitByNameAsync("npc_dota_hero_wisp", function(...) end)
   --PrecacheUnitByNameAsync("npc_precache_everything", function(...) end)
 end
 
@@ -157,8 +161,6 @@ function SheepTag:OnHeroInGame(hero)
   local heroName = hero:GetUnitName()
   if heroName == "npc_dota_hero_wisp" then
     hero:SetAbilityPoints(0)
-    local item = CreateItem("item_save_sheep", hero, hero)
-    hero:AddItem(item)
     hero:FindAbilityByName("sheep_spirit"):SetLevel(1)
   elseif heroName == "npc_dota_hero_riki" then
     InitAbilities(hero)
@@ -483,6 +485,9 @@ function SheepTag:OnEntityKilled( keys )
     end
   end
 
+  if killedUnit:GetUnitName() == "npc_dota_hero_riki" then
+    --self:OnSheepKilled(killedUnit)
+  end
   -- Put code here to handle when an entity gets killed
 end
 
@@ -792,6 +797,10 @@ function SheepTag:PlayerSay(keys)
     end)
     self.EndMessage()
   end
+
+  if args[1] == "-kill" then
+    self:OnSheepKilled(hero)
+  end
   --[[
   if string.find(keys.text, "^-reset") and plyID == 0 then
     GameMode:ResetGame()
@@ -799,8 +808,13 @@ function SheepTag:PlayerSay(keys)
   ]]
 end
 
-function SheepTag:CheckIfRoundEnd()
-
+function SheepTag:OnSheepKilled( hero )
+  local gold = hero:GetGold()
+  local plyID = hero:GetPlayerID() 
+  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
+  local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero()
+  FindClearSpaceForUnit(newHero, Entities:FindByName(nil, "spawn_center"):GetAbsOrigin(), false)
+  newHero:SetGold(gold, false)
 end
 
 function SheepTag:EndMessage()

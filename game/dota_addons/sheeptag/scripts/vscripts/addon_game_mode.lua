@@ -64,7 +64,10 @@ function Precache( context )
 		-- Models can also be precached by folder or individually
 		-- PrecacheModel should generally used over PrecacheResource for individual models
 		PrecacheResource("model_folder", "particles/heroes/jakiro", context)
+		--PrecacheResource("model_folder", "particles/unit/heroes/hero_wisp", context)
 		PrecacheResource("model", "particles/heroes/viper/viper.vmdl", context)
+		--PrecacheResource("model_folder", "particles/heroes/wisp", context)
+		--PrecacheModel("models/heroes/wisp/wisp.vmdl", context)
 		PrecacheModel("models/heroes/viper/viper.vmdl", context)
 		PrecacheModel("models/courier/defense3_sheep/defense3_sheep.mdl", context)
 		PrecacheModel("models/props_structures/good_barracks_melee001.vmdl", context)
@@ -80,6 +83,7 @@ function Precache( context )
 		PrecacheModel("models/heroes/warlock/warlock_demon.mdl", context)
 
 		-- Sounds
+		--PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_wisp.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_items.vsndevts", context )
