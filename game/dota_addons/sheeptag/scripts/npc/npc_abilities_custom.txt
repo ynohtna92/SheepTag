@@ -3,6 +3,86 @@
 "DOTAAbilities"
 {
 	"Version"		"1"
+
+	"sheep_evade"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"BaseClass"						"ability_datadriven"
+		"MaxLevel"						"1"
+
+		"Modifiers"
+		{
+			"modifier_sheep_evade"
+			{
+				"Passive"                        "1"
+				"IsHidden"                       "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_EVASION_CONSTANT"		"100"
+				}
+			}
+		}
+	}
+
+	"shepherd_miss"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"BaseClass"						"ability_datadriven"
+		"MaxLevel"						"1"
+
+		"Modifiers"
+		{
+			"modifier_shepherd_miss"
+			{
+				"Passive"                        "1"
+				"IsHidden"                       "1"
+				"ThinkInterval"  "0.03"
+				"OnIntervalThink"
+				{
+					"ActOnTargets"
+					{
+						"Target"
+						{
+							"Center"  	"TARGET"
+							"Radius" 	"%radius"
+							"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types" 	"DOTA_UNIT_TARGET_HERO"
+						}
+					
+						"Action"    
+						{
+							"ApplyModifier"
+							{
+								"ModifierName"	"modifier_shepherd_miss_aura"
+								"Target" 		"TARGET"
+							}
+						}
+					}			
+				}
+			}
+
+			"modifier_shepherd_miss_aura"
+			{
+				"Duration"	"0.1"
+				"IsHidden"	"1"
+				"States"
+				{
+					"MODIFIER_STATE_EVADE_DISABLED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"160"
+			}
+		}
+	}
 	
 	"frost_farm_upgrade"
 	{

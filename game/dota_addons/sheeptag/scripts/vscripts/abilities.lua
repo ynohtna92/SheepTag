@@ -404,7 +404,7 @@ function mirror_image ( keys )
 	Timers:CreateTimer(0.05, function()
 		caster:RemoveNoDraw()
 	end)
-	caster.stop()
+	caster:Stop()
 end
 
 -- ITEMS

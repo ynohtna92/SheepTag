@@ -127,8 +127,7 @@
 		"AttackDamageMax"			"29"		// Damage range max.	
 		"AttackRate"				"0.6"		// Speed of attack.
 		"AttackAnimationPoint"		"0.26"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"130"		// Range within a target can be acquired.
-		"AttackRange"				"130"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"150"		// Range within a target can be acquired.
 		"ProjectileModel"			""			// Particle system model for projectile.
 		"ProjectileSpeed"			"0"			// Speed of projectile.		   
 
@@ -166,7 +165,7 @@
 		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_HERO"
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
 
-		"VoiceFile" 				"scripts/voscripts/game_sounds_vo_warlock_golem.txt"
+		"VoiceFile" 				"soundevents/voscripts/game_sounds_vo_warlock_golem.vsndevts"
 		//Inventory
 		"HasInventory"				"0"	
 	}
@@ -191,7 +190,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_NONE"			// Type of locomotion - ground, air
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"			// Type of locomotion - ground, air
 	
 		// Status
 		//----------------------------------------------------------------

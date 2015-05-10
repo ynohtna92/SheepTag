@@ -81,6 +81,7 @@ function Precache( context )
 		PrecacheModel("models/heroes/lycan/lycan_wolf.vmdl", context)
 		PrecacheModel("models/props_gameplay/default_ward.vmdl", context)
 		PrecacheModel("models/heroes/warlock/warlock_demon.mdl", context)
+		PrecacheModel("models/development/invisiblebox.vmdl", context)
 
 		-- Sounds
 		--PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_wisp.vsndevts", context )

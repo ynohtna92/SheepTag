@@ -20,6 +20,7 @@
 		"Ability5"					"build_stack_farm"
 		"Ability6"					"level2_abilities"
 		"Ability7"					"true_sight"							// Hidden Abilities onwards
+		"Ability8"					"sheep_evade"
 
 		// Attack
 		//-----------------------------------------------------------------------------------------------------------
@@ -139,7 +140,7 @@
 		"Ability4"					"shepherd_antistack"					// Ability 4
 		"Ability5"					"far_sight"
 		"Ability6"					"invisibility"
-		"Ability7"					""							// Hidden Abilities onwards
+		"Ability7"					"shepherd_miss"							// Hidden Abilities onwards
 
 		// Attack
 		//-----------------------------------------------------------------------------------------------------------
@@ -149,8 +150,7 @@
 		"AttackDamageMax"            "150"       // Damage range max.
 		"AttackRate"                 "1.5"     // Speed of attack.
 		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"     "120"     // Range within a target can be acquired.
-		"AttackRange"                "120"     // Range within a target can be attacked.
+		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------

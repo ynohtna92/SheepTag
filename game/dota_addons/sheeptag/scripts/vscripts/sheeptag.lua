@@ -128,25 +128,13 @@ function SheepTag:OnHeroInGame(hero)
 
   if not self.initStuff then
 
-    --[[Timers:CreateTimer(2, function()
-      local msg = {
-        message = "SLIDE NINJA SLIDE",
-        duration = 4.0
-      }
-      FireGameEvent("show_center_message",msg)
-    end)]]
-
     Timers:CreateTimer(4, function()
       GameRules:SendCustomMessage("<b>Welcome to Sheep Tag!</b> [".. VERSION .. "]", 0, 0)
       GameRules:SendCustomMessage("Main Developer & Mapper: <font color='#FF1493'>A_Dizzle</font>", 0, 0)
       GameRules:SendCustomMessage("Co-Developers: <font color='#FF1493'>Myll</font> (Coder)", 0, 0)
-      GameRules:SendCustomMessage("WC3 Developers: <font color='#FF1493'>Chakra</font>, <font color='#FF1493'>XXXandBEER</font>, <font color='#FF1493'>GosuSheep</font> and lastly <font color='#FF1493'>Star[MD}</font>.", 0, 0)
+      GameRules:SendCustomMessage("WC3 Developers: <font color='#FF1493'>Chakra</font>, <font color='#FF1493'>XXXandBEER</font>, <font color='#FF1493'>GosuSheep</font> and lastly <font color='#FF1493'>Star[MD]</font>.", 0, 0)
       GameRules:SendCustomMessage("Special Thanks: <font color='#FF1493'>BMD, Noya & Jacklarnes</font> and everyone on IRC", 0, 0)
       GameRules:SendCustomMessage("Support this project on Github at https://github.com/ynohtna92/SheepTag", 0, 0)
-    end)
-
-    Timers:CreateTimer(5, function()
-      Say(nil, 'Level 1: The Weed Out', false)
     end)
 
     self.initStuff = true
@@ -186,6 +174,33 @@ function SheepTag:OnHeroInGame(hero)
   elseif heroName == "npc_dota_hero_lycan" then
     InitAbilities(hero)
     hero:SetHullRadius(33) -- A hull radius of 32 will make pathing do weird things.
+  end
+
+  -- Remove Wearables
+  if heroName == "npc_dota_hero_riki" or heroName == "npc_dota_hero_lycan" then
+    print('Removing Wearables')
+    hero.wearableNames = {} -- In here we'll store the wearable names to revert the change
+    hero.hiddenWearables = {} 
+    local wearable = hero:FirstMoveChild()
+    while wearable ~= nil do
+     print(wearable:GetClassname())     
+     if wearable:GetClassname() == "dota_item_wearable" then
+        local modelName = wearable:GetModelName()
+        if string.find(modelName, "invisiblebox") == nil then
+          -- Add the original model name to revert later
+          table.insert(hero.wearableNames,modelName)
+          --print("Hidden "..modelName.."")
+
+          -- Set model invisible
+          wearable:SetModel("models/development/invisiblebox.vmdl")
+          table.insert(hero.hiddenWearables,wearable)
+        end
+      end
+      wearable = wearable:NextMovePeer()
+      if model ~= nil then
+        --print("Next Peer:" .. wearable:GetModelName())
+      end
+    end
   end
 end
 
@@ -553,11 +568,6 @@ function SheepTag:InitSheepTag()
   --ListenToGameEvent('dota_player_killed', Dynamic_Wrap(SheepTag, 'OnPlayerKilled'), self)
   --ListenToGameEvent('player_team', Dynamic_Wrap(SheepTag, 'OnPlayerTeam'), self)
 
-
-
-  -- Commands can be registered for debugging purposes or as functions that can be called by the custom Scaleform UI
-  Convars:RegisterCommand( "command_example", Dynamic_Wrap(SheepTag, 'ExampleConsoleCommand'), "A console command example", 0 )
-
   Convars:RegisterCommand('player_say', function(...)
     local arg = {...}
     table.remove(arg,1)
@@ -641,6 +651,9 @@ function SheepTag:InitSheepTag()
   self.bSeenWaitForPlayers = false
 
   self.center = Entities:FindByName(nil, "spawn_center")
+
+  --SendToServerConsole( "dota_wearables_clientside 1" )
+  --SendToServerConsole( "dota_combine_models 0" )
 
   -- BH Snippet
   -- This can be called with an optional argument: nHalfMapLength (see readme)
@@ -822,19 +835,4 @@ function SheepTag:EndMessage()
   GameRules:SendCustomMessage("<font color='#7FFF00'>Remember to share your feedback on the Workshop Page</font>.", 0, 0)
   GameRules:SendCustomMessage("https://github.com/ynohtna92/SheepTag", 0, 0)
   GameRules:SendCustomMessage(" ", 0, 0)
-end
-
--- This is an example console command
-function SheepTag:ExampleConsoleCommand()
-  --print( '******* Example Console Command ***************' )
-  local cmdPlayer = Convars:GetCommandClient()
-  if cmdPlayer then
-    local playerID = cmdPlayer:GetPlayerID()
-    if playerID ~= nil and playerID ~= -1 then
-      -- Do something here for the player who called this command
-      PlayerResource:ReplaceHeroWith(playerID, "npc_dota_hero_viper", 1000, 1000)
-    end
-  end
-
-  --print( '*********************************************' )
 end
