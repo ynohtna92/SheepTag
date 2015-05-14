@@ -660,6 +660,20 @@ function SheepTag:InitSheepTag()
   BuildingHelper:Init() --2688
   --BuildingHelper:BlockRectangularArea(Vector(-192,-192,0), Vector(192,192,0))
 
+  Timers:CreateTimer(0, function()
+      -- we have to handle the sheep animation
+    for i,v in ipairs(HeroList:GetAllHeroes()) do
+      if v and v:GetUnitName() == 'npc_dota_hero_riki' then
+        if v:IsIdle() and v:HasModifier("modifier_sheep_run") then
+          v:RemoveModifierByName("modifier_sheep_run")
+        elseif not v:IsIdle() and not v:HasModifier("modifier_sheep_run") then
+          GlobalDummy.sheepRun:ApplyDataDrivenModifier(GlobalDummy, v, "modifier_sheep_run", {})
+        end
+      end
+    end
+    return 0.01
+  end)
+
   --print('[SHEEPTAG] Done loading SheepTag gamemode!\n\n')
 end
 
@@ -825,6 +839,15 @@ function SheepTag:OnSheepKilled( hero )
   local gold = hero:GetGold()
   local plyID = hero:GetPlayerID() 
   PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
+  local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero()
+  FindClearSpaceForUnit(newHero, Entities:FindByName(nil, "spawn_center"):GetAbsOrigin(), false)
+  newHero:SetGold(gold, false)
+end
+
+function SheepTag:OnWispKilled( hero )
+  local gold = hero:GetGold()
+  local plyID = hero:GetPlayerID() 
+  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", 0, 0)
   local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero()
   FindClearSpaceForUnit(newHero, Entities:FindByName(nil, "spawn_center"):GetAbsOrigin(), false)
   newHero:SetGold(gold, false)

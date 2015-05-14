@@ -4,6 +4,24 @@
 {
 	"Version"		"1"
 
+	"sheep_run"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"MaxLevel" 						"1"
+	
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		
+		"Modifiers"
+		{
+			"modifier_sheep_run"
+			{
+				"Passive"				"1"
+				"IsHidden"				"1"
+				"OverrideAnimation"     "ACT_DOTA_RUN"
+			}
+		}
+	}
+
 	"sheep_evade"
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
@@ -20,22 +38,6 @@
 				{
 					"MODIFIER_PROPERTY_EVASION_CONSTANT"		"100"
 				}
-			}
-		}
-	}
-
-	"shepherd_miss"
-	{
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-		"BaseClass"						"ability_datadriven"
-		"MaxLevel"						"1"
-
-		"Modifiers"
-		{
-			"modifier_shepherd_miss"
-			{
-				"Passive"                        "1"
-				"IsHidden"                       "1"
 				"ThinkInterval"  "0.03"
 				"OnIntervalThink"
 				{
@@ -53,21 +55,20 @@
 						{
 							"ApplyModifier"
 							{
-								"ModifierName"	"modifier_shepherd_miss_aura"
+								"ModifierName"	"modifier_shepherd_hit"
 								"Target" 		"TARGET"
 							}
 						}
 					}			
 				}
 			}
-
-			"modifier_shepherd_miss_aura"
+			"modifier_shepherd_hit"
 			{
 				"Duration"	"0.1"
 				"IsHidden"	"1"
 				"States"
 				{
-					"MODIFIER_STATE_EVADE_DISABLED"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_CANNOT_MISS"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -207,7 +208,7 @@
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
 		"MaxLevel"						"1"
-		"AbilityCooldown"				"20"
+		"AbilityCooldown"				"0"
 		"AbilityManaCost"				"125"		
 
 		// Ability Actions
@@ -507,7 +508,7 @@
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
 		"MaxLevel"						"1"
-		"AbilityCooldown"				"20"
+		"AbilityCooldown"				"12"
 		"AbilityManaCost"				"125"		
 
 		// Ability Actions
@@ -572,7 +573,12 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"duration"				"4"
-			}			
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"400"
+			}		
 		}
 
 		"precache"
