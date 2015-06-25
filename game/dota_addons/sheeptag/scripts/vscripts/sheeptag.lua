@@ -145,14 +145,30 @@ function SheepTag:OnHeroInGame(hero)
   end
 
   ShowGenericPopupToPlayer(hero.player, "#sheeptag_instructions_title", "#sheeptag_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
+ 
+  local id = hero:GetPlayerID()
+
+  local spawnid = id + 1
+  if spawnid > 5 then
+    spawnid = spawnid - 5
+  end 
+  print(id, spawnid)
 
   local heroName = hero:GetUnitName()
-  if heroName == "npc_dota_hero_wisp" then
+  if heroName == "npc_dota_hero_wisp" then -- Dead Sheep
     hero:SetAbilityPoints(0)
     hero:FindAbilityByName("sheep_spirit"):SetLevel(1)
-  elseif heroName == "npc_dota_hero_riki" then
+  elseif heroName == "npc_dota_hero_riki" then -- Sheep
+    Timers:CreateTimer(function()
+      local spawnpoint = SpawnPointsSheep[spawnid]
+      hero:SetAbsOrigin( spawnpoint:GetAbsOrigin() )
+      hero:SetForwardVector( spawnpoint:GetForwardVector() )
+    end)
+
     InitAbilities(hero)
-    
+
+    table.insert(Sheeps, hero)
+
     hero.farms = {}
     hero:SetHullRadius(10)
 
@@ -171,8 +187,17 @@ function SheepTag:OnHeroInGame(hero)
 
     local item = CreateItem("item_build_aura_farm", hero, hero)
     hero:AddItem(item)
-  elseif heroName == "npc_dota_hero_lycan" then
+  elseif heroName == "npc_dota_hero_lycan" then -- Shepherd
     InitAbilities(hero)
+
+    Timers:CreateTimer(function()
+      local spawnpoint = SpawnPointsShepherd[spawnid]
+      hero:SetAbsOrigin( spawnpoint:GetAbsOrigin() )
+      hero:SetForwardVector( spawnpoint:GetForwardVector() )
+    end)
+
+    table.insert(Shepherds, hero)
+
     hero:SetHullRadius(33) -- A hull radius of 32 will make pathing do weird things.
   end
 
@@ -280,15 +305,6 @@ function SheepTag:OnNPCSpawned(keys)
     npc:SetHullRadius(33)
     print('Golem Spawn')
   end
-end
-
--- An entity somewhere has been hurt.  This event fires very often with many units so don't do too many expensive
--- operations here
-function SheepTag:OnEntityHurt(keys)
-  ----print("[SHEEPTAG] Entity Hurt")
-  ----PrintTable(keys)
-  local entCause = EntIndexToHScript(keys.entindex_attacker)
-  local entVictim = EntIndexToHScript(keys.entindex_killed)
 end
 
 -- An item was picked up off the ground
@@ -501,7 +517,9 @@ function SheepTag:OnEntityKilled( keys )
   end
 
   if killedUnit:GetUnitName() == "npc_dota_hero_riki" then
-    --self:OnSheepKilled(killedUnit)
+    self:OnSheepKilled(killedUnit)
+  elseif killedUnit:GetUnitName() == "npc_dota_hero_wisp" then
+    self:OnWispKilled(killedUnit)
   end
   -- Put code here to handle when an entity gets killed
 end
@@ -551,7 +569,7 @@ function SheepTag:InitSheepTag()
   ListenToGameEvent('dota_rune_activated_server', Dynamic_Wrap(SheepTag, 'OnRuneActivated'), self)
   ListenToGameEvent('dota_player_take_tower_damage', Dynamic_Wrap(SheepTag, 'OnPlayerTakeTowerDamage'), self)
   ListenToGameEvent('tree_cut', Dynamic_Wrap(SheepTag, 'OnTreeCut'), self)
-  ListenToGameEvent('entity_hurt', Dynamic_Wrap(SheepTag, 'OnEntityHurt'), self)
+  --ListenToGameEvent('entity_hurt', Dynamic_Wrap(SheepTag, 'OnEntityHurt'), self)
   ListenToGameEvent('player_connect', Dynamic_Wrap(SheepTag, 'PlayerConnect'), self)
   ListenToGameEvent('dota_player_used_ability', Dynamic_Wrap(SheepTag, 'OnAbilityUsed'), self)
   ListenToGameEvent('game_rules_state_change', Dynamic_Wrap(SheepTag, 'OnGameRulesStateChange'), self)
@@ -652,6 +670,17 @@ function SheepTag:InitSheepTag()
 
   self.center = Entities:FindByName(nil, "spawn_center")
 
+  Sheeps = {}
+  Shepherds = {}
+
+  SpawnPointsSheep = {}
+  SpawnPointsShepherd = {}
+
+  for i=1,5 do
+    table.insert(SpawnPointsSheep, Entities:FindByName(nil, "sheep_start_" .. i))
+    table.insert(SpawnPointsShepherd, Entities:FindByName(nil, "shep_start_" .. i))
+  end
+
   --SendToServerConsole( "dota_wearables_clientside 1" )
   --SendToServerConsole( "dota_combine_models 0" )
 
@@ -660,6 +689,7 @@ function SheepTag:InitSheepTag()
   BuildingHelper:Init() --2688
   --BuildingHelper:BlockRectangularArea(Vector(-192,-192,0), Vector(192,192,0))
 
+  --[[
   Timers:CreateTimer(0, function()
       -- we have to handle the sheep animation
     for i,v in ipairs(HeroList:GetAllHeroes()) do
@@ -673,6 +703,7 @@ function SheepTag:InitSheepTag()
     end
     return 0.01
   end)
+  ]]
 
   --print('[SHEEPTAG] Done loading SheepTag gamemode!\n\n')
 end
@@ -710,6 +741,7 @@ function SheepTag:CaptureSheepTag()
     --mode:SetFogOfWarDisabled( DISABLE_FOG_OF_WAR_ENTIRELY )
     mode:SetGoldSoundDisabled( DISABLE_GOLD_SOUNDS )
     mode:SetRemoveIllusionsOnDeath( REMOVE_ILLUSIONS_ON_DEATH )
+    mode:SetLoseGoldOnDeath( false )
 
     self:OnFirstPlayerLoaded()
   end
@@ -741,7 +773,7 @@ function SheepTag:OnConnectFull(keys)
   local playerID = ply:GetPlayerID()
 
   -- Update the user ID table with this user
-  self.vUserIds[keys.userid] = ply
+  table.insert(self.vUserIds, ply)
 
   -- Update the Steam ID table
   self.vSteamIds[PlayerResource:GetSteamAccountID(playerID)] = ply
@@ -826,7 +858,11 @@ function SheepTag:PlayerSay(keys)
   end
 
   if args[1] == "-kill" then
-    self:OnSheepKilled(hero)
+    hero:ForceKill(false)
+  end
+
+  if string.find(keys.text, "^-time") then
+    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 12, timerWarning = 10, timerEnd = true, timerPosition = 0})
   end
   --[[
   if string.find(keys.text, "^-reset") and plyID == 0 then
@@ -835,22 +871,71 @@ function SheepTag:PlayerSay(keys)
   ]]
 end
 
+function SheepTag:CheckRoundEnd( )
+  local bEnd = true
+  if #Sheeps > 0 then
+    for i,v in ipairs(Sheeps) do
+      if not v:IsNull() and v:IsAlive() then
+        bEnd = false
+      end
+    end
+  end
+
+  if bEnd then
+    self:EndRound(0)
+  end
+end
+
+function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
+  if sheeporwolf then -- sheep win
+
+  else -- wolves win
+
+  end
+  self:ClearLevel()
+end
+
+function SheepTag:ClearLevel() -- Cleanup
+
+end
+
+function SheepTag:ResetRound()
+
+end
+
 function SheepTag:OnSheepKilled( hero )
   local gold = hero:GetGold()
-  local plyID = hero:GetPlayerID() 
+  local plyID = hero:GetPlayerID()
+  local oldHero = PlayerResource:GetSelectedHeroEntity( plyID )
   PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
-  local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero()
+  local index = GetIndex(Sheeps, oldHero)
+  if index ~= -1 then
+    table.remove(Sheeps, index)
+  end
+  UTIL_Remove( oldHero )
+  local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero() 
   FindClearSpaceForUnit(newHero, Entities:FindByName(nil, "spawn_center"):GetAbsOrigin(), false)
-  newHero:SetGold(gold, false)
+  newHero:SetGold( gold, false )
+  self:CheckRoundEnd()
 end
 
 function SheepTag:OnWispKilled( hero )
   local gold = hero:GetGold()
-  local plyID = hero:GetPlayerID() 
+  local plyID = hero:GetPlayerID()
+  local oldHero = PlayerResource:GetSelectedHeroEntity( plyID )
   PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", 0, 0)
   local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero()
-  FindClearSpaceForUnit(newHero, Entities:FindByName(nil, "spawn_center"):GetAbsOrigin(), false)
-  newHero:SetGold(gold, false)
+  local id = plyID + 1
+  if plyID > 5 then
+    id = plyID - 5
+  end
+  local spawn = SpawnPointsSheep[id]
+  FindClearSpaceForUnit( newHero, spawn:GetAbsOrigin(), false )
+  newHero:SetForwardVector( spawn:GetForwardVector() )
+  newHero:SetGold( gold, false )
+  Timers:CreateTimer(2, function()
+    UTIL_Remove( oldHero )    
+  end)
 end
 
 function SheepTag:EndMessage()

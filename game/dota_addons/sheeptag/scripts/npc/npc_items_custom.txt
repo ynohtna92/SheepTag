@@ -472,8 +472,8 @@
 			{	
 				"IsHidden"			"1"
 				"Passive"			"1"
-				"EffectName"			"particles/items2_fx/radiance_owner.vpcf"
-				"EffectAttachType"		"follow_origin"
+				"EffectName"		"particles/items2_fx/radiance_owner.vpcf"
+				"EffectAttachType"	"follow_origin"
 				"Aura"          	"modifier_cloak_of_flames_burn"
 				"Aura_Radius"   	"%radius"
 				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
@@ -483,8 +483,22 @@
 			"modifier_cloak_of_flames_burn"
 			{
 				"IsDebuff"				"1"
-				"EffectName"			"particles/items2_fx/radiance.vpcf"
-				"EffectAttachType"		"follow_origin"
+
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"Target"	"TARGET"
+						"EffectName"			"particles/items2_fx/radiance.vpcf"
+						"EffectAttachType"		"follow_origin"
+						"ControlPointEntities"
+						{
+							"TARGET" "attach_hitloc"
+							"CASTER" "attach_hitloc"
+						}
+					}
+				}
+
 				"ThinkInterval" 		"%interval"
                 "OnIntervalThink"
                 {
@@ -809,13 +823,19 @@
 				"Target"				"CASTER"
 			}
 
-			//TODO Fix particles on this item
 			"FireEffect"
 			{
-				"EffectName"        "particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf"
-				"EffectAttachType"  "follow_origin"
 				"Target"            "POINT"
-			}	
+				"EffectName"        "particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf"
+				"EffectAttachType"  "start_at_customorigin"
+				"ControlPoints"
+				{
+					"00"	"0 0 500"
+					"01"	"0 0 0"
+					"02"	"1 0 0"
+				}
+			}
+
 			"DelayedAction"
 			{
 				"Delay"     "%delay"
@@ -874,6 +894,7 @@
 		"precache"
 		{
 			"particle"	"particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf"
+			"particle"	"particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf"
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		}
 	}

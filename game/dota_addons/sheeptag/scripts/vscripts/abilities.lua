@@ -226,7 +226,10 @@ function remove_farms( cast , bool, exclude, farm )
 end
 
 function save_sheep( keys )
+	if keys.target:GetUnitName() == "npc_dota_hero_wisp" then
 	print("Sheep Saved!")
+		keys.target:ForceKill(false)
+	end
 end
 
 function make_invis( keys )
@@ -422,6 +425,14 @@ end
 
 function sheep_locator( keys )
 	print('Locate Sheeps')
+	local caster = keys.caster
+	if #Sheeps > 0 then
+		for i,v in ipairs(Sheeps) do
+			if not v:IsNull() and v:GetUnitName() == "npc_dota_hero_riki" and v:IsAlive() then
+				MinimapEvent(caster:GetTeamNumber(), v, v:GetAbsOrigin()[1], v:GetAbsOrigin()[2], DOTA_MINIMAP_EVENT_HINT_LOCATION, 2)
+			end
+		end
+	end
 end
 
 function get_golem_summon_point ( keys )

@@ -58,6 +58,7 @@ function Precache( context )
 		PrecacheResource( "particle", "particles/generic_gameplay/rune_haste_owner.vpcf", context )
 		PrecacheResource( "particle", "particles/items2_fx/magic_wand.vpcf", context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf", context )
+		PrecacheResource( "particle", "particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf", context )
 		PrecacheResource( "particle", "particles/items2_fx/orchid_pop.vpcf", context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_jakiro/jakiro_liquid_fire_debuff.vpcf", context )
 
