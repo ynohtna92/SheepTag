@@ -306,6 +306,13 @@
 						"ModifierName"	"modifier_sentry_ward"
 						"Target" 		"TARGET"
 					}
+
+					"RunScript"
+					{
+						"Target"		"TARGET"
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"remove_player_control"
+					}
 				}
 			}
 		}
@@ -418,61 +425,9 @@
 			{
 				"ScriptFile"	"scripts/vscripts/abilities.lua"
 				"Function"		"mirror_image_start"
+				"duration"		"%duration"
+				"delay"			"%delay"
 			}
-			"DelayedAction"
-			{
-				"Delay"		"%delay"
-				"Action"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"scripts/vscripts/abilities.lua"
-						"Function"		"mirror_image"
-						"duration"		"%duration"
-					}
-				}
-			}
-			"SpawnUnit"
-			{
-				"UnitName"		"golem_datadriven"
-				"Target"
-				{
-					"Center"	"CASTER"
-					"ScriptSelectPoints"
-					{
-						"ScriptFile"	"scripts/vscripts/abilities.lua"
-						"Function"		"get_mirrorimage_summon_points"
-						"Target"	"CASTER"
-						"Count"	"1"
-					}
-				}
-				"Duration"		"%duration"
-				"UnitCount"		"1"
-				"GrantsGold"	"0"
-				"GrantsXP"		"0"
-				"SpawnRadius"	"34"
-				"OnSpawn"
-				{
-					"RunScript"
-					{
-						"ScriptFile"	"scripts/vscripts/abilities.lua"
-						"Function"		"set_unit_forward"
-					}
-
-					"FireSound"
-					{
-						"Target" "TARGET"
-						"EffectName" "General.Illusion.Create"
-					}
-
-					"FireEffect"
-					{
-						"Target"			"TARGET"
-						"EffectName"		"particles/generic_gameplay/illusion_created.vpcf"
-						"EffectAttachType" 	"follow_origin"
-					}
-				}
-			}	
 		}
 		
 		// Special	
@@ -487,7 +442,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"delay"				"1"
+				"delay"					"1"
 			}			
 		}
 
@@ -495,7 +450,8 @@
 		{
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_phantom_lancer.vsndevts"
 			"particle"	"particles/generic_gameplay/illusion_created.vpcf"
-			"particle" "particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf"
+			"particle"	"particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf"
+			"particle"	"particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_illlmove.vpcf"
 		}
 	}
 
@@ -1041,7 +997,7 @@
 
 			"modifier_truesight_reveal"
 			{
-				"IsHidden"			"1"
+				//"IsHidden"			"1"
 				"Duration"			"0.1"	//The True Sight effect lingers for 0.1 seconds.
 				"States"
 				{

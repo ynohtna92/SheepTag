@@ -436,6 +436,12 @@
 				"Target" "UNIT"
 				"EffectName" "DOTA_Item.MagicWand.Activate"
 			}
+			"FireEffect"
+			{
+				"Target"			"TARGET"
+				"EffectName"		"particles/items3_fx/mango_active.vpcf"
+				"EffectAttachType"	"follow_origin"
+			}
 			"SpendCharge"
 			{}
 		}
@@ -444,6 +450,7 @@
 		{
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_items.vsndevts"
 			"particle"	"particles/items2_fx/magic_wand.vpcf"
+			"particle"	"particles/items3_fx/mango_active.vpcf"
 		}
 	}
     
@@ -823,17 +830,11 @@
 				"Target"				"CASTER"
 			}
 
-			"FireEffect"
+			"RunScript"
 			{
-				"Target"            "POINT"
-				"EffectName"        "particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf"
-				"EffectAttachType"  "start_at_customorigin"
-				"ControlPoints"
-				{
-					"00"	"0 0 500"
-					"01"	"0 0 0"
-					"02"	"1 0 0"
-				}
+				"Target"		"POINT"
+				"ScriptFile"	"scripts/vscripts/abilities.lua"
+				"Function"		"bomber"
 			}
 
 			"DelayedAction"
@@ -893,7 +894,6 @@
 
 		"precache"
 		{
-			"particle"	"particles/units/heroes/hero_warlock/warlock_rain_of_chaos_start.vpcf"
 			"particle"	"particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf"
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		}

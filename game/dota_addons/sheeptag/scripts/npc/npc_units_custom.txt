@@ -104,7 +104,7 @@
 		//"IdleSoundLoop"				"Hero_WarlockGolem.Spawn_Loop"
 		"IsSummoned"				"1"
 		"IsAncient"					"1"
-		"ModelScale"					".70"
+		"ModelScale"				".70"
 		//"ConsideredHero"			"1"
 		"UnitLabel"			"golem"
 	
@@ -118,7 +118,7 @@
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"6"			// Physical protection.
-		"MagicalResistance"				"33"		// Magical protection.  // this should be 33, switch it back once we implement Resistant Skin
+		"MagicalResistance"			"33"		// Magical protection.  // this should be 33, switch it back once we implement Resistant Skin
 
 		// Attack
 		//----------------------------------------------------------------
@@ -128,6 +128,7 @@
 		"AttackRate"				"0.6"		// Speed of attack.
 		"AttackAnimationPoint"		"0.26"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"150"		// Range within a target can be acquired.
+		"AttackRange"				"150"		// Range within a target can be attacked.
 		"ProjectileModel"			""			// Particle system model for projectile.
 		"ProjectileSpeed"			"0"			// Speed of projectile.		   
 

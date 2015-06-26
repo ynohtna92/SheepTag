@@ -187,7 +187,7 @@ function SheepTag:OnHeroInGame(hero)
 
     local item = CreateItem("item_build_aura_farm", hero, hero)
     hero:AddItem(item)
-  elseif heroName == "npc_dota_hero_lycan" then -- Shepherd
+  elseif heroName == "npc_dota_hero_lycan" and id ~= -1 then -- Shepherd
     InitAbilities(hero)
 
     Timers:CreateTimer(function()
@@ -198,7 +198,7 @@ function SheepTag:OnHeroInGame(hero)
 
     table.insert(Shepherds, hero)
 
-    hero:SetHullRadius(33) -- A hull radius of 32 will make pathing do weird things.
+    hero:SetHullRadius(32) -- A hull radius of 32 will make pathing do weird things.
   end
 
   -- Remove Wearables
@@ -668,6 +668,8 @@ function SheepTag:InitSheepTag()
 
   self.bSeenWaitForPlayers = false
 
+  self.nGameRunning = false
+
   self.center = Entities:FindByName(nil, "spawn_center")
 
   Sheeps = {}
@@ -859,6 +861,10 @@ function SheepTag:PlayerSay(keys)
 
   if args[1] == "-kill" then
     hero:ForceKill(false)
+  end
+
+  if args[1] == "-unstuck" then
+    FindClearSpaceForUnit(hero, hero:GetAbsOrigin(), false)
   end
 
   if string.find(keys.text, "^-time") then

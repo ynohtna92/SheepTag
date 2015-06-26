@@ -304,7 +304,9 @@ end
 
 function mirror_image_start ( keys )
 	print('Mirror Image Cast')
+	keys.caster:Stop()
 	keys.caster:AddNoDraw()
+
 	local caster = keys.caster
 	local mirrorimage = caster.mirrorimage or {}
 	for _,unit in pairs(mirrorimage) do	
@@ -314,13 +316,6 @@ function mirror_image_start ( keys )
 	end
 	-- Reset table
 	caster.mirrorimage = {}
-end
-
-function mirror_image ( keys )
-	print('Mirror Image Finish')
-	local illusion_duration = keys.duration
-	local illusion_outgoing_damage = -100
-	local illusion_incoming_damage = 0
 
 	local caster = keys.caster
 	local player_id = caster:GetPlayerID()
@@ -342,6 +337,29 @@ function mirror_image ( keys )
 		rand2 = 2
 	end
 	print(rand)
+
+	for i,v in ipairs(positions) do
+		local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_illlmove.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster)
+		ParticleManager:SetParticleControl( particle, 0, caster:GetAbsOrigin() )
+		ParticleManager:SetParticleControl( particle, 1, v )
+	end
+
+	Timers:CreateTimer( keys.delay, function()
+		mirror_image( keys, positions, rand, rand2)
+	end)
+end
+
+function mirror_image ( keys, positions, rand, rand2)
+	print('Mirror Image Finish')
+	local illusion_duration = keys.duration
+	local illusion_outgoing_damage = -100
+	local illusion_incoming_damage = 0
+
+	local caster = keys.caster
+	local player_id = caster:GetPlayerID()
+	local team = caster:GetTeam()
+	local fv = caster:GetForwardVector()
+	local origin = caster:GetAbsOrigin()
 
 	--[[ ============================================================================================================
 		Author: Rook, with help from Noya
@@ -397,17 +415,31 @@ function mirror_image ( keys )
 	illusion:SetHealth(caster:GetHealth())
 	illusion:SetMana(caster:GetMana())
 	illusion:SetForwardVector(fv)
-	FindClearSpaceForUnit(illusion, positions[rand], false)
+	FindClearSpaceForUnit(illusion, positions[rand], true)
 
 	-- Add to caster to find later
 	table.insert(caster.mirrorimage, illusion)
 
-	caster:SetAbsOrigin(positions[rand2])
-	FindClearSpaceForUnit(caster, positions[rand2], false)
-	Timers:CreateTimer(0.05, function()
-		caster:RemoveNoDraw()
-	end)
+	--caster:SetAbsOrigin(positions[rand2])
 	caster:Stop()
+	FindClearSpaceForUnit(caster, positions[rand2], true)
+	caster:RemoveNoDraw()
+
+
+	print(illusion:IsIllusion())
+end
+
+function place_sentry ( keys )
+	print('Sentry Placed')
+	local point = keys.target_points[1]
+	local caster = keys.caster
+	local team = caster:GetTeamNumber()
+	CreateUnitByName("sentry_ward_datadriven", point, true, nil, nil, team)
+end
+
+function remove_player_control ( keys )
+	local target = keys.target
+	target:SetControllableByPlayer(-1, false)
 end
 
 -- ITEMS
@@ -417,9 +449,11 @@ end
 
 function potion_of_mana( keys )
 	print('Potion of Mana')
+	--[[
 	local particle = ParticleManager:CreateParticle("particles/items2_fx/magic_wand.vpcf", PATTACH_ABSORIGIN_FOLLOW, keys.target)
 	ParticleManager:SetParticleControl( particle, 0, keys.target:GetAbsOrigin() )
 	ParticleManager:SetParticleControl( particle, 1, Vector(50,0,0) )
+	]]
 	keys.target:SetMana(keys.target:GetMaxMana())
 end
 
@@ -451,6 +485,16 @@ function set_unit_forward( keys )
 	local fv = caster:GetForwardVector()
 	local origin = caster:GetAbsOrigin()
 	target:SetForwardVector(fv)
+end
+
+function bomber( keys )
+	local target = keys.target_points[1]
+	local caster = keys.caster
+
+	local bomber_particle_effect = ParticleManager:CreateParticle("particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf", PATTACH_ABSORIGIN, keys.caster)
+	ParticleManager:SetParticleControl(bomber_particle_effect, 0, Vector(target[1], target[2], 1500 + target[3] - 128))
+	ParticleManager:SetParticleControl(bomber_particle_effect, 1, Vector(target[1], target[2], -1800 + target[3] - 128))
+	ParticleManager:SetParticleControl(bomber_particle_effect, 2, Vector(0.6, 0, 0))
 end
 
 -- Modifiers
