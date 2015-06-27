@@ -1462,6 +1462,7 @@
 			{
 				"IsHidden"			"1"
 				"Duration"			"0.1"	//The True Sight effect lingers for 0.1 seconds.
+				"Priority"			"MODIFIER_PRIORITY_ULTRA"
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"	"MODIFIER_STATE_VALUE_DISABLED"
@@ -1541,13 +1542,14 @@
 				"IsHidden"			"1"
 				"Duration"			"%duration"
 				"Aura"          	"modifier_crystal_ball_vision"
-				"Aura_Radius"   	"%reveal_radius"
+				"Aura_Radius"   	"%radius"
 				"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 				"Aura_Types"    	"DOTA_UNIT_TARGET_ALL"
 			}
 
 			"modifier_crystal_ball_vision"
 			{
+				"Priority"	"MODIFIER_PRIORITY_ULTRA"
 				"States"
 				{
 					"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_DISABLED"
