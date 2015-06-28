@@ -298,7 +298,7 @@ function far_sight( event )
 
 	-- Vision
 	if level == 1 then
-		ability:CreateVisibilityNode(target + Vector(0,0,1024), reveal_radius, duration)
+		AddFOWViewer(caster:GetTeamNumber(), target, reveal_radius, duration, false)
     end
 end
 
