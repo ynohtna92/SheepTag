@@ -19,6 +19,7 @@ SHEPHERD_GOLD_PER_TICK = 20
 SHEPHERD_SPAWN = 10
 SHEEP_GOLD_TICK_TIME = 1
 SHEEP_GOLD_PER_TICK = 1
+SHEEP_GOLD_BOUNTY = 30
 
 ENABLE_HERO_RESPAWN = true              -- Should the heroes automatically respawn on a timer or stay dead until manually respawned
 UNIVERSAL_SHOP_MODE = false             -- Should the main shop contain Secret Shop items as well as regular items
@@ -46,7 +47,7 @@ BUYBACK_ENABLED = false                 -- Should we allow people to buyback whe
 
 DISABLE_FOG_OF_WAR_ENTIRELY = true      -- Should we disable fog of war entirely for both teams?
 --USE_STANDARD_DOTA_BOT_THINKING = false  -- Should we have bots act like they would in Dota? (This requires 3 lanes, normal items, etc)
-USE_STANDARD_HERO_GOLD_BOUNTY = true    -- Should we give gold for hero kills the same as in Dota, or allow those values to be changed?
+USE_STANDARD_HERO_GOLD_BOUNTY = false    -- Should we give gold for hero kills the same as in Dota, or allow those values to be changed?
 
 USE_CUSTOM_TOP_BAR_VALUES = true        -- Should we do customized top bar values or use the default kill count per team?
 TOP_BAR_VISIBLE = true                  -- Should we display the top bar score/count at all?
@@ -62,6 +63,8 @@ KILLS_TO_END_GAME_FOR_TEAM = 50         -- How many kills for a team should sign
 USE_CUSTOM_HERO_LEVELS = true           -- Should we allow heroes to have custom levels?
 MAX_LEVEL = 1                           -- What level should we let heroes get to?
 USE_CUSTOM_XP_VALUES = true             -- Should we use custom XP values to level up heroes, or the default Dota numbers?
+
+FORCE_PICKED_HERO = "npc_dota_hero_riki"  -- What hero should we force all players to spawn as? (e.g. "npc_dota_hero_axe").  Use nil to allow players to pick their own hero.
 
 -- Fill this table up with the required XP per level if you want to change it
 XP_PER_LEVEL_TABLE = {}
@@ -116,6 +119,21 @@ function SheepTag:OnAllPlayersLoaded()
 --print("[SHEEPTAG] All Players have loaded into the game")
 end
 
+-- Store teams, players and heroes
+function SheepTag:HeroInit( hero )
+  local pID = hero:GetPlayerID()
+  if self.vPlayers[pID] ~= nil then
+    return
+  end
+  self.vPlayers[pID] = pID
+  --print('TeamNumber: '..hero:GetTeamNumber())
+  if hero:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+    table.insert(self.vRadiant, pID)
+  elseif hero:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+    table.insert(self.vDire, pID)
+  end
+end
+
 --[[
   This function is called once and only once for every player when they spawn into the game for the first time.  It is also called
   if the player's hero is replaced with a new hero for any reason.  This function is useful for initializing heroes, such as adding
@@ -127,13 +145,13 @@ function SheepTag:OnHeroInGame(hero)
   --print("[SHEEPTAG] Hero spawned in game for first time -- " .. hero:GetUnitName())
 
   if not self.initStuff then
-
+    self:RevealMap(30)
     Timers:CreateTimer(4, function()
       GameRules:SendCustomMessage("<b>Welcome to Sheep Tag!</b> [".. VERSION .. "]", 0, 0)
       GameRules:SendCustomMessage("Main Developer & Mapper: <font color='#FF1493'>A_Dizzle</font>", 0, 0)
       GameRules:SendCustomMessage("Co-Developers: <font color='#FF1493'>Myll</font> (Coder)", 0, 0)
       GameRules:SendCustomMessage("WC3 Developers: <font color='#FF1493'>Chakra</font>, <font color='#FF1493'>XXXandBEER</font>, <font color='#FF1493'>GosuSheep</font> and lastly <font color='#FF1493'>Star[MD]</font>.", 0, 0)
-      GameRules:SendCustomMessage("Special Thanks: <font color='#FF1493'>BMD, Noya & Jacklarnes</font> and everyone on IRC", 0, 0)
+      GameRules:SendCustomMessage("Special Thanks: <font color='#FF1493'>BMD</font>, <font color='#FF1493'>Noya</font> & <font color='#FF1493'>Jacklarnes</font> and everyone on IRC", 0, 0)
       GameRules:SendCustomMessage("Support this project on Github at https://github.com/ynohtna92/SheepTag", 0, 0)
     end)
 
@@ -152,17 +170,25 @@ function SheepTag:OnHeroInGame(hero)
   if spawnid > 5 then
     spawnid = spawnid - 5
   end 
-  print(id, spawnid)
+ -- print(id, spawnid)
+
+  PlayerResource:SetCameraTarget(id, hero)
 
   local heroName = hero:GetUnitName()
   if heroName == "npc_dota_hero_wisp" then -- Dead Sheep
     hero:SetAbilityPoints(0)
     hero:FindAbilityByName("sheep_spirit"):SetLevel(1)
+    Timers:CreateTimer(0.1,function()
+      PlayerResource:SetCameraTarget(id, nil)
+    end)
   elseif heroName == "npc_dota_hero_riki" then -- Sheep
     Timers:CreateTimer(function()
       local spawnpoint = SpawnPointsSheep[spawnid]
       hero:SetAbsOrigin( spawnpoint:GetAbsOrigin() )
       hero:SetForwardVector( spawnpoint:GetForwardVector() )
+      Timers:CreateTimer(0.1,function()
+        PlayerResource:SetCameraTarget(id, nil)
+      end)
     end)
 
     InitAbilities(hero)
@@ -174,6 +200,8 @@ function SheepTag:OnHeroInGame(hero)
 
     -- This line for example will set the starting gold of every hero to 500 unreliable gold
     hero:SetGold(500, false)
+    hero:SetMinimumGoldBounty( SHEEP_GOLD_BOUNTY )
+    hero:SetMaximumGoldBounty( SHEEP_GOLD_BOUNTY )
 
     -- These lines will create an item and add it to the player, effectively ensuring they start with the item
     local item = CreateItem("item_delete_last_farm", hero, hero)
@@ -194,6 +222,9 @@ function SheepTag:OnHeroInGame(hero)
       local spawnpoint = SpawnPointsShepherd[spawnid]
       hero:SetAbsOrigin( spawnpoint:GetAbsOrigin() )
       hero:SetForwardVector( spawnpoint:GetForwardVector() )
+      Timers:CreateTimer(0.1,function()
+        PlayerResource:SetCameraTarget(id, nil)
+      end)
     end)
 
     table.insert(Shepherds, hero)
@@ -203,12 +234,12 @@ function SheepTag:OnHeroInGame(hero)
 
   -- Remove Wearables
   if heroName == "npc_dota_hero_riki" or heroName == "npc_dota_hero_lycan" then
-    print('Removing Wearables')
+    --print('Removing Wearables')
     hero.wearableNames = {} -- In here we'll store the wearable names to revert the change
     hero.hiddenWearables = {} 
     local wearable = hero:FirstMoveChild()
     while wearable ~= nil do
-     print(wearable:GetClassname())     
+     --print(wearable:GetClassname())     
      if wearable:GetClassname() == "dota_item_wearable" then
         local modelName = wearable:GetModelName()
         if string.find(modelName, "invisiblebox") == nil then
@@ -235,17 +266,14 @@ end
   is useful for starting any game logic timers/thinkers, beginning the first round, etc.
 ]]
 function SheepTag:OnGameInProgress()
-  --print("[SHEEPTAG] The game has officially begun")
-
-  Timers:CreateTimer(30, -- Start this timer 30 game-time seconds later
-    function()
-      --print("This function is called 30 seconds after the game begins, and every 30 seconds thereafter")
-      return 30.0 -- Rerun this timer every 30 game-time seconds
+  print("[SHEEPTAG] The game has officially begun")
+  self:ClearLevel()
+  self:HideAllHeroes()
+  Timers:CreateTimer(2,function()
+    self:ResetRound()
+    self:StartRound()
   end)
 end
-
-
-
 
 -- Cleanup a player when they leave
 function SheepTag:OnDisconnect(keys)
@@ -299,12 +327,14 @@ function SheepTag:OnNPCSpawned(keys)
   if npc:IsRealHero() and npc.bFirstSpawned == nil then
     npc.bFirstSpawned = true
     SheepTag:OnHeroInGame(npc)
+    SheepTag:HeroInit(npc)
   end 
 
   if npc:GetUnitName() == "golem_datadriven" then
     npc:SetHullRadius(33)
     print('Golem Spawn')
   end
+  --print(npc:GetClassname())
 end
 
 -- An item was picked up off the ground
@@ -494,28 +524,6 @@ function SheepTag:OnEntityKilled( keys )
     killerEntity = EntIndexToHScript( keys.entindex_attacker )
   end
 
-  if killedUnit:IsRealHero() then
-    --print ("KILLEDKILLER: " .. killedUnit:GetName() .. " -- " .. killerEntity:GetName())
-    if killedUnit:GetTeam() == DOTA_TEAM_BADGUYS and killerEntity:GetTeam() == DOTA_TEAM_GOODGUYS then
-      self.nRadiantKills = self.nRadiantKills + 1
-      if END_GAME_ON_KILLS and self.nRadiantKills >= KILLS_TO_END_GAME_FOR_TEAM then
-        GameRules:SetSafeToLeave( true )
-        GameRules:SetGameWinner( DOTA_TEAM_GOODGUYS )
-      end
-    elseif killedUnit:GetTeam() == DOTA_TEAM_GOODGUYS and killerEntity:GetTeam() == DOTA_TEAM_BADGUYS then
-      self.nDireKills = self.nDireKills + 1
-      if END_GAME_ON_KILLS and self.nDireKills >= KILLS_TO_END_GAME_FOR_TEAM then
-        GameRules:SetSafeToLeave( true )
-        GameRules:SetGameWinner( DOTA_TEAM_BADGUYS )
-      end
-    end
-
-    if SHOW_KILLS_ON_TOPBAR then
-      GameRules:GetGameModeEntity():SetTopBarTeamValue ( DOTA_TEAM_BADGUYS, self.nDireKills )
-      GameRules:GetGameModeEntity():SetTopBarTeamValue ( DOTA_TEAM_GOODGUYS, self.nRadiantKills )
-    end
-  end
-
   if killedUnit:GetUnitName() == "npc_dota_hero_riki" then
     self:OnSheepKilled(killedUnit)
   elseif killedUnit:GetUnitName() == "npc_dota_hero_wisp" then
@@ -543,7 +551,7 @@ function SheepTag:InitSheepTag()
   GameRules:SetGoldPerTick(GOLD_PER_TICK)
   GameRules:SetGoldTickTime(GOLD_TICK_TIME)
   GameRules:SetRuneSpawnTime(RUNE_SPAWN_TIME)
-  GameRules:SetUseBaseGoldBountyOnHeroes(USE_STANDARD_HERO_GOLD_BOUNTY)
+  GameRules:SetUseBaseGoldBountyOnHeroes( true )
   GameRules:SetHeroMinimapIconScale( MINIMAP_ICON_SIZE )
   GameRules:SetCreepMinimapIconScale( MINIMAP_CREEP_ICON_SIZE )
   GameRules:SetRuneMinimapIconScale( MINIMAP_RUNE_ICON_SIZE )
@@ -660,6 +668,7 @@ function SheepTag:InitSheepTag()
   self.vBroadcasters = {}
 
   self.vPlayers = {}
+  self.nPlayerCount = 0
   self.vRadiant = {}
   self.vDire = {}
 
@@ -671,6 +680,37 @@ function SheepTag:InitSheepTag()
   self.nGameRunning = false
 
   self.center = Entities:FindByName(nil, "spawn_center")
+
+  self.roundTimer = nil
+
+  self.RadiantSheep = true
+
+  self.fowReveal = {}
+  self.fowReveal[1] = { 0, 0 }
+  self.fowReveal[2] = { 3000, 0 }
+  self.fowReveal[3] = { -3000, 0 }
+  self.fowReveal[4] = { 0, 3000 }
+  self.fowReveal[5] = { 0, -3000 }
+  self.fowReveal[6] = { 3000, 3000 }
+  self.fowReveal[7] = { -3000, -3000 }
+  self.fowReveal[8] = { -3000, 3000 }
+  self.fowReveal[9] = { 3000, -3000 }
+  self.fowReveal[10] = { 6000, 0 }
+  self.fowReveal[11] = { -6000, 0 }
+  self.fowReveal[12] = { 0, 6000 }
+  self.fowReveal[13] = { 0, -6000 }
+  self.fowReveal[14] = { 6000, 6000 }
+  self.fowReveal[15] = { -6000, -6000 }
+  self.fowReveal[16] = { -6000, 6000 }
+  self.fowReveal[17] = { 6000, -6000 }
+  self.fowReveal[18] = { 3000, 6000 }
+  self.fowReveal[19] = { 3000, -6000 }
+  self.fowReveal[20] = { -3000, 6000 }
+  self.fowReveal[21] = { -3000, -6000 }
+  self.fowReveal[22] = { 6000, 3000 }
+  self.fowReveal[23] = { 6000, -3000 }
+  self.fowReveal[24] = { -6000, 3000 }
+  self.fowReveal[25] = { -6000, -3000 }
 
   Sheeps = {}
   Shepherds = {}
@@ -725,6 +765,7 @@ function SheepTag:CaptureSheepTag()
     --mode:SetRecommendedItemsDisabled( RECOMMENDED_BUILDS_DISABLED ) BROKEN use entry below
     mode:SetHUDVisible( DOTA_HUD_VISIBILITY_SHOP_SUGGESTEDITEMS, false ) 
     --mode:SetHUDVisible(8, false)
+    mode:SetTopBarTeamValuesOverride( USE_CUSTOM_TOP_BAR_VALUES )
 
     mode:SetRecommendedItemsDisabled( RECOMMENDED_BUILDS_DISABLED )
     mode:SetCameraDistanceOverride( CAMERA_DISTANCE_OVERRIDE )
@@ -736,6 +777,9 @@ function SheepTag:CaptureSheepTag()
     mode:SetUseCustomHeroLevels ( USE_CUSTOM_HERO_LEVELS )
     mode:SetCustomHeroMaxLevel ( MAX_LEVEL )
     mode:SetCustomXPRequiredToReachNextLevel( XP_PER_LEVEL_TABLE )
+    if FORCE_PICKED_HERO ~= nil then
+      mode:SetCustomGameForceHero( FORCE_PICKED_HERO )
+    end
 
     --mode:SetBotThinkingEnabled( USE_STANDARD_DOTA_BOT_THINKING )
     mode:SetTowerBackdoorProtectionEnabled( ENABLE_TOWER_BACKDOOR_PROTECTION )
@@ -870,11 +914,42 @@ function SheepTag:PlayerSay(keys)
   if string.find(keys.text, "^-time") then
     FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 12, timerWarning = 10, timerEnd = true, timerPosition = 0})
   end
+
+  if args[1] == "-testend" then
+    self:EndRound(true)
+  end
+
+  if args[1] == "-teststart" then
+    self:StartRound()
+  end
   --[[
   if string.find(keys.text, "^-reset") and plyID == 0 then
     GameMode:ResetGame()
   end
   ]]
+end
+
+function SheepTag:StartRound( )
+  FireGameEvent('cgm_timer_display', { timerMsg = "Wolf Spawn", timerSeconds = 15, timerWarning = 5, timerEnd = false, timerPosition = 0})
+  print(#Shepherds)
+  for _,v in ipairs(Shepherds) do
+    v:AddNoDraw()
+    v:AddAbility('shepherd_pregame')
+    v:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+  end
+  Timers:CreateTimer(15, function()
+    for _,v in ipairs(Shepherds) do
+      v:RemoveNoDraw()
+      v:RemoveAbility('shepherd_pregame')
+      v:RemoveModifierByName('modifier_shepherd_pregame')
+    end
+  end)
+  Timers:CreateTimer(17, function()
+    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 600, timerWarning = 30, timerEnd = false, timerPosition = 0})
+    self.roundTimer = Timers:CreateTimer(600, function()
+        self:EndRound(true)
+      end)
+  end)
 end
 
 function SheepTag:CheckRoundEnd( )
@@ -888,31 +963,161 @@ function SheepTag:CheckRoundEnd( )
   end
 
   if bEnd then
-    self:EndRound(0)
+    self:EndRound(false)
   end
 end
 
 function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
   if sheeporwolf then -- sheep win
-
+    GameRules:SendCustomMessage("<font color='#32CD32'>Time's up! The sheep win!</font>", 0, 0)
   else -- wolves win
-
+    GameRules:SendCustomMessage("<font color='#DC143C'>All sheep have been killed! The shepherds win!</font>", 0, 0)
+    if self.roundTimer ~= nil then
+      Timers:RemoveTimer(self.roundTimer)
+      self.roundTimer = nil
+      -- End Timer
+      FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 0, timerWarning = 10, timerEnd = false, timerPosition = 0})
+    end
   end
+  if self.RadiantSheep and sheeporwolf then -- Team score update
+    self.nRadiantKills = self.nRadiantKills + 1
+  elseif not self.RadiantSheep and sheeporwolf then
+    self.nDireKills = self.nDireKills + 1
+  elseif self.RadiantSheep and not sheeporwolf then
+    self.nDireKills = self.nDireKills + 1
+  else
+    self.nRadiantKills = self.nRadiantKills + 1
+  end
+  GameRules:GetGameModeEntity():SetTopBarTeamValue ( DOTA_TEAM_GOODGUYS, self.nRadiantKills )
+  GameRules:GetGameModeEntity():SetTopBarTeamValue ( DOTA_TEAM_BADGUYS, self.nDireKills )
   self:ClearLevel()
+  self:HideAllHeroes()
+  self:RevealMap(10)
+  self:SpawnTeams()
+  Timers:CreateTimer(10, function()
+    self:ResetRound()
+    self:StartRound()
+  end)
 end
 
 function SheepTag:ClearLevel() -- Cleanup
+  -- Remove all farms
+  if #Sheeps > 0 then
+    for _,v in ipairs(Sheeps) do
+      remove_farms(v, false)
+    end
+  end
+  -- Remove all wards
+  local wards = Entities:FindAllByClassname('npc_dota_ward_base_truesight')
+  print(#wards)
+  if #wards > 0 then
+    for _,v in ipairs(wards) do
+      UTIL_Remove(v)
+    end
+  end
+  -- Remove all shepherd spawned units
+  local golem = Entities:FindAllByClassname('npc_dota_warlock_golem')
+  if #golem > 0 then
+    for _,v in ipairs(golem) do
+      UTIL_Remove(v)
+    end
+  end
+  -- Remove all dropped items
+  for i=1,GameRules:NumDroppedItems() do
+    local item = GameRules:GetDroppedItem(0) -- Delete last place dropped item
+    UTIL_Remove(item)
+  end
+  SendToConsole('dota_camera_setpos 0 0')
+end
 
+function SheepTag:RevealMap( duration )
+  for i,v in ipairs(self.fowReveal) do
+    AddFOWViewer(DOTA_TEAM_GOODGUYS, Vector(v[1],v[2],128), 15000, duration, false)
+    AddFOWViewer(DOTA_TEAM_BADGUYS, Vector(v[1],v[2],128), 15000, duration, false)
+  end
+end
+
+function SheepTag:HideAllHeroes()
+  for i,v in ipairs(self.vRadiant) do
+    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    hero:AddNoDraw()
+    hero:AddAbility('shepherd_pregame')
+    hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+  end
+  for i,v in ipairs(self.vDire) do
+    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    hero:AddNoDraw()
+    hero:AddAbility('shepherd_pregame')
+    hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+  end
+end
+
+function SheepTag:ShowAllHeroes()
+  for _,v in ipairs(self.vRadiant) do
+    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    hero:RemoveNoDraw()
+    hero:RemoveAbility('shepherd_pregame')
+    hero:RemoveModifierByName('modifier_shepherd_pregame')
+  end
+  for _,v in ipairs(self.vDire) do
+    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    hero:RemoveNoDraw()
+    hero:RemoveAbility('shepherd_pregame')
+    hero:RemoveModifierByName('modifier_shepherd_pregame')
+  end
 end
 
 function SheepTag:ResetRound()
+  local oldHero = nil
+  local newHero = nil
+  local heroRadiant = "npc_dota_hero_riki"
+  local heroDire = "npc_dota_hero_lycan"
+  if not self.RadiantSheep then
+    heroRadiant = "npc_dota_hero_lycan"
+    heroDire = "npc_dota_hero_riki"
+  end
+  Sheeps = {}
+  Shepherds = {}
+  print(#self.vRadiant)
+  for _,v in ipairs(self.vRadiant) do
+    print('Radiant: ' .. v)
+    oldHero = PlayerResource:GetSelectedHeroEntity( v )
+    -- Remove items from inventory
+    for i=0,11 do
+      local item = oldHero:GetItemInSlot(i)
+      if item then
+        oldHero:RemoveItem(item)
+      end
+    end
+    PlayerResource:ReplaceHeroWith( v, heroRadiant, 0, 0)
+    UTIL_Remove( oldHero )
+  end
+  for _,v in ipairs(self.vDire) do
+    print('Dire: ' .. v)
+    oldHero = PlayerResource:GetSelectedHeroEntity( v )
+    -- Remove items from inventory
+    for i=0,11 do
+      local item = oldHero:GetItemInSlot(i)
+      if item then
+        oldHero:RemoveItem(item)
+      end
+    end
+    PlayerResource:ReplaceHeroWith( v, heroDire, 0, 0)
+    UTIL_Remove( oldHero )
+  end
+end
 
+function SheepTag:SpawnTeams()
+  self.RadiantSheep = not self.RadiantSheep
 end
 
 function SheepTag:OnSheepKilled( hero )
   local gold = hero:GetGold()
   local plyID = hero:GetPlayerID()
   local oldHero = PlayerResource:GetSelectedHeroEntity( plyID )
+
+  remove_farms(oldHero, false)
+
   PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
   local index = GetIndex(Sheeps, oldHero)
   if index ~= -1 then

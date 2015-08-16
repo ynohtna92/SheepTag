@@ -312,7 +312,7 @@
 		"Ability1"					"self_destruct"			// Ability 1.
 		"Ability2"					"true_sight"			// Ability 2.
 		"Ability3"					"far_sight"				// Ability 3.
-		"Ability4"					""			// Ability 4.
+		"Ability4"					"invisibility"			// Ability 4.
 		"Ability5"					""			// Ability 5.
 		"Ability6"					""			// Ability 6 - Extra.
 

@@ -53,8 +53,8 @@
 		//-----------------------------------------------------------------------------------------------------------
 
 		"BountyXP"					"0"										// Experience earn.
-		"BountyGoldMin"				"0"										// Gold earned min.
-		"BountyGoldMax"				"0"										// Gold earned max.
+		"BountyGoldMin"				"30"									// Gold earned min.
+		"BountyGoldMax"				"30"									// Gold earned max.
 
 		// Movement
 		//------------------------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@
 
 	"npc_dota_hero_shepherd"
 	{
-		"AbilityLayout"				"6"
+		"AbilityLayout"				"5"
 		"Model"						"models/heroes/lycan/lycan_wolf.vmdl"
 		"ModelScale"				".8"
 		"override_hero"				"npc_dota_hero_lycan"		// Hero to override
@@ -140,8 +140,11 @@
 		"Ability3"					"shepherd_mirrorimage"						// Ability 3
 		"Ability4"					"shepherd_antistack"					// Ability 4
 		"Ability5"					"far_sight"
-		"Ability6"					"invisibility"
+		"Ability6"					""
 		"Ability7"					""							// Hidden Abilities onwards
+		"Ability8"					""
+		"Ability9"					""
+		"Ability10"					""
 
 		// Attack
 		//-----------------------------------------------------------------------------------------------------------

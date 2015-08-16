@@ -566,6 +566,18 @@ function farm_bounty( keys )
 	shep:GetPlayerOwner():GetAssignedHero():ModifyGold(bounty,false,0)
 end
 
+function shepherd_pregame_create( keys )
+	local target = keys.target
+	target:SetDayTimeVisionRange(0)
+	target:SetNightTimeVisionRange(0)
+end
+
+function shepherd_pregame_destroy( keys )
+	local target = keys.target
+	target:SetDayTimeVisionRange(1800)
+	target:SetNightTimeVisionRange(1800)
+end
+
 function debug_teleport( keys )
 	print(keys.target_points[1])
 	FindClearSpaceForUnit(keys.caster, keys.target_points[1], true)
