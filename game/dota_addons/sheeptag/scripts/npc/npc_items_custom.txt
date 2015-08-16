@@ -454,6 +454,112 @@
 		}
 	}
     
+	"item_beam_of_strength"
+	{
+		"ID"							"1011" 
+
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"item_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"			"item_beam_of_strength"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"80"
+		"ItemShopTags"					"consumable;damage"
+		"ItemQuality"					"consumable"
+		"ItemAliases"					"strength;beam"
+		"ItemPermanent"					"0"
+		"ItemInitialCharges"			"1"
+		"SideShop"						"0"
+		"ItemPurchasable"				"1"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"		"UNIT"
+				"ModifierName"	"modifier_item_beam_of_strength_datadriven"
+			}
+			"FireSound"
+			{
+				"Target"		"UNIT"
+				"EffectName"	"DOTA_Item.HealingSalve.Activate"
+			}
+			"SpendCharge"
+			{}
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_beam_of_strength_datadriven"
+			{	
+				"TextureName" 		"item_beam_of_strength"
+				"IsDebuff"			"0"
+				"EffectName" 		"particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf"
+				"EffectAttachType" "follow_origin"
+				"Duration" 			"%duration"
+				"OnAttack"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities.lua"
+						"Function"		"beam_of_strength"
+
+						"radius"		"%radius"
+						"range"			"%range"
+						"proj_speed"	"%proj_speed"
+
+						"proj_particle"	"particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf"
+					}
+				}
+				"OnProjectileHitUnit"
+				{
+					"DeleteOnHit"		"0"
+					
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"beam_of_strength_hit"
+						"Target"		"TARGET"
+					}
+				}
+			}
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"64"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"range"						"300"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"proj_speed"				"1050"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"5"
+			}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf"
+		}
+	}
+
 	"item_cloak_of_flames"
 	{
 		"ID"							"1004" 
@@ -1619,6 +1725,15 @@
 				{
 					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_SPECIALLY_DENIABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+
+			"modifier_farm_no_turn_datadriven"
+			{
+				"IsHidden"					"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_DISABLE_TURNING"	"1"
 				}
 			}
 		}  

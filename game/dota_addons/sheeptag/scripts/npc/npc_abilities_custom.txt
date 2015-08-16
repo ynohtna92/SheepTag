@@ -2294,7 +2294,7 @@
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
-		"AbilityTextureName"			"zuus_arc_lightning"
+		"AbilityTextureName"			"antimage_blink"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------

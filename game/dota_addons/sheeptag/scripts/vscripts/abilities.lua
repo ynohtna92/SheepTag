@@ -49,6 +49,7 @@ function build( keys )
 
 		-- This modifier will delete the farm, manage particle effects when it dies.
 		GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_death_datadriven", -1)
+		GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_no_turn_datadriven", -1)
 
 		-- start the building with 0 mana.
 		unit:SetMana(0)
@@ -445,6 +446,55 @@ end
 -- ITEMS
 function potion_of_strength( keys )
 	print('Potion of Strength Attack')
+end
+
+function beam_of_strength( keys )
+	print('Beam of Strength')
+	-- init ability
+	local caster = keys.caster
+	local ability = keys.ability
+
+	local radius = keys.radius
+	local proj_speed = keys.proj_speed
+	local distance = keys.range
+
+	local casterOrigin = caster:GetAbsOrigin()
+	local targetDirection = caster:GetForwardVector()
+	local projVelocity = targetDirection * proj_speed
+
+	local startTime = GameRules:GetGameTime()
+	local endTime = startTime + 3
+
+	-- Create linear projectile
+	local projID = ProjectileManager:CreateLinearProjectile( {
+		Ability = ability,
+		EffectName = keys.proj_particle,
+		vSpawnOrigin = casterOrigin,
+		fDistance = distance,
+		fStartRadius = radius,
+		fEndRadius = radius,
+		Source = caster,
+		bHasFrontalCone = false,
+		bReplaceExisting = false,
+		iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+		iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+		iUnitTargetType = DOTA_UNIT_TARGET_BASIC,
+		fExpireTime = endTime,
+		bDeleteOnHit = true,
+		vVelocity = projVelocity,
+		bProvidesVision = false,
+		iVisionRadius = 1000,
+		iVisionTeamNumber = caster:GetTeamNumber()
+	} )
+end
+
+function beam_of_strength_hit( keys )
+	print('Beam of Strength: Hit')
+	local target = keys.target
+	local caster = keys.Source
+	local ability = keys.Ability
+
+	target:Kill(ability, caster)
 end
 
 function potion_of_mana( keys )

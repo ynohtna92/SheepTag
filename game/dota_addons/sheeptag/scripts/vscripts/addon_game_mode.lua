@@ -52,6 +52,8 @@ function Precache( context )
 		PrecacheResource( "particle", "particles/msg_fx/msg_gold.vpcf", context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf", context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf", context )
+		PrecacheResource("particle", "particles/units/heroes/hero_beastmaster/beastmaster_primal_target_flash.vpcf", context)
+		PrecacheResource("particle", "particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf", context)		
 
 		-- Items
 		PrecacheResource( "particle", "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf", context )

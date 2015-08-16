@@ -30,8 +30,8 @@ PRE_GAME_TIME = 30.0                    -- How long after people select their he
 POST_GAME_TIME = 60.0                   -- How long should we let people look at the scoreboard before closing the server automatically?
 TREE_REGROW_TIME = 60.0                 -- How long should it take individual trees to respawn after being cut down/destroyed?
 
-GOLD_PER_TICK = 1                       -- How much gold should players get per tick?
-GOLD_TICK_TIME = 1                      -- How long should we wait in seconds between gold ticks?
+GOLD_PER_TICK = 0                       -- How much gold should players get per tick?
+GOLD_TICK_TIME = 0                      -- How long should we wait in seconds between gold ticks?
 
 RECOMMENDED_BUILDS_DISABLED = false     -- Should we disable the recommened builds for heroes (Note: this is not working currently I believe)
 CAMERA_DISTANCE_OVERRIDE = 1500.0        -- How far out should we allow the camera to go?  1134 is the default in Dota
@@ -682,6 +682,8 @@ function SheepTag:InitSheepTag()
   self.center = Entities:FindByName(nil, "spawn_center")
 
   self.roundTimer = nil
+  self.goldSheepTimer = nil
+  self.goldShepherdTimer = nil
 
   self.RadiantSheep = true
 
@@ -930,6 +932,29 @@ function SheepTag:PlayerSay(keys)
 end
 
 function SheepTag:StartRound( )
+  -- Start Gold Tickers
+  if self.goldSheepTimer == nil then
+    self.goldSheepTimer = Timers:CreateTimer(function()
+      if #Sheeps > 0 then
+        for _,v in ipairs(Sheeps) do
+          v:ModifyGold(SHEEP_GOLD_PER_TICK, false, DOTA_ModifyGold_GameTick)
+        end
+      end
+      return SHEEP_GOLD_TICK_TIME
+    end)
+  end
+
+  if self.goldShepherdTimer == nil then
+    self.goldShepherdTimer = Timers:CreateTimer(function()
+      if #Shepherds > 0 then
+        for _,v in ipairs(Shepherds) do
+          v:ModifyGold(SHEPHERD_GOLD_PER_TICK, false, DOTA_ModifyGold_GameTick)
+        end
+      end
+      return SHEPHERD_GOLD_TICK_TIME
+    end)
+  end
+
   FireGameEvent('cgm_timer_display', { timerMsg = "Wolf Spawn", timerSeconds = 15, timerWarning = 5, timerEnd = false, timerPosition = 0})
   print(#Shepherds)
   for _,v in ipairs(Shepherds) do
@@ -979,6 +1004,15 @@ function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
       FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 0, timerWarning = 10, timerEnd = false, timerPosition = 0})
     end
   end
+  if self.goldSheepTimer ~= nil then
+    Timers:RemoveTimer(self.goldSheepTimer)
+    self.goldSheepTimer = nil
+  end
+  if self.goldShepherdTimer ~= nil then
+    Timers:RemoveTimer(self.goldShepherdTimer)
+    self.goldShepherdTimer = nil
+  end
+
   if self.RadiantSheep and sheeporwolf then -- Team score update
     self.nRadiantKills = self.nRadiantKills + 1
   elseif not self.RadiantSheep and sheeporwolf then
@@ -1027,7 +1061,7 @@ function SheepTag:ClearLevel() -- Cleanup
     local item = GameRules:GetDroppedItem(0) -- Delete last place dropped item
     UTIL_Remove(item)
   end
-  SendToConsole('dota_camera_setpos 0 0')
+  SendToConsole('dota_camera_set_lookatpos 0 0')
 end
 
 function SheepTag:RevealMap( duration )
@@ -1080,7 +1114,7 @@ function SheepTag:ResetRound()
   Shepherds = {}
   print(#self.vRadiant)
   for _,v in ipairs(self.vRadiant) do
-    print('Radiant: ' .. v)
+    --print('Radiant: ' .. v)
     oldHero = PlayerResource:GetSelectedHeroEntity( v )
     -- Remove items from inventory
     for i=0,11 do
@@ -1089,11 +1123,11 @@ function SheepTag:ResetRound()
         oldHero:RemoveItem(item)
       end
     end
-    PlayerResource:ReplaceHeroWith( v, heroRadiant, 0, 0)
+    PlayerResource:ReplaceHeroWith( v, heroRadiant, STARTING_GOLD, 0)
     UTIL_Remove( oldHero )
   end
   for _,v in ipairs(self.vDire) do
-    print('Dire: ' .. v)
+    --print('Dire: ' .. v)
     oldHero = PlayerResource:GetSelectedHeroEntity( v )
     -- Remove items from inventory
     for i=0,11 do
@@ -1102,7 +1136,7 @@ function SheepTag:ResetRound()
         oldHero:RemoveItem(item)
       end
     end
-    PlayerResource:ReplaceHeroWith( v, heroDire, 0, 0)
+    PlayerResource:ReplaceHeroWith( v, heroDire, STARTING_GOLD, 0)
     UTIL_Remove( oldHero )
   end
 end
@@ -1118,7 +1152,7 @@ function SheepTag:OnSheepKilled( hero )
 
   remove_farms(oldHero, false)
 
-  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
+  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", STARTING_GOLD, 0)
   local index = GetIndex(Sheeps, oldHero)
   if index ~= -1 then
     table.remove(Sheeps, index)
@@ -1134,7 +1168,7 @@ function SheepTag:OnWispKilled( hero )
   local gold = hero:GetGold()
   local plyID = hero:GetPlayerID()
   local oldHero = PlayerResource:GetSelectedHeroEntity( plyID )
-  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", 0, 0)
+  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", STARTING_GOLD, 0)
   local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero()
   local id = plyID + 1
   if plyID > 5 then
