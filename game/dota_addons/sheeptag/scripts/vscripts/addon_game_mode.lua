@@ -53,7 +53,7 @@ function Precache( context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf", context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf", context )
 		PrecacheResource("particle", "particles/units/heroes/hero_beastmaster/beastmaster_primal_target_flash.vpcf", context)
-		PrecacheResource("particle", "particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf", context)		
+		PrecacheResource("particle", "particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf", context)	
 
 		-- Items
 		PrecacheResource( "particle", "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf", context )
@@ -95,6 +95,8 @@ function Precache( context )
 		-- Custom Particles
 		PrecacheResource("particle_folder", "particles/sun_strike", context)
 		PrecacheResource("particle_folder", "particles/destroy_fire", context)
+
+		PrecacheUnitByNameSync("npc_dota_hero_wisp", context)
 
 		Farm:Precache(context)
 end

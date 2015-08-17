@@ -1,5 +1,5 @@
 --[[
-Last modified: 02/05/2015
+Last modified: 16/08/2015
 Author: A_Dizzle
 Co-Author: Myll
 ]]
@@ -9,7 +9,7 @@ print ('[SHEEPTAG] sheeptag.lua' )
 DEBUG = true
 THINK_TIME = 0.1
 
-VERSION = "B020515"
+VERSION = "B160815"
 
 -- Game Variables
 STARTING_GOLD = 0
@@ -122,6 +122,7 @@ end
 -- Store teams, players and heroes
 function SheepTag:HeroInit( hero )
   local pID = hero:GetPlayerID()
+  self.vPlayerIDToHero[pID] = hero
   if self.vPlayers[pID] ~= nil then
     return
   end
@@ -153,6 +154,14 @@ function SheepTag:OnHeroInGame(hero)
       GameRules:SendCustomMessage("WC3 Developers: <font color='#FF1493'>Chakra</font>, <font color='#FF1493'>XXXandBEER</font>, <font color='#FF1493'>GosuSheep</font> and lastly <font color='#FF1493'>Star[MD]</font>.", 0, 0)
       GameRules:SendCustomMessage("Special Thanks: <font color='#FF1493'>BMD</font>, <font color='#FF1493'>Noya</font> & <font color='#FF1493'>Jacklarnes</font> and everyone on IRC", 0, 0)
       GameRules:SendCustomMessage("Support this project on Github at https://github.com/ynohtna92/SheepTag", 0, 0)
+    end)
+
+    Timers:CreateTimer(10, function()
+      local msg = {
+        message = "The game will begin in 20 seconds",
+        duration = 4.0
+      }
+      FireGameEvent("show_center_message",msg)
     end)
 
     self.initStuff = true
@@ -199,9 +208,11 @@ function SheepTag:OnHeroInGame(hero)
     hero:SetHullRadius(10)
 
     -- This line for example will set the starting gold of every hero to 500 unreliable gold
-    hero:SetGold(500, false)
-    hero:SetMinimumGoldBounty( SHEEP_GOLD_BOUNTY )
-    hero:SetMaximumGoldBounty( SHEEP_GOLD_BOUNTY )
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_PRE_GAME then
+      hero:SetGold(99999, false)
+    end
+    --hero:SetMinimumGoldBounty( SHEEP_GOLD_BOUNTY )
+    --hero:SetMaximumGoldBounty( SHEEP_GOLD_BOUNTY )
 
     -- These lines will create an item and add it to the player, effectively ensuring they start with the item
     local item = CreateItem("item_delete_last_farm", hero, hero)
@@ -525,6 +536,16 @@ function SheepTag:OnEntityKilled( keys )
   end
 
   if killedUnit:GetUnitName() == "npc_dota_hero_riki" then
+    --[[
+    if killerEntity:GetUnitName() == "npc_dota_hero_lycan" then
+      local bounty = killedUnit:GetGoldBounty()
+      local pID = killerEntity:GetPlayerOwnerID()
+      local hero = self.vPlayerIDToHero[pID]
+      if hero ~= nil then
+        hero:ModifyGold(bounty, false, 0)
+      end
+    end
+    ]]
     self:OnSheepKilled(killedUnit)
   elseif killedUnit:GetUnitName() == "npc_dota_hero_wisp" then
     self:OnWispKilled(killedUnit)
@@ -532,6 +553,30 @@ function SheepTag:OnEntityKilled( keys )
   -- Put code here to handle when an entity gets killed
 end
 
+function SheepTag:ModifyGoldFilter( event )
+  --PrintTable(event)
+  if event.reason_const == DOTA_ModifyGold_HeroKill then
+    event.reliable = 0
+    if event.gold ~= 30 then
+      return false
+    else
+      return true
+    end
+  end
+end
+
+-- Stops killing between sheeps and sheeps killing shepherds
+function SheepTag:ModifyOrderFilter( event )
+  --PrintTable(event)
+  if event.order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
+    local target = EntIndexToHScript(event.entindex_target)
+    local units = EntIndexToHScript(event["units"]["0"])
+    if (target:GetUnitName() == "npc_dota_hero_lycan" or target:GetUnitName() == "npc_dota_hero_riki") and units:GetUnitName() == "npc_dota_hero_riki" then
+      event.order_type = DOTA_UNIT_ORDER_MOVE_TO_TARGET
+    end
+  end
+  return true
+end
 
 -- This function initializes the game mode and is called before anyone loads into the game
 -- It can be used to pre-initialize any values/tables that will be needed later
@@ -556,6 +601,9 @@ function SheepTag:InitSheepTag()
   GameRules:SetCreepMinimapIconScale( MINIMAP_CREEP_ICON_SIZE )
   GameRules:SetRuneMinimapIconScale( MINIMAP_RUNE_ICON_SIZE )
   --print('[SHEEPTAG] GameRules set')
+
+  GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(SheepTag, "ModifyGoldFilter"), self)
+  GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(SheepTag, "ModifyOrderFilter"), self)
 
   InitLogFile( "log/sheeptag.txt","")
 
@@ -667,6 +715,7 @@ function SheepTag:InitSheepTag()
   self.vBots = {}
   self.vBroadcasters = {}
 
+  self.vPlayerIDToHero = {}
   self.vPlayers = {}
   self.nPlayerCount = 0
   self.vRadiant = {}
@@ -1027,7 +1076,9 @@ function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
   self:ClearLevel()
   self:HideAllHeroes()
   self:RevealMap(10)
-  self:SpawnTeams()
+  Timers:CreateTimer(6, function()
+    self:SwapTeams()
+  end)
   Timers:CreateTimer(10, function()
     self:ResetRound()
     self:StartRound()
@@ -1061,7 +1112,7 @@ function SheepTag:ClearLevel() -- Cleanup
     local item = GameRules:GetDroppedItem(0) -- Delete last place dropped item
     UTIL_Remove(item)
   end
-  SendToConsole('dota_camera_set_lookatpos 0 0')
+  SendToConsole('dota_camera_set_lookatpos 0 -500')
 end
 
 function SheepTag:RevealMap( duration )
@@ -1141,14 +1192,21 @@ function SheepTag:ResetRound()
   end
 end
 
-function SheepTag:SpawnTeams()
+function SheepTag:SwapTeams()
+  Timers:CreateTimer(function()
+    local msg = {
+      message = "Swapping teams",
+      duration = 3.0
+    }
+    FireGameEvent("show_center_message",msg)
+  end)
   self.RadiantSheep = not self.RadiantSheep
 end
 
 function SheepTag:OnSheepKilled( hero )
   local gold = hero:GetGold()
   local plyID = hero:GetPlayerID()
-  local oldHero = PlayerResource:GetSelectedHeroEntity( plyID )
+  local oldHero = self.vPlayerIDToHero[plyID]
 
   remove_farms(oldHero, false)
 
@@ -1158,7 +1216,7 @@ function SheepTag:OnSheepKilled( hero )
     table.remove(Sheeps, index)
   end
   UTIL_Remove( oldHero )
-  local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero() 
+  local newHero = self.vPlayerIDToHero[plyID]
   FindClearSpaceForUnit(newHero, Entities:FindByName(nil, "spawn_center"):GetAbsOrigin(), false)
   newHero:SetGold( gold, false )
   self:CheckRoundEnd()
@@ -1167,9 +1225,9 @@ end
 function SheepTag:OnWispKilled( hero )
   local gold = hero:GetGold()
   local plyID = hero:GetPlayerID()
-  local oldHero = PlayerResource:GetSelectedHeroEntity( plyID )
+  local oldHero = self.vPlayerIDToHero[plyID]
   PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", STARTING_GOLD, 0)
-  local newHero = PlayerResource:GetPlayer(plyID):GetAssignedHero()
+  local newHero = self.vPlayerIDToHero[plyID]
   local id = plyID + 1
   if plyID > 5 then
     id = plyID - 5
