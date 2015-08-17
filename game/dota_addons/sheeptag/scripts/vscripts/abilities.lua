@@ -21,17 +21,32 @@ LEVEL2_ABILITIES =
 
 -- The following three functions are necessary for building helper.
 function build( keys )
-	local player = keys.caster:GetPlayerOwner()
-	local pID = player:GetPlayerID()
+    local player = keys.caster:GetPlayerOwner()
+    local pID = player:GetPlayerID()
+    local ability = keys.ability
 
-	-- Check if player has enough resources here. If he doesn't they just return this function.
-	
-	local returnTable = BuildingHelper:AddBuilding(keys)
+    -- We don't want to charge the player resources at this point
+    -- This is only relevent for abilities that use AbilityGoldCost
+    local goldCost = keys.ability:GetGoldCost(-1)
+    PlayerResource:ModifyGold(pID, goldCost, false, 7) 
+    ability:EndCooldown()
 
-	keys:OnBuildingPosChosen(function(vPos)
-		--print("OnBuildingPosChosen")
-		-- in WC3 some build sound was played here.
-	end)
+    BuildingHelper:AddBuilding(keys)
+
+    keys:OnBuildingPosChosen(function(vPos)
+        --print("OnBuildingPosChosen")
+        -- in WC3 some build sound was played here.
+    end)
+
+    keys:OnPreConstruction(function ()
+        -- Use this function to check/modify player resources before the construction begins
+        -- Return false to abort the build. It cause OnConstructionFailed to be called
+        if PlayerResource:GetGold(pID) < goldCost then
+            return false
+        end
+
+        PlayerResource:ModifyGold(pID, -1 * goldCost, false, 7)
+    end)
 
 	keys:OnConstructionStarted(function(unit)
 
@@ -43,6 +58,7 @@ function build( keys )
 		-- FindClearSpace for the builder
 
 		FindClearSpaceForUnit(keys.caster, keys.caster:GetAbsOrigin(), false)
+		ability:StartCooldown(ability:GetCooldown(-1))
 
 		-- Break Sheep Invis
 		keys.caster:RemoveModifierByName("modifier_invisibility_datadriven")
@@ -59,6 +75,7 @@ function build( keys )
 		table.insert(keys.caster.farms, 1, unit)
 		name = unit:GetUnitName()
 		-- One tick later this will happen
+		--[[
 		if name ~= "tiny_farm" then
 			Timers:CreateTimer(0, function()
 				if name == "hard_farm" or name == "wide_farm" then
@@ -89,7 +106,9 @@ function build( keys )
 				end		
 			end)
 		end
+		]]
 	end)
+
 	keys:OnConstructionCompleted(function(unit)
 		if Debug_BH then
 			print("Completed construction of " .. unit:GetUnitName())
@@ -121,9 +140,13 @@ function build( keys )
 		end
 	end)
 
-	--[[keys:OnCanceled(function()
-		print(keys.ability:GetAbilityName() .. " was canceled.")
-	end)]]
+    keys:OnConstructionFailed(function( building )
+        -- This runs when a building cannot be placed, you should refund resources if any. building is the unit that would've been built.
+    end)
+
+    keys:OnConstructionCancelled(function( building )
+        -- This runs when a building is cancelled, building is the unit that would've been built.
+    end)
 
 	-- Have a fire effect when the building goes below 50% health.
 	-- It will turn off it building goes above 50% health again.
@@ -137,6 +160,29 @@ end
 function create_building_entity( keys )
 	BuildingHelper:InitializeBuildingEntity(keys)
 end
+
+function builder_queue( keys )
+    local ability = keys.ability
+    local caster = keys.caster
+
+    if caster.ProcessingBuilding ~= nil then
+        -- caster is probably a builder, stop them
+        player = PlayerResource:GetPlayer(caster:GetMainControllingPlayer())
+        player.activeBuilding = nil
+        if player.activeBuilder and IsValidEntity(player.activeBuilder) then
+            if player.activeBuilder == caster then
+                player.activeBuilder:ClearQueue()
+                player.activeBuilder:Stop()
+                player.activeBuilder.ProcessingBuilding = false
+            else
+                player.activeBuilder = caster
+                player.activeBuilder:ClearQueue()
+                player.activeBuilder.ProcessingBuilding = false
+            end
+        end
+    end
+end
+-- End Building Helper Functions
 
 function color_unit( unit )
 	name = unit:GetUnitName()
@@ -207,7 +253,7 @@ function remove_farms( cast , bool, exclude, farm )
 	-- ensure the table has entries
 	while #cast.farms > 0 do
 		local ent = cast.farms[1]
-		if IsValidEntity(ent) and ent:IsAlive() then
+		if IsValidEntity(ent) and ent:IsAlive() and not ent:IsNull() then
 			-- we found the first valid farm.
 			if exclude and ent:GetUnitName() == farm then
 				-- do nothing

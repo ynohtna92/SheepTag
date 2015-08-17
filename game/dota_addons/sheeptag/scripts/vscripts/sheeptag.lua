@@ -1,5 +1,5 @@
 --[[
-Last modified: 16/08/2015
+Last modified: 18/08/2015
 Author: A_Dizzle
 Co-Author: Myll
 ]]
@@ -9,7 +9,7 @@ print ('[SHEEPTAG] sheeptag.lua' )
 DEBUG = true
 THINK_TIME = 0.1
 
-VERSION = "B160815"
+VERSION = "B180815"
 
 -- Game Variables
 STARTING_GOLD = 0
@@ -641,6 +641,9 @@ function SheepTag:InitSheepTag()
   --ListenToGameEvent('dota_combatlog', Dynamic_Wrap(SheepTag, 'OnCombatLogEvent'), self)
   --ListenToGameEvent('dota_player_killed', Dynamic_Wrap(SheepTag, 'OnPlayerKilled'), self)
   --ListenToGameEvent('player_team', Dynamic_Wrap(SheepTag, 'OnPlayerTeam'), self)
+
+  CustomGameEventManager:RegisterListener( "building_helper_build_command", Dynamic_Wrap(BuildingHelper, "RegisterLeftClick"))
+  CustomGameEventManager:RegisterListener( "building_helper_cancel_command", Dynamic_Wrap(BuildingHelper, "RegisterRightClick"))
 
   Convars:RegisterCommand('player_say', function(...)
     local arg = {...}
