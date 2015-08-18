@@ -129,6 +129,16 @@
 				"MaxScale"				"0.7"
 			}
 		}
+
+		"OnChannelInterrupted"
+		{
+			"RunScript"
+			{
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"farm_upgrade_interrupted"
+				"Refund"				"30"
+			}
+		}
 	}
 
 	"magic_farm_upgrade"
@@ -173,6 +183,16 @@
 				"Function"				"magic_farm_upgrade"
 				"UnitName"				"magic_farm"
 				"MaxScale"				"0.7"
+			}
+		}
+
+		"OnChannelInterrupted"
+		{
+			"RunScript"
+			{
+				"ScriptFile"			"scripts/vscripts/abilities.lua"
+				"Function"				"farm_upgrade_interrupted"
+				"Refund"				"52"
 			}
 		}
 	}

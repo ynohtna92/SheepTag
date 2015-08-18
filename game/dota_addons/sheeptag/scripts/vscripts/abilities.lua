@@ -339,6 +339,18 @@ function magic_farm_upgrade( keys )
 	UpgradeBuilding( keys )
 end
 
+function farm_upgrade_interrupted( keys )
+	print('Upgrade interrupted.')
+	local caster = keys.caster
+	if caster == nil or caster:GetPlayerOwner() == nil then
+		return
+	end
+	local hero = caster:GetPlayerOwner():GetAssignedHero()
+	local refund = keys.Refund
+
+	hero:ModifyGold(refund, false, 0)
+end
+
 function money_farm_income( keys )
 	--print(keys.income)
 	if keys.caster == nil or keys.caster:GetPlayerOwner() == nil then

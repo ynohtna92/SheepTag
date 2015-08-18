@@ -194,6 +194,7 @@ function SheepTag:OnHeroInGame(hero)
     Timers:CreateTimer(function()
       local spawnpoint = SpawnPointsSheep[spawnid]
       hero:SetAbsOrigin( spawnpoint:GetAbsOrigin() )
+      FindClearSpaceForUnit(hero, spawnpoint:GetAbsOrigin(), false)
       hero:SetForwardVector( spawnpoint:GetForwardVector() )
       Timers:CreateTimer(0.1,function()
         PlayerResource:SetCameraTarget(id, nil)
