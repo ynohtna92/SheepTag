@@ -1007,7 +1007,7 @@ function SheepTag:StartRound( )
     end)
   end
 
-  FireGameEvent('cgm_timer_display', { timerMsg = "Wolf Spawn", timerSeconds = 15, timerWarning = 5, timerEnd = false, timerPosition = 0})
+  FireGameEvent('cgm_timer_display', { timerMsg = "Wolves Spawn", timerSeconds = 15, timerWarning = 5, timerEnd = true, timerPosition = 0})
   print(#Shepherds)
   for _,v in ipairs(Shepherds) do
     v:AddNoDraw()
@@ -1020,12 +1020,11 @@ function SheepTag:StartRound( )
       v:RemoveAbility('shepherd_pregame')
       v:RemoveModifierByName('modifier_shepherd_pregame')
     end
-  end)
-  Timers:CreateTimer(17, function()
+    GameRules:SendCustomMessage("The wolves have been set free!", 0, 0)
     FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 600, timerWarning = 30, timerEnd = false, timerPosition = 0})
     self.roundTimer = Timers:CreateTimer(600, function()
-        self:EndRound(true)
-      end)
+      self:EndRound(true)
+    end)
   end)
 end
 

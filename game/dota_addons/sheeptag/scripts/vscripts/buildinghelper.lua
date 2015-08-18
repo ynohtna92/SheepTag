@@ -559,13 +559,13 @@ function BuildingHelper:InitializeBuildingEntity( keys )
         if callbacks.fireEffect ~= nil then
           building:AddNewModifier(building, nil, callbacks.fireEffect, nil)
         end
-        callbacks.onBelowHalfHealth(unit)
+        callbacks.onBelowHalfHealth(building)
         building.onBelowHalfHealthProc = true
       elseif building:GetHealth() >= fMaxHealth/2.0 and building.onBelowHalfHealthProc and not building.bUpdatingHealth then
         if callbacks.fireEffect then
           building:RemoveModifierByName(callbacks.fireEffect)
         end
-        callbacks.onAboveHalfHealth(unit)
+        callbacks.onAboveHalfHealth(building)
         building.onBelowHalfHealthProc = false
       end
     else

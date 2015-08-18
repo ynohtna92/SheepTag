@@ -1723,8 +1723,16 @@
 				"IsHidden"					"1"
 				"States"
 				{
-					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_SPECIALLY_DENIABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+
+			"modifier_farm_no_health_bar_datadriven"
+			{
+				"IsHidden"					"1"
+				"States"
+				{
+					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 

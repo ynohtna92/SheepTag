@@ -114,9 +114,10 @@ function build( keys )
 			print("Completed construction of " .. unit:GetUnitName())
 		end
 
-		-- Remove Health Bar
+		-- Remove Health Bar and set deniable
 		Timers:CreateTimer(0, function()
 			GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_built_datadriven", -1)
+			GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_no_health_bar_datadriven", -1)
 		end)
 
 		-- Play construction complete sound.
@@ -132,6 +133,7 @@ function build( keys )
 		if Debug_BH then
 			print(unit:GetUnitName() .. " is below half health.")
 		end
+		unit:RemoveModifierByName("modifier_farm_no_health_bar_datadriven")
 	end)
 
 	keys:OnAboveHalfHealth(function(unit)
@@ -181,6 +183,58 @@ function builder_queue( keys )
             end
         end
     end
+end
+
+--[[
+	Author: Noya
+	Date: 19.02.2015.
+	Replaces the building to the upgraded unit name
+]]
+function UpgradeBuilding( event )
+	local caster = event.caster
+	local new_unit = event.UnitName
+	local position = caster:GetAbsOrigin()
+	local hero = caster:GetPlayerOwner():GetAssignedHero()
+	local playerID = hero:GetPlayerID()
+	local player = PlayerResource:GetPlayer(playerID)
+	local currentHealthPercentage = caster:GetHealth()/caster:GetMaxHealth()
+
+	-- Keep the gridnav blockers and hull radius
+	local blockers = caster.blockers
+	local hull_radius = caster:GetHullRadius()
+	local flag = caster.flag
+
+	-- Remove the old building from the structures list
+	local buildingIndex = getIndex(player.structures, caster)
+	if IsValidEntity(caster) then
+        table.remove(player.structures, buildingIndex)
+		
+		-- Remove old building entity
+		caster:RemoveSelf()
+    end
+
+    -- New building
+	local building = BuildingHelper:PlaceBuilding(player, new_unit, position, false, 0) 
+	building.blockers = blockers
+	building:SetHullRadius(hull_radius)
+
+	local newRelativeHP = math.ceil(building:GetMaxHealth() * currentHealthPercentage)
+	if newRelativeHP == 0 then newRelativeHP = 1 end --just incase rounding goes wrong
+	building:SetHealth(newRelativeHP)
+
+	-- Add 1 to the buildings list for that name. The old name still remains
+	if not player.buildings[new_unit] then
+		player.buildings[new_unit] = 1
+	else
+		player.buildings[new_unit] = player.buildings[new_unit] + 1
+	end
+
+	-- Add the new building to the structures list
+	table.insert(player.structures, building)
+
+	print("Building upgrade complete. Player current building list:")
+	DeepPrintTable(player.buildings)
+	print("==========================")
 end
 -- End Building Helper Functions
 
