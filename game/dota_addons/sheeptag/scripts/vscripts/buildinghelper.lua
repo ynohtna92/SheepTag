@@ -232,7 +232,9 @@ function BuildingHelper:PlaceBuilding(player, name, location, snapToGrid, blockG
   local building = CreateUnitByName(name, location, false, playersHero, player, playersHero:GetTeamNumber())
   building:SetControllableByPlayer(pID, true)
   building:SetOwner(playersHero)
-  building:SetHullRadius( size * 32 - 32 )
+  if size then
+  	building:SetHullRadius( size * 32 - 32 )
+  end
   building.blockers = gridNavBlockers
   building.state = "complete"
 

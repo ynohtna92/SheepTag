@@ -205,36 +205,24 @@ function UpgradeBuilding( event )
 	local flag = caster.flag
 
 	-- Remove the old building from the structures list
-	local buildingIndex = getIndex(player.structures, caster)
-	if IsValidEntity(caster) then
-        table.remove(player.structures, buildingIndex)
-		
+	if IsValidEntity(caster) then	
 		-- Remove old building entity
 		caster:RemoveSelf()
     end
 
     -- New building
-	local building = BuildingHelper:PlaceBuilding(player, new_unit, position, false, 0) 
+	local building = BuildingHelper:PlaceBuilding(player, new_unit, position, false, nil) 
 	building.blockers = blockers
 	building:SetHullRadius(hull_radius)
+	building:SetModelScale(event.MaxScale)
+	InitAbilities(building)
+	table.insert(hero.farms, 1, building)
 
 	local newRelativeHP = math.ceil(building:GetMaxHealth() * currentHealthPercentage)
 	if newRelativeHP == 0 then newRelativeHP = 1 end --just incase rounding goes wrong
 	building:SetHealth(newRelativeHP)
 
-	-- Add 1 to the buildings list for that name. The old name still remains
-	if not player.buildings[new_unit] then
-		player.buildings[new_unit] = 1
-	else
-		player.buildings[new_unit] = player.buildings[new_unit] + 1
-	end
-
-	-- Add the new building to the structures list
-	table.insert(player.structures, building)
-
-	print("Building upgrade complete. Player current building list:")
-	DeepPrintTable(player.buildings)
-	print("==========================")
+	print("Building upgrade complete.")
 end
 -- End Building Helper Functions
 
@@ -343,10 +331,12 @@ end
 
 function frost_farm_upgrade( keys )
 	print('Upgrade to Frost Farm')
+	UpgradeBuilding( keys )
 end
 
 function magic_farm_upgrade( keys )
 	print('Upgrade to Magic Farm')
+	UpgradeBuilding( keys )
 end
 
 function money_farm_income( keys )

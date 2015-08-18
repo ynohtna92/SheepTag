@@ -87,10 +87,11 @@
 	
 	"frost_farm_upgrade"
 	{
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_frost_farm"
 		"AbilityGoldCost"				"30"
+		"AbilityChannelTime"			"4"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -118,22 +119,25 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"0"
 		
-		"OnSpellStart"
+		"OnChannelSucceeded"
 		{
 			"RunScript"
 			{
 				"ScriptFile"			"scripts/vscripts/abilities.lua"
 				"Function"				"frost_farm_upgrade"
+				"UnitName"				"frost_farm"
+				"MaxScale"				"0.7"
 			}
 		}
 	}
 
 	"magic_farm_upgrade"
 	{
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_magic_farm"
 		"AbilityGoldCost"				"30"
+		"AbilityChannelTime"			"4"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -161,12 +165,14 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"0"
 		
-		"OnSpellStart"
+		"OnChannelSucceeded"
 		{
 			"RunScript"
 			{
 				"ScriptFile"			"scripts/vscripts/abilities.lua"
 				"Function"				"magic_farm_upgrade"
+				"UnitName"				"magic_farm"
+				"MaxScale"				"0.7"
 			}
 		}
 	}
@@ -2186,6 +2192,29 @@
 		"AbilityCastPoint"				"0"
 		"AbilityCooldown"				"0"
 		"AbilityCastRange"				"200"
+		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
+		"MaxLevel"						"1"
+
+		"AbilityManaCost"				"0"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"		"POINT"
+				"ScriptFile"	"scripts/vscripts/abilities.lua"
+				"Function"		"create_building_entity"
+			}
+		}
+	}
+
+	"move_to_point_220"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"BaseClass"						"ability_datadriven"
+		"AbilityCastPoint"				"0"
+		"AbilityCooldown"				"0"
+		"AbilityCastRange"				"220"
 		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
 		"MaxLevel"						"1"
 
