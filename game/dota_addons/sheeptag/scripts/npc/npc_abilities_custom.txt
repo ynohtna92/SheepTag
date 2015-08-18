@@ -599,6 +599,26 @@
 				"EffectName" "particles/generic_gameplay/generic_silenced.vpcf"
 				"EffectAttachType" "follow_overhead"
 				"Duration" "%duration"
+
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"antistack_on"
+						"Target"		"TARGET"
+					}
+				}
+
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"antistack_off"
+						"Target"		"TARGET"
+					}
+				}
 			}
 		}
 		

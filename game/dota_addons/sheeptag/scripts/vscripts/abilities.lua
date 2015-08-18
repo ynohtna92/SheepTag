@@ -245,7 +245,11 @@ function level1_abilities(keys)
 	end
 	for i,v in ipairs(LEVEL1_ABILITIES) do
 		keys.caster:AddAbility(v)
-		keys.caster:FindAbilityByName(v):SetLevel(1)
+		if v == "build_stack_farm" and keys.caster:HasModifier("modifier_shepherd_antistack") then
+			keys.caster:FindAbilityByName(v):SetLevel(0)
+		else
+			keys.caster:FindAbilityByName(v):SetLevel(1)
+		end
 	end
 end
 
@@ -543,6 +547,24 @@ end
 function remove_player_control ( keys )
 	local target = keys.target
 	target:SetControllableByPlayer(-1, false)
+end
+
+function antistack_on ( keys )
+	print('Antistack On')
+	local target = keys.target
+	local ability = target:FindAbilityByName("build_stack_farm")
+	if ability then
+		ability:SetLevel(0)
+	end
+end
+
+function antistack_off ( keys )
+	print('Antistack Off')
+	local target = keys.target
+	local ability = target:FindAbilityByName("build_stack_farm")
+	if ability then
+		ability:SetLevel(1)
+	end
 end
 
 -- ITEMS
