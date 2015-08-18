@@ -91,7 +91,7 @@
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_frost_farm"
 		"AbilityGoldCost"				"30"
-		"AbilityChannelTime"			"4"
+		"AbilityChannelTime"			"8"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_magic_farm"
 		"AbilityGoldCost"				"30"
-		"AbilityChannelTime"			"4"
+		"AbilityChannelTime"			"1"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -621,7 +621,7 @@
 		"AbilityCastRange"				"300"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"0"
-		"AbilityManaCost"				"1"
+		"AbilityManaCost"				"50"
 	
 		// Ability Actions
 		//-------------------------------------------------------------------------------------------------------------
