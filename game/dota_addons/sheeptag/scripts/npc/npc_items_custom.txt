@@ -1742,6 +1742,7 @@
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_DISABLE_TURNING"	"1"
+					"MODIFIER_PROPERTY_IGNORE_CAST_ANGLE" "1"
 				}
 			}
 		}  
