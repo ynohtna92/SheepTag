@@ -572,6 +572,9 @@ function SheepTag:ModifyOrderFilter( event )
   if event.order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
     local target = EntIndexToHScript(event.entindex_target)
     local units = EntIndexToHScript(event["units"]["0"])
+    if target:GetClassname() == "dota_item_drop" then
+      return true
+    end
     if (target:GetUnitName() == "npc_dota_hero_lycan" or target:GetUnitName() == "npc_dota_hero_riki") and units:GetUnitName() == "npc_dota_hero_riki" then
       event.order_type = DOTA_UNIT_ORDER_MOVE_TO_TARGET
     end
