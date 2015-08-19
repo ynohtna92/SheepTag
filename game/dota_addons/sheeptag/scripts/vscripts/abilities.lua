@@ -216,6 +216,12 @@ function UpgradeBuilding( event )
 	building:SetHullRadius(hull_radius)
 	building:SetModelScale(event.MaxScale)
 	InitAbilities(building)
+
+	GiveUnitDataDrivenModifier(building, building, "modifier_farm_death_datadriven", -1)
+	GiveUnitDataDrivenModifier(building, building, "modifier_farm_no_turn_datadriven", -1)
+	GiveUnitDataDrivenModifier(building, building, "modifier_farm_built_datadriven", -1)
+	GiveUnitDataDrivenModifier(building, building, "modifier_farm_no_health_bar_datadriven", -1)
+
 	table.insert(hero.farms, 1, building)
 
 	local newRelativeHP = math.ceil(building:GetMaxHealth() * currentHealthPercentage)

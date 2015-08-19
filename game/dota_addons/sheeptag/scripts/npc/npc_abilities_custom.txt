@@ -91,7 +91,7 @@
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_frost_farm"
 		"AbilityGoldCost"				"30"
-		"AbilityChannelTime"			"8"
+		"AbilityChannelTime"			"6"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -137,6 +137,17 @@
 				"ScriptFile"			"scripts/vscripts/abilities.lua"
 				"Function"				"farm_upgrade_interrupted"
 				"Refund"				"30"
+			}
+		}
+
+		// Special  
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"        "FIELD_INTEGER"
+				"channel"         "6"
 			}
 		}
 	}
@@ -193,6 +204,17 @@
 				"ScriptFile"			"scripts/vscripts/abilities.lua"
 				"Function"				"farm_upgrade_interrupted"
 				"Refund"				"52"
+			}
+		}
+
+		// Special  
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"        "FIELD_INTEGER"
+				"channel"         "1"
 			}
 		}
 	}
@@ -318,6 +340,19 @@
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"		"1"
+				}
+				"States"
+				{
+					"MODIFIER_STATE_MAGIC_IMMUNE" 			"MODIFIER_STATE_VALUE_ENABLED"
+				}
+
+				"OnCreated"
+				{
+					"RemoveModifier"
+					{
+						"Target"		"TARGET"
+						"ModifierName"	"modifier_frost_farm_effect"
+					}
 				}
 			}
 		}
@@ -1082,12 +1117,6 @@
 					
 						"Action"    
 						{
-							"RemoveModifier"
-							{
-								"ModifierName"	"modifier_truesight_reveal"
-								"Target" 		"TARGET"
-							}
-
 							"ApplyModifier"
 							{
 								"ModifierName"	"modifier_truesight_reveal"
@@ -1177,6 +1206,101 @@
 				"ScriptFile"			"scripts/vscripts/abilities.lua"
 				"Function"				"make_invis"
 			}
+		}
+	}
+
+	"frost_farm_orb"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"ancient_apparition_cold_feet"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"MaxLevel"						"1"
+		"AbilityCooldown"				"0"
+		"AbilityCastRange"				"600"
+
+		// Ability Actions
+		//-------------------------------------------------------------------------------------------------------------
+
+		"Modifiers"
+		{
+			"modifiers_frost_farm_orb"
+			{
+				"Passive"		"1"
+				"IsHidden"		"1"
+				"Orb"
+				{
+					"Priority"			"DOTA_ORB_PRIORITY_ABILITY"
+					"ProjectileName"	"particles/items2_fx/skadi_projectile.vpcf"
+					"CastAttack"		"0" //This ensures the effect doesn't fire every time
+				}
+
+				"OnOrbFire"
+				{
+					"FireSound"
+					{
+						"EffectName"	"Hero_Lich.Attack"
+						"Target"		"CASTER"
+					}
+				}
+
+				"OnOrbImpact"
+				{
+					"ApplyModifier"
+					{
+						"ModifierName"	"modifier_frost_farm_effect"
+						"Target"		"TARGET"
+					}
+
+					"FireSound"
+					{
+						"EffectName"	"Hero_Lich.ProjectileImpact"
+						"Target"		"TARGET"
+					}
+				}
+			}
+
+			"modifier_frost_farm_effect"
+			{
+				"IsPurgable"	"1"
+				"IsDebuff"		"1"
+				"Duration"		"%duration"
+
+				"StatusEffectName"     "particles/status_fx/status_effect_frost.vpcf"
+				"StatusEffectPriority" "10"
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"		"%movement_speed"
+				}
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"movement_speed"			"-35"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"10.0"
+			}
+		}
+
+		"precache"
+		{
+			"soundfile"					"soundevents/game_sounds_heroes/game_sounds_lich.vsndevts"
 		}
 	}
 

@@ -231,7 +231,7 @@
 		//----------------------------------------------------------------
 		
 		"Ability1"					"self_destruct"			// Ability 1.
-		"Ability2"					""			// Ability 2.
+		"Ability2"					"frost_farm_orb"		// Ability 2.
 		"Ability3"					""			// Ability 3.
 		"Ability4"					""			// Ability 4.
 		"Ability5"					""			// Ability 5.
@@ -244,16 +244,23 @@
 
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"			// Type of attack - melee, ranged, etc.
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"			// Type of attack - melee, ranged, etc.
 		"AttackDamageMin"			"0"			// Damage range min.
 		"AttackDamageMax"			"0"			// Damage range max.
 		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"
+		"AttackRate"                 "2.75"     // Speed of attack.
+		"AttackAcquisitionRange"     "800"     // Range within a target can be acquired.
+		"AttackRange"                "600"     // Range within a target can be attacked.
+		"AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+		
+		"ProjectileModel"            "particles/base_attacks/fountain_attack.vpcf"
+		"ProjectileSpeed"            "600"
 
 		// Building Cost Stats
 		//----------------------------------------------------------------
 		"GoldCost"					"12"
 		"LumberCost"				"0"
-		"BuildTime"					"8"
+		"BuildTime"					"6"
 
 		// Bounty
 		//----------------------------------------------------------------

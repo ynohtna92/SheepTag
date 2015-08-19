@@ -91,7 +91,8 @@ function Precache( context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_items.vsndevts", context )
-
+		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts", context )
+					
 		-- Custom Particles
 		PrecacheResource("particle_folder", "particles/sun_strike", context)
 		PrecacheResource("particle_folder", "particles/destroy_fire", context)
