@@ -23,6 +23,8 @@
 		"Ability7"					"true_sight"							// Hidden Abilities onwards
 		"Ability8"					"sheep_evade"
 
+		"UnitLabel"					"builder"
+
 		// Attack
 		//-----------------------------------------------------------------------------------------------------------
 		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"

@@ -75,7 +75,6 @@ function build( keys )
 		table.insert(keys.caster.farms, 1, unit)
 		name = unit:GetUnitName()
 		-- One tick later this will happen
-		--[[
 		if name ~= "tiny_farm" then
 			Timers:CreateTimer(0, function()
 				if name == "hard_farm" or name == "wide_farm" then
@@ -106,7 +105,6 @@ function build( keys )
 				end		
 			end)
 		end
-		]]
 	end)
 
 	keys:OnConstructionCompleted(function(unit)
@@ -154,7 +152,7 @@ function build( keys )
 	-- It will turn off it building goes above 50% health again.
 	keys:EnableFireEffect("modifier_jakiro_liquid_fire_burn")
 end
-
+--[[
 function building_canceled( keys )
 	BuildingHelper:CancelBuilding(keys)
 end
@@ -184,6 +182,7 @@ function builder_queue( keys )
         end
     end
 end
+]]
 
 --[[
 	Author: Noya
@@ -283,7 +282,7 @@ end
 function self_destruct( keys )
 	--TODO: this won't remove the farm from keys.caster.farms.
 
-	keys.caster:RemoveBuilding(true)
+	BuildingHelper:RemoveBuilding(keys.caster, true)
 end
 
 function delete_last_farm( keys )
@@ -310,7 +309,7 @@ function remove_farms( cast , bool, exclude, farm )
 			if exclude and ent:GetUnitName() == farm then
 				-- do nothing
 			else
-				ent:RemoveBuilding(true)
+				BuildingHelper:RemoveBuilding(ent, true)
 				table.remove(cast.farms, 1)
 			end
 			if bool then
@@ -689,7 +688,7 @@ function farm_death( keys )
 	local particle2 = ParticleManager:CreateParticle("particles/sun_strike/invoker_sun_strike_ground.vpcf", PATTACH_ABSORIGIN, keys.attacker)
 	ParticleManager:SetParticleControl( particle2, 0, keys.caster:GetAbsOrigin())
 
-	keys.caster:RemoveBuilding(true)
+	BuildingHelper:RemoveBuilding(keys.caster, true)
 end
 
 function farm_bounty( keys )

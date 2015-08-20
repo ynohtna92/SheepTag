@@ -547,9 +547,21 @@ function SheepTag:OnEntityKilled( keys )
       end
     end
     ]]
+    BuildingHelper:ClearQueue(killedUnit)
     self:OnSheepKilled(killedUnit)
   elseif killedUnit:GetUnitName() == "npc_dota_hero_wisp" then
     self:OnWispKilled(killedUnit)
+  end
+
+  -- Building Killed BUILDINGHELPER
+  if killedUnit:IsNull() then
+    return
+  end
+  if IsCustomBuilding(killedUnit) then
+    local particle = ParticleManager:CreateParticle("particles/world_destruction_fx/base_statue_destruction_generic_c.vpcf", PATTACH_CUSTOMORIGIN, nil)
+    ParticleManager:SetParticleControl(particle,0 , killedUnit:GetAbsOrigin())
+    ParticleManager:ReleaseParticleIndex(particle)
+    killedUnit:AddNoDraw()
   end
   -- Put code here to handle when an entity gets killed
 end
@@ -566,20 +578,18 @@ function SheepTag:ModifyGoldFilter( event )
   end
 end
 
--- Stops killing between sheeps and sheeps killing shepherds
-function SheepTag:ModifyOrderFilter( event )
-  --PrintTable(event)
-  if event.order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
-    local target = EntIndexToHScript(event.entindex_target)
-    local units = EntIndexToHScript(event["units"]["0"])
-    if target:GetClassname() == "dota_item_drop" then
-      return true
-    end
-    if (target:GetUnitName() == "npc_dota_hero_lycan" or target:GetUnitName() == "npc_dota_hero_riki") and units:GetUnitName() == "npc_dota_hero_riki" then
-      event.order_type = DOTA_UNIT_ORDER_MOVE_TO_TARGET
-    end
+-- Called whenever a player changes its current selection, it keeps a list of entity indexes
+function SheepTag:OnPlayerSelectedEntities( event )
+  local pID = event.pID
+
+  GameRules.SELECTED_UNITS[pID] = event.selected_entities
+
+  -- This is for Building Helper to know which is the currently active builder
+  local mainSelected = GetMainSelectedEntity(pID)
+  if IsValidEntity(mainSelected) and IsBuilder(mainSelected) then
+    local player = PlayerResource:GetPlayer(pID)
+    player.activeBuilder = mainSelected
   end
-  return true
 end
 
 -- This function initializes the game mode and is called before anyone loads into the game
@@ -607,7 +617,7 @@ function SheepTag:InitSheepTag()
   --print('[SHEEPTAG] GameRules set')
 
   GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(SheepTag, "ModifyGoldFilter"), self)
-  GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(SheepTag, "ModifyOrderFilter"), self)
+  GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(SheepTag, "FilterExecuteOrder"), self)
 
   InitLogFile( "log/sheeptag.txt","")
 
@@ -646,8 +656,11 @@ function SheepTag:InitSheepTag()
   --ListenToGameEvent('dota_player_killed', Dynamic_Wrap(SheepTag, 'OnPlayerKilled'), self)
   --ListenToGameEvent('player_team', Dynamic_Wrap(SheepTag, 'OnPlayerTeam'), self)
 
-  CustomGameEventManager:RegisterListener( "building_helper_build_command", Dynamic_Wrap(BuildingHelper, "RegisterLeftClick"))
-  CustomGameEventManager:RegisterListener( "building_helper_cancel_command", Dynamic_Wrap(BuildingHelper, "RegisterRightClick"))
+    -- Register Listener
+  CustomGameEventManager:RegisterListener( "update_selected_entities", Dynamic_Wrap(SheepTag, 'OnPlayerSelectedEntities'))
+  CustomGameEventManager:RegisterListener( "repair_order", Dynamic_Wrap(SheepTag, "RepairOrder"))   
+  CustomGameEventManager:RegisterListener( "building_helper_build_command", Dynamic_Wrap(BuildingHelper, "BuildCommand"))
+  CustomGameEventManager:RegisterListener( "building_helper_cancel_command", Dynamic_Wrap(BuildingHelper, "CancelCommand"))
 
   Convars:RegisterCommand('player_say', function(...)
     local arg = {...}
@@ -785,8 +798,21 @@ function SheepTag:InitSheepTag()
   --SendToServerConsole( "dota_combine_models 0" )
 
   -- BH Snippet
-  -- This can be called with an optional argument: nHalfMapLength (see readme)
-  BuildingHelper:Init() --2688
+
+  -- Full units file to get the custom values
+  GameRules.AbilityKV = LoadKeyValues("scripts/npc/npc_abilities_custom.txt")
+  GameRules.UnitKV = LoadKeyValues("scripts/npc/npc_units_custom.txt")
+  GameRules.HeroKV = LoadKeyValues("scripts/npc/npc_heroes_custom.txt")
+  GameRules.ItemKV = LoadKeyValues("scripts/npc/npc_items_custom.txt")
+  GameRules.Requirements = LoadKeyValues("scripts/kv/tech_tree.kv")
+
+    -- Store and update selected units of each pID
+  GameRules.SELECTED_UNITS = {}
+
+  -- Keeps the blighted gridnav positions
+  GameRules.Blight = {}
+
+  --BuildingHelper:Init() --2688
   --BuildingHelper:BlockRectangularArea(Vector(-192,-192,0), Vector(192,192,0))
 
   --[[

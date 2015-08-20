@@ -1,14 +1,16 @@
 -- module_loader by Adynathos.
 BASE_MODULES = {
-	'util', 
+	'util',
 	'timers',
-	'buildinghelper',
-	'physics',
-	'FlashUtil',
-	'farm',
+	'sheeptag',
 	'abilities',
 	'commands',
-	'sheeptag',
+	'buildinghelper',
+	'orders',
+	'builder',
+	'mechanics',
+	'lib/notifications',
+	'lib/popups',
 }
 
 local function load_module(mod_name)
@@ -55,6 +57,8 @@ function Precache( context )
 		PrecacheResource("particle", "particles/units/heroes/hero_beastmaster/beastmaster_primal_target_flash.vpcf", context)
 		PrecacheResource("particle", "particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf", context)	
 
+		PrecacheResource("particle_folder", "particles/econ/items/earthshaker/earthshaker_gravelmaw/", context)
+
 		-- Items
 		PrecacheResource( "particle", "particles/units/heroes/hero_troll_warlord/troll_warlord_battletrance_buff.vpcf", context )
 		PrecacheResource( "particle", "particles/generic_gameplay/rune_haste_owner.vpcf", context )
@@ -78,6 +82,7 @@ function Precache( context )
 		PrecacheModel("models/buildings/building_racks_melee_reference.vmdl", context)
 		PrecacheModel("models/props_structures/bad_statue001.vmdl", context)
 		PrecacheModel("models/props_structures/good_statue010.vmdl", context)
+		PrecacheModel("models/props_structures/good_statue008.vmdl", context)
 		PrecacheModel("models/heroes/undying/undying_tower.vmdl", context)
 		PrecacheModel("models/items/hex/sheep_hex/sheep_hex.vmdl", context)
 		PrecacheModel("models/props_gameplay/sheep01.vmdl", context)
@@ -99,7 +104,7 @@ function Precache( context )
 
 		PrecacheUnitByNameSync("npc_dota_hero_wisp", context)
 
-		Farm:Precache(context)
+		PrecacheItemByNameSync("item_apply_modifiers", context)
 end
 
 -- Create the game mode when we activate
