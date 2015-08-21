@@ -3,7 +3,7 @@
 	"Language"		"English"
 	"Tokens"
 	{	
-		"addon_game_name"	"SheepTag"
+		"addon_game_name"	"SHEEP TAG"
 	
 		// Error Messages
 		"error_invalid_build_position"			"You can't build there"
@@ -11,5 +11,6 @@
 		"error_not_enough_lumber"				"Not Enough Lumber"
 		"error_full_health"						"Already on full health"
 		"error_queue_full"						"Queue is full"
+		"error_cannot_shop"						"You restricted from using the shop"
 	}
 }

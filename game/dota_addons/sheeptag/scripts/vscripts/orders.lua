@@ -98,6 +98,21 @@ function SheepTag:FilterExecuteOrder( filterTable )
         end
     end
 
+    ------------------------------------------------
+    --          Shop Purchase Order        --
+    ------------------------------------------------
+    if order_type == DOTA_UNIT_ORDER_PURCHASE_ITEM or order_type == DOTA_UNIT_ORDER_SELL_ITEM then
+        local purchaser = EntIndexToHScript(units["0"])
+        print(purchaser:GetUnitName().." order item purchase/sell")
+        if purchaser:GetUnitName() == "npc_dota_hero_riki" then
+            print(" Order denied")
+            SendErrorMessage(purchaser:GetPlayerOwnerID(), "#error_cannot_shop")
+            return false
+        else
+            print(" Order allowed")
+        end
+    end
+
     return true
 end
 
