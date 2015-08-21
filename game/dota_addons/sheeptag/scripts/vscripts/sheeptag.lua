@@ -1121,6 +1121,7 @@ function SheepTag:ClearLevel() -- Cleanup
   -- Remove all farms
   if #Sheeps > 0 then
     for _,v in ipairs(Sheeps) do
+      BuildingHelper:ClearQueue(v)
       remove_farms(v, false)
     end
   end

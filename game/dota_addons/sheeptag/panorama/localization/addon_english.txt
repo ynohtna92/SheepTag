@@ -11,6 +11,6 @@
 		"error_not_enough_lumber"				"Not Enough Lumber"
 		"error_full_health"						"Already on full health"
 		"error_queue_full"						"Queue is full"
-		"error_cannot_shop"						"You restricted from using the shop"
+		"error_cannot_shop"						"Sheep cannot use the shop"
 	}
 }
