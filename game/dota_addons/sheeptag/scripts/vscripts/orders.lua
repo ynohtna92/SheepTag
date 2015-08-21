@@ -94,7 +94,7 @@ function SheepTag:FilterExecuteOrder( filterTable )
             return true
         end
         if (target:GetUnitName() == "npc_dota_hero_lycan" or target:GetUnitName() == "npc_dota_hero_riki") and units:GetUnitName() == "npc_dota_hero_riki" then
-            order_type = DOTA_UNIT_ORDER_MOVE_TO_TARGET
+            filterTable.order_type = DOTA_UNIT_ORDER_MOVE_TO_TARGET
         end
     end
 
