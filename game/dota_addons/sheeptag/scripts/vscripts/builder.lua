@@ -83,7 +83,6 @@ function Build( event )
     	EmitSoundOnClient("DOTA_Item.ObserverWard.Activate", player)
 
     	-- Move the units away from the building place
-	
 
 	end)
 
