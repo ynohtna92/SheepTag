@@ -619,6 +619,8 @@ function SheepTag:InitSheepTag()
   GameRules:GetGameModeEntity():SetModifyGoldFilter(Dynamic_Wrap(SheepTag, "ModifyGoldFilter"), self)
   GameRules:GetGameModeEntity():SetExecuteOrderFilter(Dynamic_Wrap(SheepTag, "FilterExecuteOrder"), self)
 
+  GameRules:GetGameModeEntity():SetStashPurchasingDisabled(true)
+
   InitLogFile( "log/sheeptag.txt","")
 
   -- Event Hooks
