@@ -145,6 +145,7 @@ end
 function SheepTag:OnHeroInGame(hero)
   --print("[SHEEPTAG] Hero spawned in game for first time -- " .. hero:GetUnitName())
 
+  -- Game Starts for the first time! Run Once!
   if not self.initStuff then
     self:RevealMap(30)
     Timers:CreateTimer(4, function()
@@ -154,6 +155,14 @@ function SheepTag:OnHeroInGame(hero)
       GameRules:SendCustomMessage("WC3 Developers: <font color='#FF1493'>Chakra</font>, <font color='#FF1493'>XXXandBEER</font>, <font color='#FF1493'>GosuSheep</font> and lastly <font color='#FF1493'>Star[MD]</font>.", 0, 0)
       GameRules:SendCustomMessage("Special Thanks: <font color='#FF1493'>BMD</font>, <font color='#FF1493'>Noya</font> & <font color='#FF1493'>Jacklarnes</font> and everyone on IRC", 0, 0)
       GameRules:SendCustomMessage("Support this project on Github at https://github.com/ynohtna92/SheepTag", 0, 0)
+    end)
+
+    Timers:CreateTimer(5, function()
+      local msg = {
+        message = "Warm up",
+        duration = 4.0
+      }
+      FireGameEvent("show_center_message",msg)
     end)
 
     Timers:CreateTimer(10, function()
@@ -816,22 +825,6 @@ function SheepTag:InitSheepTag()
 
   --BuildingHelper:Init() --2688
   --BuildingHelper:BlockRectangularArea(Vector(-192,-192,0), Vector(192,192,0))
-
-  --[[
-  Timers:CreateTimer(0, function()
-      -- we have to handle the sheep animation
-    for i,v in ipairs(HeroList:GetAllHeroes()) do
-      if v and v:GetUnitName() == 'npc_dota_hero_riki' then
-        if v:IsIdle() and v:HasModifier("modifier_sheep_run") then
-          v:RemoveModifierByName("modifier_sheep_run")
-        elseif not v:IsIdle() and not v:HasModifier("modifier_sheep_run") then
-          GlobalDummy.sheepRun:ApplyDataDrivenModifier(GlobalDummy, v, "modifier_sheep_run", {})
-        end
-      end
-    end
-    return 0.01
-  end)
-  ]]
 
   --print('[SHEEPTAG] Done loading SheepTag gamemode!\n\n')
 end

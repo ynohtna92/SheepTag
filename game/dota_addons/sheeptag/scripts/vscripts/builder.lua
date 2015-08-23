@@ -229,7 +229,9 @@ end
 
 -- Called when the move_to_point ability starts
 function StartBuilding( keys )
-	BuildingHelper:StartBuilding(keys)
+	if keys.caster.work then
+		BuildingHelper:StartBuilding(keys)
+	end
 end
 
 -- Called when the Cancel ability-item is used

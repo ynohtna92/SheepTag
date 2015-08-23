@@ -92,6 +92,7 @@
 		"AbilityTextureName"			"build_frost_farm"
 		"AbilityGoldCost"				"30"
 		"AbilityChannelTime"			"6"
+		"HotKeyOverride"				"G"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -159,6 +160,7 @@
 		"AbilityTextureName"			"build_magic_farm"
 		"AbilityGoldCost"				"30"
 		"AbilityChannelTime"			"1"
+		"HotKeyOverride"				"G"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -306,6 +308,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"omniknight_repel"
+		"HotKeyOverride"				"E"
 	
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -379,6 +382,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"sentry_ward"
+		"HotKeyOverride"				"W"
 	
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -514,6 +518,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"terrorblade_conjure_image"
+		"HotKeyOverride"				"R"
 	
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -576,6 +581,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"centaur_hoof_stomp"
+		"HotKeyOverride"				"D"
 	
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -685,7 +691,7 @@
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
-		//"HotKeyOverride"				"F"
+		"HotKeyOverride"				"V"
 		"AbilityTextureName"			"riki_permanent_invisibility"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"		
@@ -815,7 +821,7 @@
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_AOE"
 		"BaseClass"						"ability_datadriven"
-		//"HotKeyOverride"				"F"
+		"HotKeyOverride"				"F"
 		"AbilityTextureName"			"beastmaster_call_of_the_wild_hawk"
 		"AOERadius"						"%radius"
 
@@ -1187,6 +1193,7 @@
 		"AbilityTextureName"			"brewmaster_storm_wind_walk"
 		"AbilityGoldCost"				"8"
 		"AbilityChannelTime"			"1.0"
+		"HotKeyOverride"				"G"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1309,7 +1316,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"self_destruct"
-		//"HotKeyOverride"				"D"
+		"HotKeyOverride"				"D"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1337,6 +1344,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"level2_abilities"
+		"HotKeyOverride"				"B"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1364,6 +1372,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"level1_abilities"
+		"HotKeyOverride"				"B"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1391,6 +1400,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_sentry_farm"
+		"HotKeyOverride"				"E"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1452,6 +1462,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_aura_farm"
+		"HotKeyOverride"				"A"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1513,6 +1524,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_invisible_farm"
+		"HotKeyOverride"				"X"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1574,6 +1586,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_upgraded_farm"
+		"HotKeyOverride"				"G"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1635,6 +1648,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_strong_farm"
+		"HotKeyOverride"				"D"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1696,6 +1710,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_stack_farm"
+		"HotKeyOverride"				"S"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1757,6 +1772,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_savings_farm"
+		"HotKeyOverride"				"C"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1818,6 +1834,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_hard_farm"
+		"HotKeyOverride"				"R"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1879,6 +1896,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_wide_farm"
+		"HotKeyOverride"				"W"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -1940,6 +1958,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_tiny_farm"
+		"HotKeyOverride"				"T"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -2001,6 +2020,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_normal_farm"
+		"HotKeyOverride"				"F"
 
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
