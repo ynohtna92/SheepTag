@@ -99,6 +99,21 @@ function SheepTag:FilterExecuteOrder( filterTable )
     end
 
     ------------------------------------------------
+    --          Item Pickup Order        --
+    ------------------------------------------------
+    if order_type == DOTA_UNIT_ORDER_PICKUP_ITEM then
+        PrintTable(filterTable)
+        local target = EntIndexToHScript(targetIndex)
+        local units = unit
+        if target:GetClassname() == "dota_item_drop" and (units:GetUnitName() == "npc_dota_hero_riki" or units:GetUnitName() == "npc_dota_hero_wisp") then
+            filterTable.position_x = target:GetAbsOrigin().x
+            filterTable.position_y = target:GetAbsOrigin().y
+            filterTable.position_z = target:GetAbsOrigin().z
+            filterTable.order_type = DOTA_UNIT_ORDER_MOVE_TO_POSITION
+        end
+    end
+
+    ------------------------------------------------
     --          Shop Purchase Order        --
     ------------------------------------------------
     if order_type == DOTA_UNIT_ORDER_PURCHASE_ITEM or order_type == DOTA_UNIT_ORDER_SELL_ITEM then
