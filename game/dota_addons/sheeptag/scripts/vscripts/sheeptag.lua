@@ -944,20 +944,22 @@ function SheepTag:PlayerSay(keys)
     FindClearSpaceForUnit(hero, hero:GetAbsOrigin(), true)
   end
 
-  if args[1] == "-buy" then
-    if args[2] ~= nil then
-      CommandBuy(hero, args[2])
+  if hero:GetUnitName() == "npc_dota_hero_lycan" then
+    if args[1] == "-buy" then
+      if args[2] ~= nil then
+        CommandBuy(hero, args[2])
+      end
     end
-  end
 
-  if args[1] == "-sell" then
-    if args[2] ~= nil then
-      CommandSell(hero, args[2])
+    if args[1] == "-sell" then
+      if args[2] ~= nil then
+        CommandSell(hero, args[2])
+      end
     end
-  end
 
-  if args[1] == "-sellall" then
-    CommandSellAll(hero)
+    if args[1] == "-sellall" then
+      CommandSellAll(hero)
+    end
   end
 
   if args[1] == "-g" then
@@ -1038,6 +1040,8 @@ function SheepTag:StartRound( )
     v:AddNoDraw()
     v:AddAbility('shepherd_pregame')
     v:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+    Notifications:ClearBottom(v:GetPlayerID())
+    Notifications:Bottom(v:GetPlayerID(), {text="You are a wolf! You will spawn in 15 seconds.", style={color='#FFFF00'}, duration=5})
   end
   Timers:CreateTimer(15, function()
     for _,v in ipairs(Shepherds) do

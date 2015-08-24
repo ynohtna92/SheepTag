@@ -30,7 +30,7 @@ function CommandBuy ( hero , args )
 			hero:SpendGold( shopItems[args][1], DOTA_ModifyGold_PurchaseItem)
 			local item = CreateItem(shopItems[args][2], hero, hero)
 			hero:AddItem(item)
-			--EmitSoundOnClient("General.Buy", PlayerResource:GetPlayer(hero:GetPlayerID()))
+			EmitSoundOnClient("General.Buy", PlayerResource:GetPlayer(hero:GetPlayerID()))
 		end
 	end
 end
@@ -43,7 +43,7 @@ function CommandSell ( hero , args )
 		if item then
 			hero:ModifyGold(item:GetCost()/2 , false, DOTA_ModifyGold_SellItem)
 			hero:RemoveItem(item)
-			--EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
+			EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
 		end
 	end 
 end
@@ -55,7 +55,7 @@ function CommandSellAll ( hero )
 		if item then
 			hero:ModifyGold(item:GetCost()/2 , false, DOTA_ModifyGold_SellItem)
 			hero:RemoveItem(item)
-			--EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
+			EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
 		end
 	end
 end
@@ -77,12 +77,16 @@ function CommandGive ( hero , arg1, arg2 ) -- arg1: player, arg2: gold (optional
 				print('GIVE: '..arg1..' '..gold)
 				hero:SpendGold( gold, DOTA_ModifyGold_Unspecified)
 				hero2:ModifyGold( gold , false, DOTA_ModifyGold_Unspecified)
+				Notifications:Bottom(hero:GetPlayerID() , {text="Gave ".. gold .. " gold to " .. PlayerResource:GetPlayerName(id2)..".", style={color='#FFFF00'}, duration=3})
+				Notifications:Bottom(hero2:GetPlayerID() , {text="Recieved ".. gold .. " gold from " .. PlayerResource:GetPlayerName(hero:GetPlayerID())..".", style={color='#FFFF00'}, duration=3})
 			end
 		else
 			print('GIVE: '..arg1)
 			local all = hero:GetGold()
 			hero:SpendGold( all, DOTA_ModifyGold_Unspecified)
 			hero2:ModifyGold( all , false, DOTA_ModifyGold_Unspecified)
+			Notifications:Bottom(hero:GetPlayerID() , {text="Gave ".. gold .. " gold to " .. PlayerResource:GetPlayerName(id2)..".", style={color='#FFFF00'}, duration=3})
+			Notifications:Bottom(hero2:GetPlayerID() , {text="Recieved ".. gold .. " gold from " .. PlayerResource:GetPlayerName(hero:GetPlayerID())..".", style={color='#FFFF00'}, duration=3})
 		end
 	end
 end

@@ -325,8 +325,9 @@ end
 
 function save_sheep( keys )
 	if keys.target:GetUnitName() == "npc_dota_hero_wisp" then
-	print("Sheep Saved!")
+		print("Sheep Saved!")
 		keys.target:ForceKill(false)
+		Notifications:TopToAll({text="A sheep has been saved!", duration=3.0})
 	end
 end
 
