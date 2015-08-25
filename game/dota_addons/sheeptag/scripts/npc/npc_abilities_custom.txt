@@ -159,7 +159,7 @@
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"build_magic_farm"
 		"AbilityGoldCost"				"30"
-		"AbilityChannelTime"			"1"
+		"AbilityChannelTime"			"10"
 		"HotKeyOverride"				"G"
 
 		// Stats
@@ -216,7 +216,7 @@
 			"01"
 			{
 				"var_type"        "FIELD_INTEGER"
-				"channel"         "1"
+				"channel"         "10"
 			}
 		}
 	}
@@ -1412,7 +1412,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"4"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1442,7 +1442,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"4" 
 			}
 			"02"
 			{
@@ -1474,7 +1474,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"10"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1504,7 +1504,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"10" 
 			}
 			"02"
 			{
@@ -1536,7 +1536,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1566,7 +1566,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -1598,7 +1598,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1628,7 +1628,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -1660,7 +1660,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1690,7 +1690,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -1722,7 +1722,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1752,7 +1752,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -1784,7 +1784,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1814,7 +1814,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -1846,7 +1846,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"4" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"250"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1876,7 +1876,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -1908,7 +1908,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"3" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"220"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -1938,7 +1938,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -1970,7 +1970,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"1" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"100"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -2000,7 +2000,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{
@@ -2032,7 +2032,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"1"
 		"AbilityCastRange"				"150"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -2063,7 +2063,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"build_time"			"2" 
+				"build_time"			"1" 
 			}
 			"02"
 			{

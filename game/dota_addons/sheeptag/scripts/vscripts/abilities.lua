@@ -226,6 +226,7 @@ function UpgradeBuilding( event )
 	local newRelativeHP = math.ceil(building:GetMaxHealth() * currentHealthPercentage)
 	if newRelativeHP == 0 then newRelativeHP = 1 end --just incase rounding goes wrong
 	building:SetHealth(newRelativeHP)
+	building:SetMana(0)
 
 	print("Building upgrade complete.")
 end

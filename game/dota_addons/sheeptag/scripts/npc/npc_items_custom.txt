@@ -169,7 +169,7 @@
 		// BuildingHelper info
 		"Building"						"1" //bool
 		"BuildingSize"					"2" // this is (3x64) by (3x64) units, so 9 squares.
-		"BuildTime"						".4"
+		"BuildTime"						"10"
 		"AbilityCastRange"				"100"
 		"UpdateHealth"					"1" //bool
 		"Scale"							"1" //bool
@@ -188,8 +188,28 @@
 		{
 			"RunScript"
 			{
-				"ScriptFile"			"scripts/vscripts/abilities.lua"
-				"Function"				"build"
+				"ScriptFile"	"builder.lua"
+				"Function"		"Build"
+				"ItemUnitName"	"aura_farm"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"build_time"			"10" 
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"gold_cost"				"45"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"lumber_cost"			"0"
 			}
 		}
 

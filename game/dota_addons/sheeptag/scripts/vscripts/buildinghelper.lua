@@ -1063,7 +1063,7 @@ function BuildingHelper:PrintQueue(builder)
     for k,v in pairs(buildingQueue) do
         DebugPrint(" #"..k..": "..buildingQueue[k]["name"].." at "..VectorString(buildingQueue[k]["location"]))
     end
-    print("------------------------------------")
+    DebugPrint("------------------------------------")
 end
 
 function SnapToGrid( size, location )
