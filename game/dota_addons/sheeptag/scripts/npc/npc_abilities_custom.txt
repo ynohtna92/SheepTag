@@ -779,6 +779,7 @@
 				"EffectAttachType" "follow_origin"
 				"StatusEffectName"	"particles/status_fx/status_effect_blur.vpcf"
   				"StatusEffectPriority" "15"
+				"TextureName"			"riki_permanent_invisibility"
 				"States"
 		    	{
 		    		"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_ENABLED"
@@ -1278,6 +1279,7 @@
 				"IsPurgable"	"1"
 				"IsDebuff"		"1"
 				"Duration"		"%duration"
+				"TextureName"			"ancient_apparition_cold_feet"
 
 				"StatusEffectName"     "particles/status_fx/status_effect_frost.vpcf"
 				"StatusEffectPriority" "10"

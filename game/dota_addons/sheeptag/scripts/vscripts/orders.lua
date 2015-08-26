@@ -106,10 +106,8 @@ function SheepTag:FilterExecuteOrder( filterTable )
         local target = EntIndexToHScript(targetIndex)
         local units = unit
         if target:GetClassname() == "dota_item_drop" and (units:GetUnitName() == "npc_dota_hero_riki" or units:GetUnitName() == "npc_dota_hero_wisp") then
-            filterTable.position_x = target:GetAbsOrigin().x
-            filterTable.position_y = target:GetAbsOrigin().y
-            filterTable.position_z = target:GetAbsOrigin().z
-            filterTable.order_type = DOTA_UNIT_ORDER_MOVE_TO_POSITION
+            SendErrorMessage(purchaser:GetPlayerOwnerID(), "#error_cannot_pickup")
+            return false
         end
     end
 

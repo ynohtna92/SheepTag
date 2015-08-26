@@ -14,9 +14,9 @@ VERSION = "B180815"
 -- Game Variables
 STARTING_GOLD = 0
 ROUND_TIME = 600
-SHEPHERD_GOLD_TICK_TIME = 60
-SHEPHERD_GOLD_PER_TICK = 20
-SHEPHERD_SPAWN = 10
+SHEPHERD_GOLD_TICK_TIME = 1
+SHEPHERD_GOLD_PER_TICK = 2
+SHEPHERD_SPAWN = 20
 SHEEP_GOLD_TICK_TIME = 1
 SHEEP_GOLD_PER_TICK = 1
 SHEEP_GOLD_BOUNTY = 30
@@ -1034,24 +1034,24 @@ function SheepTag:StartRound( )
     end)
   end
 
-  FireGameEvent('cgm_timer_display', { timerMsg = "Wolves Spawn", timerSeconds = 15, timerWarning = 5, timerEnd = true, timerPosition = 0})
+  FireGameEvent('cgm_timer_display', { timerMsg = "Wolves Spawn", timerSeconds = SHEPHERD_SPAWN, timerWarning = 5, timerEnd = true, timerPosition = 0})
   print(#Shepherds)
   for _,v in ipairs(Shepherds) do
     v:AddNoDraw()
     v:AddAbility('shepherd_pregame')
     v:FindAbilityByName("shepherd_pregame"):SetLevel(1)
     Notifications:ClearBottom(v:GetPlayerID())
-    Notifications:Bottom(v:GetPlayerID(), {text="You are a wolf! You will spawn in 15 seconds.", style={color='#FFFF00'}, duration=5})
+    Notifications:Bottom(v:GetPlayerID(), {text="You are a wolf! You will spawn in "..SHEPHERD_SPAWN.." seconds.", style={color='#FFFF00'}, duration=5})
   end
-  Timers:CreateTimer(15, function()
+  Timers:CreateTimer(SHEPHERD_SPAWN, function()
     for _,v in ipairs(Shepherds) do
       v:RemoveNoDraw()
       v:RemoveAbility('shepherd_pregame')
       v:RemoveModifierByName('modifier_shepherd_pregame')
     end
     GameRules:SendCustomMessage("The wolves have been set free!", 0, 0)
-    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 600, timerWarning = 30, timerEnd = false, timerPosition = 0})
-    self.roundTimer = Timers:CreateTimer(600, function()
+    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = ROUND_TIME, timerWarning = 30, timerEnd = false, timerPosition = 0})
+    self.roundTimer = Timers:CreateTimer(ROUND_TIME, function()
       self:EndRound(true)
     end)
   end)

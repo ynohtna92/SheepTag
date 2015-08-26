@@ -12,5 +12,10 @@
 		"error_full_health"						"Already on full health"
 		"error_queue_full"						"Queue is full"
 		"error_cannot_shop"						"Sheep cannot use the shop"
+		"error_cannot_pickup"					"Cannot pick up items"
+		"error_no_inventory_room"				"No room in inventory for item"
+		"error_item_missing"					"That item does not exist"
+		"error_syntax_sell"						"Syntax Error: -sell [1-6](Item Slot)"
+		"error_syntax_give"						"Syntax Error: -give [0-9](Player) <gold>(optional)"
 	}
 }

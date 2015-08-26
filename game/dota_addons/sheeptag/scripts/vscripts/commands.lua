@@ -25,13 +25,21 @@ shopItems = {
 
 function CommandBuy ( hero , args )
 	print('BUY: ' .. args)
-	if shopItems[args] and hero:GetGold() >= shopItems[args][1] then
-		if hero:HasRoomForItem(shopItems[args][2], false, false) ~= 4 then
-			hero:SpendGold( shopItems[args][1], DOTA_ModifyGold_PurchaseItem)
-			local item = CreateItem(shopItems[args][2], hero, hero)
-			hero:AddItem(item)
-			EmitSoundOnClient("General.Buy", PlayerResource:GetPlayer(hero:GetPlayerID()))
+	if shopItems[args] then
+		if hero:GetGold() >= shopItems[args][1] then
+			if hero:HasRoomForItem(shopItems[args][2], false, false) ~= 4 then
+				hero:SpendGold( shopItems[args][1], DOTA_ModifyGold_PurchaseItem)
+				local item = CreateItem(shopItems[args][2], hero, hero)
+				hero:AddItem(item)
+				EmitSoundOnClient("General.Buy", PlayerResource:GetPlayer(hero:GetPlayerID()))
+			else
+				SendErrorMessage( hero:GetPlayerID(), "#error_no_inventory_room" )
+			end
+		else
+			SendErrorMessage( hero:GetPlayerID(), "#error_not_enough_gold" )
 		end
+	else
+		SendErrorMessage( hero:GetPlayerID(), "#error_item_missing" )
 	end
 end
 
@@ -44,7 +52,11 @@ function CommandSell ( hero , args )
 			hero:ModifyGold(item:GetCost()/2 , false, DOTA_ModifyGold_SellItem)
 			hero:RemoveItem(item)
 			EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
+		else
+			SendErrorMessage( hero:GetPlayerID(), "#error_item_missing" )
 		end
+	else
+		SendErrorMessage( hero:GetPlayerID(), "#error_syntax_sell" )
 	end 
 end
 
@@ -63,11 +75,13 @@ end
 function CommandGive ( hero , arg1, arg2 ) -- arg1: player, arg2: gold (optional)
 	local id2 = tonumber(arg1)
 	if not id2 then
+		SendErrorMessage( hero:GetPlayerID(), "#error_syntax_give" )
 		return
 	end
 	local gold = tonumber(arg2)
 	local player = PlayerResource:GetPlayer(id2)
 	if not player then
+		SendErrorMessage( hero:GetPlayerID(), "#error_syntax_give" )
 		return
 	end
 	local hero2 = player:GetAssignedHero()
@@ -79,14 +93,20 @@ function CommandGive ( hero , arg1, arg2 ) -- arg1: player, arg2: gold (optional
 				hero2:ModifyGold( gold , false, DOTA_ModifyGold_Unspecified)
 				Notifications:Bottom(hero:GetPlayerID() , {text="Gave ".. gold .. " gold to " .. PlayerResource:GetPlayerName(id2)..".", style={color='#FFFF00'}, duration=3})
 				Notifications:Bottom(hero2:GetPlayerID() , {text="Recieved ".. gold .. " gold from " .. PlayerResource:GetPlayerName(hero:GetPlayerID())..".", style={color='#FFFF00'}, duration=3})
+			else
+				SendErrorMessage( hero:GetPlayerID(), "#error_not_enough_gold" )
 			end
 		else
-			print('GIVE: '..arg1)
 			local all = hero:GetGold()
-			hero:SpendGold( all, DOTA_ModifyGold_Unspecified)
-			hero2:ModifyGold( all , false, DOTA_ModifyGold_Unspecified)
-			Notifications:Bottom(hero:GetPlayerID() , {text="Gave ".. gold .. " gold to " .. PlayerResource:GetPlayerName(id2)..".", style={color='#FFFF00'}, duration=3})
-			Notifications:Bottom(hero2:GetPlayerID() , {text="Recieved ".. gold .. " gold from " .. PlayerResource:GetPlayerName(hero:GetPlayerID())..".", style={color='#FFFF00'}, duration=3})
+			if all > 0 then
+				print('GIVE: '..arg1)
+				hero:SpendGold( all, DOTA_ModifyGold_Unspecified)
+				hero2:ModifyGold( all , false, DOTA_ModifyGold_Unspecified)
+				Notifications:Bottom(hero:GetPlayerID() , {text="Gave ".. gold .. " gold to " .. PlayerResource:GetPlayerName(id2)..".", style={color='#FFFF00'}, duration=3})
+				Notifications:Bottom(hero2:GetPlayerID() , {text="Recieved ".. gold .. " gold from " .. PlayerResource:GetPlayerName(hero:GetPlayerID())..".", style={color='#FFFF00'}, duration=3})
+			else
+				SendErrorMessage( hero:GetPlayerID(), "#error_not_enough_gold" )
+			end
 		end
 	end
 end
