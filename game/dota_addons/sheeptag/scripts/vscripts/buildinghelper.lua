@@ -357,10 +357,12 @@ function BuildingHelper:RemoveBuilding( building, bForcedKill )
     if bForcedKill then
         --building:ForceKill(bForcedKill)
         -- SHEEP TAG
-        local bID = GetIndex(SheepTag.vPlayerIDToHero[building.builder:GetPlayerID()].farms, building)
-        if bID ~= -1 then
-            table.remove(building.builder.farms, bID)
-            ScoreBoard:Update( {key="PLAYER", ID=building.builder:GetPlayerID(), panel={ "Farms" }, paneltext={ #SheepTag.vPlayerIDToHero[building.builder:GetPlayerID()].farms }})
+        if building.builder then
+            local bID = GetIndex(SheepTag.vPlayerIDToHero[building.builder:GetPlayerID()].farms, building)
+            if bID ~= -1 then
+                table.remove(building.builder.farms, bID)
+                ScoreBoard:Update( {key="PLAYER", ID=building.builder:GetPlayerID(), panel={ "Farms" }, paneltext={ #SheepTag.vPlayerIDToHero[building.builder:GetPlayerID()].farms }})
+            end 
         end
 
         building:RemoveSelf()
