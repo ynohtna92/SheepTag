@@ -200,6 +200,7 @@ function UpgradeBuilding( event )
 
 	-- Keep the gridnav blockers and hull radius
 	local blockers = caster.blockers
+	local builder = caster.builder
 	local hull_radius = caster:GetHullRadius()
 	local flag = caster.flag
 
@@ -207,11 +208,15 @@ function UpgradeBuilding( event )
 	if IsValidEntity(caster) then	
 		-- Remove old building entity
 		caster:RemoveSelf()
+
     end
+
+	local bID = GetIndex(caster.builder.farms, caster)
 
     -- New building
 	local building = BuildingHelper:PlaceBuilding(player, new_unit, position, false, nil) 
 	building.blockers = blockers
+	building.builder = builder
 	building:SetHullRadius(hull_radius)
 	building:SetModelScale(event.MaxScale)
 	InitAbilities(building)
@@ -220,8 +225,11 @@ function UpgradeBuilding( event )
 	GiveUnitDataDrivenModifier(building, building, "modifier_farm_no_turn_datadriven", -1)
 	GiveUnitDataDrivenModifier(building, building, "modifier_farm_built_datadriven", -1)
 	GiveUnitDataDrivenModifier(building, building, "modifier_farm_no_health_bar_datadriven", -1)
-
-	table.insert(hero.farms, 1, building)
+	
+	if bID ~= -1 then
+		building.builder.farms[bID] = building
+	end
+	--table.insert(hero.farms, 1, building)
 
 	local newRelativeHP = math.ceil(building:GetMaxHealth() * currentHealthPercentage)
 	if newRelativeHP == 0 then newRelativeHP = 1 end --just incase rounding goes wrong
@@ -282,7 +290,6 @@ end
 
 function self_destruct( keys )
 	--TODO: this won't remove the farm from keys.caster.farms.
-
 	BuildingHelper:RemoveBuilding(keys.caster, true)
 end
 
@@ -311,7 +318,6 @@ function remove_farms( cast , bool, exclude, farm )
 				-- do nothing
 			else
 				BuildingHelper:RemoveBuilding(ent, true)
-				table.remove(cast.farms, 1)
 			end
 			if bool then
 				break;
@@ -320,6 +326,7 @@ function remove_farms( cast , bool, exclude, farm )
 			-- this farm was already destroyed with self_destruct ability.
 			-- it should not be in this table, so clean it up now.
 			table.remove(cast.farms, 1)
+			ScoreBoard:Update( {key="PLAYER", ID=cast:GetPlayerID() , panel={ "Farms" }, paneltext={ #cast.farms }})
 		end
 	end
 end

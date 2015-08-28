@@ -141,6 +141,7 @@ function Build( event )
 		--SheepTag Specific Functions
 		color_unit(unit)
 		table.insert(caster.farms, 1, unit)
+		ScoreBoard:Update( {key="PLAYER", ID=playerID, panel={ "Farms" }, paneltext={ #caster.farms }})
 		-- Break Sheep Invis
 		caster:RemoveModifierByName("modifier_invisibility_datadriven")
 		-- This modifier will delete the farm, manage particle effects when it dies.

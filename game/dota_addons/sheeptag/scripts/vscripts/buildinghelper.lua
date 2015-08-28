@@ -357,6 +357,12 @@ function BuildingHelper:RemoveBuilding( building, bForcedKill )
     if bForcedKill then
         --building:ForceKill(bForcedKill)
         building:RemoveSelf()
+        -- SHEEP TAG
+        local bID = GetIndex(building.builder.farms, building)
+        if bID ~= -1 then
+            table.remove(building.builder.farms, bID)
+            ScoreBoard:Update( {key="PLAYER", ID=building.builder:GetPlayerID(), panel={ "Farms" }, paneltext={ #building.builder.farms }})
+        end
     end
 end
 
@@ -914,6 +920,9 @@ function BuildingHelper:AddToQueue( builder, location, bQueued )
 
     -- Create model ghost dummy out of the map, then make pretty particles
     local mgd = CreateUnitByName(building, OutOfWorldVector, false, nil, nil, builder:GetTeam())
+    if mgd == nil then
+        return
+    end
 
     local modelParticle = ParticleManager:CreateParticleForPlayer("particles/buildinghelper/ghost_model.vpcf", PATTACH_ABSORIGIN, mgd, player)
     ParticleManager:SetParticleControl(modelParticle, 0, location)

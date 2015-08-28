@@ -11,6 +11,7 @@ BASE_MODULES = {
 	'mechanics',
 	'lib/notifications',
 	'lib/popups',
+	'lib/scoreboard',
 }
 
 local function load_module(mod_name)

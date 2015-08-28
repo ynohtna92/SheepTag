@@ -1,5 +1,5 @@
 --[[
-Last modified: 18/08/2015
+Last modified: 27/08/2015
 Author: A_Dizzle
 Co-Author: Myll
 ]]
@@ -9,13 +9,13 @@ print ('[SHEEPTAG] sheeptag.lua' )
 DEBUG = true
 THINK_TIME = 0.1
 
-VERSION = "B180815"
+VERSION = "B270815"
 
 -- Game Variables
 STARTING_GOLD = 0
 ROUND_TIME = 600
-SHEPHERD_GOLD_TICK_TIME = 1
-SHEPHERD_GOLD_PER_TICK = 2
+SHEPHERD_GOLD_TICK_TIME = 2
+SHEPHERD_GOLD_PER_TICK = 1
 SHEPHERD_SPAWN = 20
 SHEEP_GOLD_TICK_TIME = 1
 SHEEP_GOLD_PER_TICK = 1
@@ -238,6 +238,8 @@ function SheepTag:OnHeroInGame(hero)
     hero:AddItem(item)
   elseif heroName == "npc_dota_hero_lycan" and id ~= -1 then -- Shepherd
     InitAbilities(hero)
+
+    hero.sheepKills = 0
 
     Timers:CreateTimer(function()
       local spawnpoint = SpawnPointsShepherd[spawnid]
@@ -556,10 +558,22 @@ function SheepTag:OnEntityKilled( keys )
       end
     end
     ]]
+    if killerEntity:GetUnitName() == "npc_dota_hero_lycan" then
+      killerEntity.sheepKills = killerEntity.sheepKills + 1
+      ScoreBoard:Update( {key="PLAYER", ID=killerEntity:GetPlayerID() , panel={ "Kills" }, paneltext={ killerEntity.sheepKills }})
+    end
     BuildingHelper:ClearQueue(killedUnit)
     self:OnSheepKilled(killedUnit)
+    CustomGameEventManager:Send_ServerToAllClients("scoreboard_delete", {})
+    Timers:CreateTimer(0.1, function()
+      self:SetupScoreboard()
+    end)
   elseif killedUnit:GetUnitName() == "npc_dota_hero_wisp" then
     self:OnWispKilled(killedUnit)
+    CustomGameEventManager:Send_ServerToAllClients("scoreboard_delete", {})
+    Timers:CreateTimer(0.1, function()
+      self:SetupScoreboard()
+    end)
   end
 
   -- Building Killed BUILDINGHELPER
@@ -752,6 +766,19 @@ function SheepTag:InitSheepTag()
   self.vRadiant = {}
   self.vDire = {}
 
+    -- PLAYER COLORS
+  self.m_TeamColors = {}
+  self.m_TeamColors[0] = "#3164DA" -- 49:100:218 / #3164DA
+  self.m_TeamColors[1] = "#57E19A" -- 87:224:154 / #57E19A
+  self.m_TeamColors[2] = "#AA00A0" -- 171:0:156 / #AA00A0
+  self.m_TeamColors[3] = "#D3CB14" -- 211:203:16 / #D3CB14
+  self.m_TeamColors[4] = "#D65705" -- 214:87:8 / #D65705
+  self.m_TeamColors[5] = "#D26496" -- 210:97:153 / #D26496
+  self.m_TeamColors[6] = "#829650" -- 130:154:80 / #829650
+  self.m_TeamColors[7] = "#64BEC8" -- 99:188:206 / #64BEC8
+  self.m_TeamColors[8] = "#056E32" -- 7:109:44 / #056E32
+  self.m_TeamColors[9] = "#825005" -- 124:75:6 / #825005
+
   self.nRadiantKills = 0
   self.nDireKills = 0
 
@@ -766,6 +793,16 @@ function SheepTag:InitSheepTag()
   self.goldShepherdTimer = nil
 
   self.RadiantSheep = true
+
+  -- Game modes/features (-1 Disabled in most cases)
+  self.modeSwitch = false
+  self.modeSwitchLives = -1
+  self.modeSwitchProtection = 0
+  self.modeTime = -1
+  self.modeView = false
+  self.modeGold = -1
+  self.modeRunes = false
+  self.modePractice = false
 
   self.fowReveal = {}
   self.fowReveal[1] = { 0, 0 }
@@ -940,10 +977,6 @@ function SheepTag:PlayerSay(keys)
 
   -- Player Commands
 
-  if string.find(keys.text, "^-unstuck") or string.find(keys.text, "^-u") then
-    FindClearSpaceForUnit(hero, hero:GetAbsOrigin(), true)
-  end
-
   if hero:GetUnitName() == "npc_dota_hero_lycan" then
     if args[1] == "-buy" then
       if args[2] ~= nil then
@@ -976,38 +1009,27 @@ function SheepTag:PlayerSay(keys)
     CommandDestroyExclude(hero)
   end
 
-  if args[1] == "-end" then
-    Timers:CreateTimer(3, function()
-      GameRules:SetGameWinner(hero:GetTeam())
-      GameRules:SetSafeToLeave( true )
-    end)
-    self.EndMessage()
-  end
-
-  if args[1] == "-kill" then
-    hero:ForceKill(false)
-  end
-
   if args[1] == "-unstuck" then
     FindClearSpaceForUnit(hero, hero:GetAbsOrigin(), false)
   end
-
-  if string.find(keys.text, "^-time") then
-    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 12, timerWarning = 10, timerEnd = true, timerPosition = 0})
+  
+  if args[1] == "-end" and plyID == GetListenServerHost():GetPlayerID() then
+    GameRules:SetGameWinner(hero:GetTeam())
+    GameRules:SetSafeToLeave( true )
+    self.EndMessage()
   end
 
-  if args[1] == "-testend" then
+  if DEBUG and args[1] == "-kill" then
+    hero:ForceKill(false)
+  end
+
+  if DEBUG and args[1] == "-testend" then
     self:EndRound(true)
   end
 
-  if args[1] == "-teststart" then
+  if DEBUG and args[1] == "-teststart" then
     self:StartRound()
   end
-  --[[
-  if string.find(keys.text, "^-reset") and plyID == 0 then
-    GameMode:ResetGame()
-  end
-  ]]
 end
 
 function SheepTag:StartRound( )
@@ -1033,8 +1055,8 @@ function SheepTag:StartRound( )
       return SHEPHERD_GOLD_TICK_TIME
     end)
   end
-
-  FireGameEvent('cgm_timer_display', { timerMsg = "Wolves Spawn", timerSeconds = SHEPHERD_SPAWN, timerWarning = 5, timerEnd = true, timerPosition = 0})
+  self:SetupScoreboard()
+  FireGameEvent('cgm_timer_display', { timerMsg = "Wolves Spawn", timerSeconds = SHEPHERD_SPAWN, timerWarning = 5, timerEnd = true, timerPosition = 2})
   print(#Shepherds)
   for _,v in ipairs(Shepherds) do
     v:AddNoDraw()
@@ -1050,7 +1072,7 @@ function SheepTag:StartRound( )
       v:RemoveModifierByName('modifier_shepherd_pregame')
     end
     GameRules:SendCustomMessage("The wolves have been set free!", 0, 0)
-    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = ROUND_TIME, timerWarning = 30, timerEnd = false, timerPosition = 0})
+    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = ROUND_TIME, timerWarning = 30, timerEnd = false, timerPosition = 2})
     self.roundTimer = Timers:CreateTimer(ROUND_TIME, function()
       self:EndRound(true)
     end)
@@ -1081,7 +1103,7 @@ function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
       Timers:RemoveTimer(self.roundTimer)
       self.roundTimer = nil
       -- End Timer
-      FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 0, timerWarning = 10, timerEnd = false, timerPosition = 0})
+      FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 0, timerWarning = 10, timerEnd = false, timerPosition = 2})
     end
   end
   if self.goldSheepTimer ~= nil then
@@ -1105,6 +1127,9 @@ function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
   GameRules:GetGameModeEntity():SetTopBarTeamValue ( DOTA_TEAM_GOODGUYS, self.nRadiantKills )
   GameRules:GetGameModeEntity():SetTopBarTeamValue ( DOTA_TEAM_BADGUYS, self.nDireKills )
   self:ClearLevel()
+  Timers:CreateTimer(1, function()
+    CustomGameEventManager:Send_ServerToAllClients("scoreboard_delete", {})
+  end)
   self:HideAllHeroes()
   self:RevealMap(10)
   Timers:CreateTimer(6, function()
@@ -1271,6 +1296,74 @@ function SheepTag:OnWispKilled( hero )
   Timers:CreateTimer(2, function()
     UTIL_Remove( oldHero )    
   end)
+end
+
+function SheepTag:SetupScoreboard()
+  -- Delete Scoreboard before creating
+  --CustomGameEventManager:Send_ServerToAllClients("scoreboard_delete", {})
+
+  -- Styling tables (where we keep all our styles for each component)
+  Team1Header = {height="100%", width="85px", color="white", ["border-radius"]="5px"}
+  TeamContentID = {height="100%", width="30px", ["horizontal-align"]="right"}
+  TeamContentName = {height="100%", width="200px", ["horizontal-align"]="right"}
+  TeamContentScore = {height="100%", width="35px", ["horizontal-align"]="right"}
+  
+  Team1Part2 = {height="100%", width="85px", color="red", ["background-color"]="yellow", ["border-radius"]="5px"}
+  
+  Team2Header = {height="100%", width="85px", color="orange", ["border-radius"]="5px"}
+  Team2Content = {height="100%", width="85px", color="black", ["background-color"]="orange", ["border-radius"]="5px"}
+
+  -- setting up the primary container and headers
+  ScoreBoard:Setup({header={"Sheep", "Spirit", "Wolves"},x="10px", headertext={true, true, true}, headerstyle={Team1Header, Team1Header,Team2Header}})
+  ScoreBoard:Edit({key="CONTAINER", style={["background-color"]="#242424", border="2px solid grey"}})
+    
+  -- setting up the columnheaders for each section
+  ScoreBoard:CreateColumnHeader({name="ID", header="Sheep", visible=true, style=TeamContentID})
+  ScoreBoard:CreateColumnHeader({name="Name", header="Sheep", visible=true, style=TeamContentName})
+  ScoreBoard:CreateColumnHeader({name="Farms", header="Sheep", visible=true, style=TeamContentScore})
+  ScoreBoard:Edit({key="COLUMN_HEADER", header="Sheep", visible = false})
+
+  ScoreBoard:CreateColumnHeader({name="ID", header="Spirit", visible=true, style=TeamContentID})
+  ScoreBoard:CreateColumnHeader({name="Name", header="Spirit", visible=true, style=TeamContentName})
+  ScoreBoard:CreateColumnHeader({name="Farms", header="Spirit", visible=true, style=TeamContentScore})
+  ScoreBoard:Edit({key="COLUMN_HEADER", header="Spirit", visible = false})
+
+  ScoreBoard:CreateColumnHeader({name="ID", header="Wolves", visible=true, style=TeamContentID})
+  ScoreBoard:CreateColumnHeader({name="Name", header="Wolves", visible=true, style=TeamContentName})
+  ScoreBoard:CreateColumnHeader({name="Kills", header="Wolves", visible=true, style=TeamContentScore})
+  ScoreBoard:Edit({key="COLUMN_HEADER", header="Wolves", visible = false})
+
+  for i=1,PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS) do
+    local pID = PlayerResource:GetNthPlayerIDOnTeam(DOTA_TEAM_GOODGUYS, i)
+    local hero = PlayerResource:GetPlayer(pID):GetAssignedHero()
+    local unitName = hero:GetUnitName()
+    if unitName == "npc_dota_hero_riki" then
+      ScoreBoard:CreatePlayer({playerID=pID, header="Sheep", style={color=self.m_TeamColors[i-1]}})
+      ScoreBoard:Update( {key="PLAYER", ID=pID, panel={ "ID", "Name", "Farms" }, paneltext={ pID, PlayerResource:GetPlayerName(pID), 0 }})
+    elseif unitName == "npc_dota_hero_wisp" then
+        ScoreBoard:CreatePlayer({playerID=pID, header="Spirit", style={color=self.m_TeamColors[i-1]}})
+        ScoreBoard:Update( {key="PLAYER", ID=pID, panel={ "ID", "Name", "Farms" }, paneltext={ pID, PlayerResource:GetPlayerName(pID), "" }})       
+    else
+      ScoreBoard:CreatePlayer({playerID=pID, header="Wolves", style={color=self.m_TeamColors[i-1]}})
+      ScoreBoard:Update( {key="PLAYER", ID=pID, panel={ "ID", "Name", "Kills" }, paneltext={ pID, PlayerResource:GetPlayerName(pID), hero.sheepKills }})
+    end
+  end
+  
+  for i=1,PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS) do
+    local pID = PlayerResource:GetNthPlayerIDOnTeam(DOTA_TEAM_BADGUYS, i)
+    local hero = PlayerResource:GetPlayer(pID):GetAssignedHero()
+    local unitName = PlayerResource:GetPlayer(pID):GetAssignedHero():GetUnitName()
+    if unitName == "npc_dota_hero_riki" then
+      ScoreBoard:CreatePlayer({playerID=pID, header="Sheep", style={color=self.m_TeamColors[i+4]}})
+      ScoreBoard:Update( {key="PLAYER", ID=pID, panel={ "ID", "Name", "Farms" }, paneltext={ pID, PlayerResource:GetPlayerName(pID), 0 }})
+    elseif unitName == "npc_dota_hero_wisp" then
+        ScoreBoard:CreatePlayer({playerID=pID, header="Spirit", style={color=self.m_TeamColors[i+4]}})
+        ScoreBoard:Update( {key="PLAYER", ID=pID, panel={ "ID", "Name", "Farms" }, paneltext={ pID, PlayerResource:GetPlayerName(pID), "" }})       
+    else
+      ScoreBoard:CreatePlayer({playerID=pID, header="Wolves", style={color=self.m_TeamColors[i+4]}})
+      ScoreBoard:Update( {key="PLAYER", ID=pID, panel={ "ID", "Name", "Kills" }, paneltext={ pID, PlayerResource:GetPlayerName(pID), hero.sheepKills }})
+    end
+  end
 end
 
 function SheepTag:EndMessage()
