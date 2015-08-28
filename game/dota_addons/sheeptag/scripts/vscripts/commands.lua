@@ -18,8 +18,8 @@ shopItems = {
 	['gem'] = {91, 'item_gem_of_seeing'},
 	['ball'] = {28, 'item_crystal_ball'},
 	['boots'] = {112, 'item_boots_of_speed'},
-	['velocity'] = {112, 'item_claws_of_velocity'},
-	['r90']	= {112, 'item_claws_of_attack'},
+	['velocity'] = {112, 'item_recipe_claws_of_velocity'}, -- 424
+	['r90']	= {112, 'item_recipe_claws_of_attack'}, -- 512
 	['gloves'] = {112, 'item_gloves_of_haste'},
 }
 
@@ -49,7 +49,7 @@ function CommandSell ( hero , args )
 	if index and index > 0 and index < 7 then
 		local item = hero:GetItemInSlot(index - 1) 
 		if item then
-			hero:ModifyGold(item:GetCost()/2 , false, DOTA_ModifyGold_SellItem)
+			hero:ModifyGold(item:GetCost()/3 , false, DOTA_ModifyGold_SellItem)
 			hero:RemoveItem(item)
 			EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
 		else
@@ -65,7 +65,7 @@ function CommandSellAll ( hero )
 	for i=0,5 do
 		local item = hero:GetItemInSlot(i) 
 		if item then
-			hero:ModifyGold(item:GetCost()/2 , false, DOTA_ModifyGold_SellItem)
+			hero:ModifyGold(item:GetCost()/3 , false, DOTA_ModifyGold_SellItem)
 			hero:RemoveItem(item)
 			EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
 		end
