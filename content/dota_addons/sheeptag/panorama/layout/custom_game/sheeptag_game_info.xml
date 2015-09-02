@@ -1,0 +1,59 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/sheeptag_game_info.css" />
+	</styles>
+	<Panel class="SheepTagGameInfo">
+		<Panel id="Title">
+			<Label id="TitleName" text="#addonname" />
+		</Panel>
+		<Label id="ObjectiveHeader" class="Header" html="true" text="#sheeptag_game_info_header_objective" />
+		<Label id="BriefDescription" text="#sheeptag_brief_description" />
+		<Label id="HowToPlayHeader" class="Header" html="true" text="#sheeptag_game_info_header_how_to_play" />
+		<Panel id="SheepRow" class="InfoRow">
+			<Label id="SheepText" html="true" text="#sheeptag_game_info_sheep" />
+		</Panel>
+		<Panel id="ImageRow" class="ImageRow">
+			<Image id="ShepherdImage" src="file://{images}/custom_game/game_info/lycan.psd" />
+			<Image id="SheepImage" src="file://{images}/custom_game/game_info/sheep.psd" />
+		</Panel>
+		<Panel id="ShepherdRow" class="ImageRow">
+			<Label id="ShepherdText" html="true" text="#sheeptag_game_info_shepherd" />
+		</Panel>
+		<Label id="AdditionalHeader" class="Header" html="true" text="#sheeptag_game_info_additional_header" />
+		<Panel class="InfoRow">
+			<Label class="SubHeader" html="true" text="#sheeptag_game_info_additional_header_cmd_all" />
+			<Panel class="CmdRow">
+				<Label id="AdText01" class="AdText" html="true" text="#sheeptag_game_info_ad01" />
+				<Label id="AdText02" class="AdText" html="true" text="#sheeptag_game_info_ad02" />
+			</Panel>
+		</Panel>
+		<Panel class="InfoRow">
+			<Label class="SubHeader" html="true" text="#sheeptag_game_info_additional_header_cmd_1" />
+			<Panel class="CmdRow">
+				<Label id="AdText06" class="AdText" html="true" text="#sheeptag_game_info_ad06" />
+				<Label id="AdText07" class="AdText" html="true" text="#sheeptag_game_info_ad07" />
+			</Panel>
+		</Panel>
+		<Panel class="InfoRow">
+			<Label class="SubHeader" html="true" text="#sheeptag_game_info_additional_header_cmd_2" />
+			<Panel class="CmdRow">
+				<Label id="AdText03" class="AdText" html="true" text="#sheeptag_game_info_ad03" />
+				<Label id="AdText04" class="AdText" html="true" text="#sheeptag_game_info_ad04" />
+				<Label id="AdText05" class="AdText" html="true" text="#sheeptag_game_info_ad05" />
+			</Panel>
+		</Panel>
+		<Panel class="InfoRow">
+			<Label class="SubHeader" html="true" text="#sheeptag_game_info_additional_header_cmd_3" />
+			<Panel class="CmdRow">
+				<Label id="AdText08" class="AdText" html="true" text="#sheeptag_game_info_ad08" />
+			</Panel>
+		</Panel>		
+		<Label id="TipsHeader" class="Header" html="true" text="#sheeptag_game_info_tips_header" />
+		<Panel id="TipsRow" class="InfoRow">
+			<Label id="TipText01" class="TipText" html="true" text="#sheeptag_game_info_tip01" />
+			<Label id="TipText02" class="TipText" html="true" text="#sheeptag_game_info_tip02" />
+			<Label id="TipText03" class="TipText" html="true" text="#sheeptag_game_info_tip03" />
+		</Panel>
+	</Panel>
+</root>
+

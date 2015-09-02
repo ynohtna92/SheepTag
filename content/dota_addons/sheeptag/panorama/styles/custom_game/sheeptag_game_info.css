@@ -1,0 +1,157 @@
+.SheepTagGameInfo
+{
+    width:100%;
+    padding-right: 40px;
+    flow-children: down;
+}
+ 
+Label
+{
+    font-size: 18px;
+    color: #999999;
+    vertical-align: top;
+}
+ 
+#Title
+{
+    flow-children: right;
+}
+
+#TitleIcon
+{
+    width: 64px;
+    height: 64px;
+    vertical-align: center;
+}
+
+#TitleName
+{
+    color: #cccccc;
+    font-size: 50px;
+    margin-left: 16px;
+    margin-top: 16px;
+    text-transform: uppercase;
+    vertical-align: center;
+}
+
+#BriefDescription
+{
+    margin-top: 10px;
+}
+
+.Header
+{
+	font-size: 18px;
+    font-weight: bold;
+	margin-top: 36px;
+	text-transform: uppercase;
+}
+
+.SubHeader
+{
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-left: 8px;
+}
+
+#ObjectiveHeader
+{
+	margin-top: 18px;
+}
+
+#SheepImage
+{
+    width: 192px;
+    height: 231px;
+    margin-left: -40px;
+    margin-top: 10px;
+}
+
+#ShepherdImage
+{
+    width: 352px;
+    height: 255px;
+}
+
+#TipsHeader
+{
+	margin-top: 20px;
+}
+
+#TipsRow
+{
+	flow-children: down;
+	margin-right: 92px;
+	margin-top: 10px;
+}
+
+#AddRow
+{
+    flow-children: down;
+    margin-right: 92px;
+    margin-top: 10px;
+}
+
+.CmdRow
+{
+    flow-children: down;
+}
+
+.AdText
+{
+    margin-left: 16px;
+    margin-bottom: 10px;
+}
+
+.TipText
+{
+	margin-left: 16px;
+    margin-bottom: 10px;
+}
+
+.InfoRow
+{
+    flow-children: down;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.ImageRow
+{
+    flow-children: right;
+    width: 100%;
+}
+
+.AddRow
+{
+    flow-children: right;
+    width: 100%;
+}
+
+
+Label .sheep,
+Label .shepherd
+{
+    color: #cccccc;
+    font-weight: bold;
+}
+
+Label .item,
+Label .gold,
+Label .xp,
+Label .ability
+{
+    color: #fcaf3d;
+    font-weight: bold;
+}
+
+Label .command
+{
+    color: #eeeeee;
+    font-style: italic;
+}
+
+Label .variable
+{
+    color: #ff0000;
+}
