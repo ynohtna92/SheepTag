@@ -183,7 +183,7 @@
 		// Movement
 		//------------------------------------------------------------------------------------------------------------
 
-		"BoundsHullName"			"DOTA_HULL_SIZE_HERO"
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"
 		"RingRadius"				"60"
 
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"

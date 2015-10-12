@@ -228,22 +228,42 @@ var playerID = data.PlayerID
   
 function StylizePanel(data){ 
 var PanelToEdit = null  
-
+var PanelText = null
 	if(data.key == "COLUMN_HEADER"){ 
 		PanelToEdit = $.FindChildInContext("#Section_Header_"+data.header,'Section_'+data.header )
+		
+		if(data.text != null){
+			PanelText = PanelToEdit.GetChild(0)
+		}
 	} 
 	else if(data.key == "CONTAINER"){
 		PanelToEdit = $.FindChildInContext('#Primary_Container', rootparentORG )
-	}      
+	}
+	else if(data.key == "BUTTON"){
+		PanelToEdit = $.FindChildInContext('#HudButton', rootparentORG )
+			
+		if(data.text != null){
+			PanelText = $.FindChildInContext('#PlayerScoreButtonLabel', PanelToEdit )
+		}
+	}else if(data.key == "SECTION_HEADER"){
+		PanelToEdit = $.FindChildInContext("#Label_"+data.header, rootparentORG )
+		$.Msg("EDITING SECTION HEADER")
 		
-	
+		if(data.text != null){
+			PanelToEdit.text = data.text
+		}
+	}
+		
+	if(PanelText != null)
+	{
+		PanelText.text = data.text
+	}
 	if(data.visible != null){ 
 		PanelToEdit.visible = data.visible
 	}    	  
 	if(data.style != null){ 
 		stylize(data.style, PanelToEdit)
-	}   
-		
+	}   		
 } 
 
 // Button that collapse/expands the scoreboard
@@ -258,13 +278,21 @@ function HideShowPlayerScoreboard(){
 	}
 }
 
-// This will delete the entire scoreboard
-function DeleteScoreboard(){
-	rootparent.DeleteAsync(0);
+function Delete_Player(data){
+	var PlayerID = data.PlayerID
+	
+	$.Msg("Deleting player: "+PlayerID)
+	
+	if($("#"+PlayerID) != null){
+		$("#"+PlayerID).DeleteAsync(0)
+	}else{
+		$.Msg("[ScoreBoard] Cannot delete player: "+PlayerID+" does not exist")
+	}
 }
 
 (function () {
 	GameEvents.Subscribe( "scoreboard_create_players", Create_Player_ScoreBoard );
+	GameEvents.Subscribe( "scoreboard_delete_player", Delete_Player );
 	
 	GameEvents.Subscribe( "scoreboard_setup", Setup_ScoreBoard );
 	
@@ -273,8 +301,6 @@ function DeleteScoreboard(){
 	
 	GameEvents.Subscribe( "scoreboard_stylize", StylizePanel );
 	GameEvents.Subscribe( "scoreboard_update_all", UpdateAll );
-
-	GameEvents.Subscribe( "scoreboard_delete", DeleteScoreboard );
 })();
 
 /*

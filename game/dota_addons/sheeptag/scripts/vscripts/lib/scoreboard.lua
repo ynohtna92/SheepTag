@@ -190,11 +190,20 @@ function ScoreBoard:CreatePlayer(table)
 	CustomGameEventManager:Send_ServerToAllClients("scoreboard_create_players", { PlayerID = table.playerID, panel = Panels, header = table.header, style=table.style, duration = table.duration})	
 end
 
+function ScoreBoard:DeletePlayer(playerID)
+	if not (playerID >= 0 and playerID <= PlayerResource:GetPlayerCount()-1) then
+		print("[SCOREBOARD] Incorrect PlayerID given in CreatePlayer")
+		return
+	end
+	
+	CustomGameEventManager:Send_ServerToAllClients("scoreboard_delete_player", { PlayerID = playerID})
+end
+
 function ScoreBoard:Edit(table)
 
 	if table.key == nil then
 		print("[SCOREBOARD] key not specified, unable to determine what action to take")
 	end
 
-	CustomGameEventManager:Send_ServerToAllClients("scoreboard_stylize", {key = table.key, header = table.header, style=table.style, visible = table.visible})	
+	CustomGameEventManager:Send_ServerToAllClients("scoreboard_stylize", {key = table.key, header = table.header, style=table.style, visible = table.visible, text = table.text})	
 end

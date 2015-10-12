@@ -120,3 +120,67 @@ function CommandDestroyExclude ( hero )
 	print("Destroying all farms (exception) for pID:" .. hero:GetPlayerID())
 	--remove_farms(hero, false, true)
 end
+
+function CommandZoom ( hero , arg1, arg2, arg3 )
+	local a1 = tonumber(arg1)
+	local a2 = tonumber(arg2)
+	local a3 = tonumber(arg3)
+	local zoomUnit = 1
+	if hero:GetUnitName() == "npc_dota_hero_lycan" then
+		zoomUnit = 2
+	elseif hero:GetUnitName() == "npc_dota_hero_wisp" then
+		zoomUnit = 3
+	end
+	if not a1 and not a2 and not a3 then
+		if not SheepTag.vPlayerIDToZoom[hero:GetPlayerID()] then
+			SheepTag.vPlayerIDToZoom[hero:GetPlayerID()] = {2400 ,2400 ,2400}
+		end
+		Notifications:Bottom(hero:GetPlayerID() , {text="Current Zoom: ".. SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][zoomUnit] .." ~ Min Zoom: 1350 ~ Max Zoom: Sheep 2400 | Wolf 2700 | Wisp 3350", style={color='#FFFF00'}, duration=5})
+	end
+	if a1 and not a2 and not a3 then
+		if a1 >= 1350 then
+			if a1 > 3350 then
+				a3 = 3350
+			else
+				a3 = a1
+			end
+			if a1 > 2700 then
+				a2 = 2700
+			else
+				a2 = a1
+			end
+			if a1 > 2400 then
+				a1 = 2400
+			end
+		else
+			a1 = 1350
+			a2 = 1350
+			a3 = 1350
+		end
+		print(a1,a2,a3)
+		SheepTag.vPlayerIDToZoom[hero:GetPlayerID()] = {a1, a2 ,a3}
+		Notifications:Bottom(hero:GetPlayerID() , {text="Zoom Set: ".. SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][1] .. " " .. SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][2] .. " " .. SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][3], style={color='#FFFF00'}, duration=5})
+		player = PlayerResource:GetPlayer(hero:GetPlayerID())
+		CustomGameEventManager:Send_ServerToPlayer(player, "adjust_zoom", {zoom=SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][zoomUnit]} )	
+	elseif a1 and a2 and a3 then
+		if a1 < 1350 then
+			a1 = 1350
+		elseif a1 > 2400 then
+			a1 = 2400
+		end
+		if a2 < 1350 then
+			a2 = 1350
+		elseif a2 > 2700 then
+			a2 = 2700
+		end
+		if a3 < 1350 then
+			a3 = 1350
+		elseif a3 > 3350 then
+			a3 = 3350
+		end
+		SheepTag.vPlayerIDToZoom[hero:GetPlayerID()] = {a1, a2 ,a3}
+		Notifications:Bottom(hero:GetPlayerID() , {text="Zoom Set: ".. SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][1] .. " " .. SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][2] .. " " .. SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][3], style={color='#FFFF00'}, duration=5})
+		player = PlayerResource:GetPlayer(hero:GetPlayerID())
+		CustomGameEventManager:Send_ServerToPlayer(player, "adjust_zoom", {zoom=SheepTag.vPlayerIDToZoom[hero:GetPlayerID()][zoomUnit]} )	
+	end
+end
