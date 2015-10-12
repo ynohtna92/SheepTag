@@ -41,5 +41,6 @@
 		"sheeptag_game_info_ad06"						"<span class='command'>-d</span> : Destroy all Sheep farms for unit."
 		"sheeptag_game_info_ad07"						"<span class='command'>-ds</span> : Destroy all Sheep farms for unit excluding Money Farms."
 		"sheeptag_game_info_ad08"						"<span class='command'>-end</span> : Ends the game."
+		"sheeptag_game_info_ad09"						"<span class='command'>-zoom <span class='variable'>X</span> <span class='variable'>Y</span> <span class='variable'>Z</span></span> : Sets distance from units to values where <span class='variable'>X</span> is for sheep, <span class='variable'>Y</span> is for wolf, and <span class='variable'>Z</span> is for wisp. If <span class='variable'>Y</span> and <span class='variable'>Z</span> are not specified, will set all zoom levels to <span class='variable'>X</span>. If all are left blank, displays minimum, maximum, default, and current zoom levels."
 	}
 }

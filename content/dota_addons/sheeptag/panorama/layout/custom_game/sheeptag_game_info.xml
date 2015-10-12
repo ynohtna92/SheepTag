@@ -25,6 +25,7 @@
 			<Panel class="CmdRow">
 				<Label id="AdText01" class="AdText" html="true" text="#sheeptag_game_info_ad01" />
 				<Label id="AdText02" class="AdText" html="true" text="#sheeptag_game_info_ad02" />
+				<Label id="AdText09" class="AdText" html="true" text="#sheeptag_game_info_ad09" />
 			</Panel>
 		</Panel>
 		<Panel class="InfoRow">
