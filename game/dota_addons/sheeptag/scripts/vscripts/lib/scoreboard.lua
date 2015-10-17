@@ -191,6 +191,9 @@ function ScoreBoard:CreatePlayer(table)
 end
 
 function ScoreBoard:DeletePlayer(playerID)
+	if not playerID then
+		return
+	end
 	if not (playerID >= 0 and playerID <= PlayerResource:GetPlayerCount()-1) then
 		print("[SCOREBOARD] Incorrect PlayerID given in CreatePlayer")
 		return

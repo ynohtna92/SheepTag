@@ -186,16 +186,6 @@ function CreateButton(parent, playerID){
 
 	TPButton.SetPanelEvent("onactivate", mouseClick(playerID))
 }
-
-// button click example that I use myself
-var mouseClick = (
-	function(id)  
-	{ 
-		return function() 
-		{
-			GameEvents.SendCustomGameEventToServer( "player_tp", { "TeleportTo" : id} );
-		}
-	});
  
 function UpdateAll(data){ 
 var playerID = data.PlayerID
@@ -265,6 +255,10 @@ var PanelText = null
 		stylize(data.style, PanelToEdit)
 	}   		
 } 
+/*
+function SortScoreboard(){
+	var list 
+}*/
 
 // Button that collapse/expands the scoreboard
 function HideShowPlayerScoreboard(){

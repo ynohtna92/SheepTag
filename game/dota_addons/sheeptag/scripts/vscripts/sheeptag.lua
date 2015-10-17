@@ -675,40 +675,13 @@ function SheepTag:InitSheepTag()
   --ListenToGameEvent('dota_combatlog', Dynamic_Wrap(SheepTag, 'OnCombatLogEvent'), self)
   --ListenToGameEvent('dota_player_killed', Dynamic_Wrap(SheepTag, 'OnPlayerKilled'), self)
   --ListenToGameEvent('player_team', Dynamic_Wrap(SheepTag, 'OnPlayerTeam'), self)
+  ListenToGameEvent("player_chat", Dynamic_Wrap(SheepTag, 'PlayerSay'), self)
 
     -- Register Listener
   CustomGameEventManager:RegisterListener( "update_selected_entities", Dynamic_Wrap(SheepTag, 'OnPlayerSelectedEntities'))
   CustomGameEventManager:RegisterListener( "repair_order", Dynamic_Wrap(SheepTag, "RepairOrder"))   
   CustomGameEventManager:RegisterListener( "building_helper_build_command", Dynamic_Wrap(BuildingHelper, "BuildCommand"))
   CustomGameEventManager:RegisterListener( "building_helper_cancel_command", Dynamic_Wrap(BuildingHelper, "CancelCommand"))
-
-  Convars:RegisterCommand('player_say', function(...)
-    local arg = {...}
-    table.remove(arg,1)
-    local sayType = arg[1]
-    table.remove(arg,1)
-
-    local cmdPlayer = Convars:GetCommandClient()
-    keys = {}
-    keys.ply = cmdPlayer
-    keys.teamOnly = false
-    keys.text = table.concat(arg, " ")
-
-    if (sayType == 4) then
-      -- Student messages
-    elseif (sayType == 3) then
-      -- Coach messages
-    elseif (sayType == 2) then
-      -- Team only
-      keys.teamOnly = true
-      -- Call your player_say function here like
-      self:PlayerSay(keys)
-    else
-      -- All chat
-      -- Call your player_say function here like
-      self:PlayerSay(keys)
-    end
-  end, 'player say', 0)
 
   -- Fill server with fake clients
   -- Fake clients don't use the default bot AI for buying items or moving down lanes and are sometimes necessary for debugging
@@ -951,9 +924,9 @@ function SheepTag:PlayerSay(keys)
   --print ('[SHEEPTAG] PlayerSay')
   --PrintTable(keys)
 
-  local ply = keys.ply
-  local plyID = ply:GetPlayerID()
-  local hero = ply:GetAssignedHero()
+  --local ply = keys.ply
+  local plyID = keys.userid
+  local hero = self.vPlayerIDToHero[plyID-1]
   local txt = keys.text
   local args = split(txt, " ")
 
@@ -1016,6 +989,18 @@ function SheepTag:PlayerSay(keys)
   if args[1] == "-zoom" then
     CommandZoom(hero, args[2], args[3], args[4])
   end
+
+  if args[1] == "test" then
+    CustomGameEventManager:Send_ServerToAllClients("display_timer", {msg="hi", duration=10, mode=0, endfade=false, position=0, warning=5, paused=false, sound=true} )
+  end
+
+  if args[1] == "t2" then
+    CustomGameEventManager:Send_ServerToAllClients("pause_timer", {pause=true} )
+  end
+
+  if args[1] == "t3" then
+    CustomGameEventManager:Send_ServerToAllClients("pause_timer", {pause=false} )
+  end
   
   if args[1] == "-end" and plyID == GetListenServerHost():GetPlayerID() then
     GameRules:SetGameWinner(hero:GetTeam())
@@ -1065,7 +1050,7 @@ function SheepTag:StartRound( )
   else
     self:UpdateScoreboard()
   end
-  FireGameEvent('cgm_timer_display', { timerMsg = "Wolves Spawn", timerSeconds = SHEPHERD_SPAWN, timerWarning = 5, timerEnd = true, timerPosition = 2})
+  CustomGameEventManager:Send_ServerToAllClients("display_timer", {msg="Wolves Spawn", duration=SHEPHERD_SPAWN, mode=0, endfade=true, position=0, warning=5, paused=false, sound=true} )
   print(#Shepherds)
   for _,v in ipairs(Shepherds) do
     v:AddNoDraw()
@@ -1081,7 +1066,7 @@ function SheepTag:StartRound( )
       v:RemoveModifierByName('modifier_shepherd_pregame')
     end
     GameRules:SendCustomMessage("The wolves have been set free!", 0, 0)
-    FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = ROUND_TIME, timerWarning = 30, timerEnd = false, timerPosition = 2})
+    CustomGameEventManager:Send_ServerToAllClients("display_timer", {msg="Remaining", duration=ROUND_TIME, mode=0, endfade=false, position=0, warning=30, paused=false, sound=true} )
     self.roundTimer = Timers:CreateTimer(ROUND_TIME, function()
       self:EndRound(true)
     end)
@@ -1112,7 +1097,7 @@ function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
       Timers:RemoveTimer(self.roundTimer)
       self.roundTimer = nil
       -- End Timer
-      FireGameEvent('cgm_timer_display', { timerMsg = "Remaining", timerSeconds = 0, timerWarning = 10, timerEnd = false, timerPosition = 2})
+      CustomGameEventManager:Send_ServerToAllClients("display_timer", {msg="Remaining", duration=0, mode=0, endfade=false, position=0, warning=5, paused=false, sound=false} )
     end
   end
   if self.goldSheepTimer ~= nil then
@@ -1384,6 +1369,10 @@ function SheepTag:SetupScoreboard()
 end
 
 function SheepTag:UpdateScoreboard( pID )
+  if not pID then
+    return
+  end
+  
   ScoreBoard:DeletePlayer(pID)
 
   Timers:CreateTimer(0.05, function()
