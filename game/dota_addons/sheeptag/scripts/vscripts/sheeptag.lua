@@ -908,7 +908,7 @@ function SheepTag:OnConnectFull(keys)
   local playerID = ply:GetPlayerID()
 
   -- Update the user ID table with this user
-  table.insert(self.vUserIds, ply)
+  self.vUserIds[keys.userid] = ply
 
   -- Update the Steam ID table
   self.vSteamIds[PlayerResource:GetSteamAccountID(playerID)] = ply
@@ -924,9 +924,9 @@ function SheepTag:PlayerSay(keys)
   --print ('[SHEEPTAG] PlayerSay')
   --PrintTable(keys)
 
-  --local ply = keys.ply
-  local plyID = keys.userid
-  local hero = self.vPlayerIDToHero[plyID-1]
+  local ply = self.vUserIds[keys.userid]
+  local plyID = ply:GetPlayerID()
+  local hero = self.vPlayerIDToHero[plyID]
   local txt = keys.text
   local args = split(txt, " ")
 
@@ -1372,7 +1372,7 @@ function SheepTag:UpdateScoreboard( pID )
   if not pID then
     return
   end
-  
+
   ScoreBoard:DeletePlayer(pID)
 
   Timers:CreateTimer(0.05, function()
