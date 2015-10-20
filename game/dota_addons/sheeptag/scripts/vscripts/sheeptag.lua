@@ -12,6 +12,12 @@ THINK_TIME = 0.1
 VERSION = "B270815"
 
 -- Game Variables
+GAME_OPTIONS_SET = false
+
+GAME_MODE = 1                           -- Best of X rounds = 1, First to X rounds = 2
+NO_OF_ROUNDS = 3                        -- Number of rounds
+VIEW_MODE = false                       -- View mode (Full Map Vision)
+
 STARTING_GOLD = 0
 ROUND_TIME = 600
 SHEPHERD_GOLD_TICK_TIME = 2
@@ -682,7 +688,7 @@ function SheepTag:InitSheepTag()
   CustomGameEventManager:RegisterListener( "repair_order", Dynamic_Wrap(SheepTag, "RepairOrder"))   
   CustomGameEventManager:RegisterListener( "building_helper_build_command", Dynamic_Wrap(BuildingHelper, "BuildCommand"))
   CustomGameEventManager:RegisterListener( "building_helper_cancel_command", Dynamic_Wrap(BuildingHelper, "CancelCommand"))
-
+  CustomGameEventManager:RegisterListener("set_game_settings", OnSetGameSettings)
   -- Fill server with fake clients
   -- Fake clients don't use the default bot AI for buying items or moving down lanes and are sometimes necessary for debugging
   Convars:RegisterCommand('fake', function()
@@ -1399,4 +1405,89 @@ function SheepTag:EndMessage()
   GameRules:SendCustomMessage("<font color='#7FFF00'>Remember to share your feedback on the Workshop Page</font>.", 0, 0)
   GameRules:SendCustomMessage("https://github.com/ynohtna92/SheepTag", 0, 0)
   GameRules:SendCustomMessage(" ", 0, 0)
+end
+
+-- This function captures the game settings options when they are set
+function OnSetGameSettings( eventSourceIndex, args )
+  
+  local player_id = args.PlayerID
+  local player = PlayerResource:GetPlayer(player_id)
+  local is_host = GameRules:PlayerHasCustomGameHostPrivileges(player)
+  local mode_info = args.modes
+  local game_mode_imba = GameRules:GetGameModeEntity()    
+
+  -- If the player who sent the game options is not the host, do nothing
+  if not is_host then
+    return nil
+  end
+
+  -- If nothing was captured from the game options, do nothing
+  if not mode_info then
+    return nil
+  end
+
+  -- If the game options were already chosen, do nothing
+  if GAME_OPTIONS_SET then
+    return nil
+  end
+
+  -------------------------------------------------------------------------------------------------
+  -- ST: Pick mode selection
+  -------------------------------------------------------------------------------------------------
+  print("========SETTINGS=========")
+
+  -- Set game mode
+  if tonumber(mode_info.game) == 1 then
+    GAME_MODE = 1
+    print("Game Mode: Best of X")
+  elseif tonumber(mode_info.game) == 2 then
+    GAME_MODE = 2
+    print("Game Mode: First to X")
+  end
+
+  -- Pick number of rounds
+  if tonumber(mode_info.number_of_rounds) == 1 then
+    NO_OF_ROUNDS = 1
+  elseif tonumber(mode_info.number_of_rounds) == 3 then
+    NO_OF_ROUNDS = 3
+  elseif tonumber(mode_info.number_of_rounds) == 5 then
+    NO_OF_ROUNDS = 5
+  elseif tonumber(mode_info.number_of_rounds) == 7 then
+    NO_OF_ROUNDS = 7
+  end
+  print("Rounds: " .. NO_OF_ROUNDS)
+
+  -- Enable view
+  if tonumber(mode_info.enabled_view) == 1 then
+    VIEW_MODE = true
+    print("View: Enabled")
+  else
+    print("View: Disabled")
+  end
+
+  -- Set starting gold
+  if tonumber(mode_info.gold_start) == 0 then
+    STARTING_GOLD = 0
+  elseif tonumber(mode_info.gold_start) == 100 then
+    STARTING_GOLD = 100
+  elseif tonumber(mode_info.gold_start) == 1000 then
+    STARTING_GOLD = 1000
+  elseif tonumber(mode_info.gold_start) == 10000 then
+    STARTING_GOLD = 10000
+  end
+  print("Starting Gold: " .. STARTING_GOLD)
+
+  -- Set starting gold
+  if tonumber(mode_info.round_time) == 5 then
+    ROUND_TIME = 300
+  elseif tonumber(mode_info.round_time) == 10 then
+    ROUND_TIME = 600
+  elseif tonumber(mode_info.round_time) == 15 then
+    ROUND_TIME = 900
+  elseif tonumber(mode_info.round_time) == 20 then
+    ROUND_TIME = 1200
+  end
+  print("Round Time: " .. ROUND_TIME/60)
+
+  print("=========================")
 end
