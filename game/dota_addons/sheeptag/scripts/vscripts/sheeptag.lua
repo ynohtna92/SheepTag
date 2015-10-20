@@ -1,5 +1,5 @@
 --[[
-Last modified: 27/08/2015
+Last modified: 20/10/2015
 Author: A_Dizzle
 Co-Author: Myll
 ]]
@@ -9,7 +9,7 @@ print ('[SHEEPTAG] sheeptag.lua' )
 DEBUG = true
 THINK_TIME = 0.1
 
-VERSION = "B270815"
+VERSION = "B201015"
 
 -- Game Variables
 GAME_OPTIONS_SET = false
@@ -161,6 +161,10 @@ function SheepTag:OnHeroInGame(hero)
       GameRules:SendCustomMessage("WC3 Developers: <font color='#FF1493'>Chakra</font>, <font color='#FF1493'>XXXandBEER</font>, <font color='#FF1493'>GosuSheep</font> and lastly <font color='#FF1493'>Star[MD]</font>.", 0, 0)
       GameRules:SendCustomMessage("Special Thanks: <font color='#FF1493'>BMD</font>, <font color='#FF1493'>Noya</font> & <font color='#FF1493'>Jacklarnes</font> and everyone on IRC", 0, 0)
       GameRules:SendCustomMessage("Support this project on Github at https://github.com/ynohtna92/SheepTag", 0, 0)
+    end)
+
+    Timers:CreateTimer(12, function()
+      self:GameSettings()
     end)
 
     Timers:CreateTimer(5, function()
@@ -1264,7 +1268,7 @@ function SheepTag:OnSheepKilled( hero )
 
   remove_farms(oldHero, false)
 
-  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", STARTING_GOLD, 0)
+  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
   local index = GetIndex(Sheeps, oldHero)
   if index ~= -1 then
     table.remove(Sheeps, index)
@@ -1281,7 +1285,7 @@ function SheepTag:OnWispKilled( hero )
   local gold = hero:GetGold()
   local plyID = hero:GetPlayerID()
   local oldHero = self.vPlayerIDToHero[plyID]
-  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", STARTING_GOLD, 0)
+  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", 0, 0)
   local newHero = self.vPlayerIDToHero[plyID]
   local id = plyID + 1
   if plyID > 5 then
@@ -1404,6 +1408,15 @@ function SheepTag:EndMessage()
   GameRules:SendCustomMessage("Thank you for playing Sheep Tag!", 0, 0)
   GameRules:SendCustomMessage("<font color='#7FFF00'>Remember to share your feedback on the Workshop Page</font>.", 0, 0)
   GameRules:SendCustomMessage("https://github.com/ynohtna92/SheepTag", 0, 0)
+  GameRules:SendCustomMessage(" ", 0, 0)
+end
+
+function SheepTag:GameSettings()
+  GameRules:SendCustomMessage("Game Mode: <font color='#7FFF00'>" .. (GAME_MODE and "Best of X" or "First to X") .. "</font>", 0, 0)
+  GameRules:SendCustomMessage("Rounds #: <font color='#7FFF00'>" .. NO_OF_ROUNDS .. "</font>", 0, 0)
+  GameRules:SendCustomMessage("View: <font color='#7FFF00'>" .. (VIEW_MODE and "Enabled" or "Disabled") .. "</font>", 0, 0)
+  GameRules:SendCustomMessage("Starting Gold: <font color='#7FFF00'>" .. STARTING_GOLD .. "</font>", 0, 0)
+  GameRules:SendCustomMessage("Round Time: <font color='#7FFF00'>" .. ROUND_TIME .. "</font>", 0, 0)
   GameRules:SendCustomMessage(" ", 0, 0)
 end
 
