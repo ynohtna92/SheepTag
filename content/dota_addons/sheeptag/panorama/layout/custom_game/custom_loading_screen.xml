@@ -1,0 +1,22 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/custom_loading_screen.css" />
+	</styles>
+
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/simple_panel_animation.js" /> 
+		<include src="s2r://panorama/scripts/custom_game/game_settings.js" />
+	</scripts>
+
+	<script>
+		DrawGameSettingsUI();
+	</script>
+
+	<Panel class="STLoadingRoot">
+		<Panel id="seq" >
+		</Panel>
+		<Panel id="TitlePanel">
+			<Label id="STTitle" text="#addon_game_name" style="" />
+		</Panel>
+	</Panel>
+</root>

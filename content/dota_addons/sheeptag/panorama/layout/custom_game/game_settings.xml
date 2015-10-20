@@ -1,0 +1,73 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/custom_game/game_settings.css" />
+		<include src="s2r://panorama/styles/dotastyles.css" />
+	</styles>
+
+	<scripts>
+		<include src="s2r://panorama/scripts/custom_game/game_settings.js" /> 
+		<include src="s2r://panorama/scripts/custom_game/simple_panel_animation.js" /> 
+	</scripts>
+
+	<Panel class="StandardSelectionPanel">
+
+		<Panel class="FirstColumn">
+
+			<Panel class="GameModeSelect" id="GameModeBox">
+
+				<Label text="#sheeptag_settings_title" id="game_settings_title"/>
+
+				<Label text="#sheeptag_settings_mode" id="game_mode_label"/>
+				<DropDown id="game_mode">
+					<Label text="#sheeptag_mode_best_of" id="1"/>
+					<Label text="#sheeptag_mode_first_to" id="2"/>
+				</DropDown>
+
+				<Label text="#sheeptag_no_of_rounds" id="no_round_title"/>
+				<DropDown id="number_of_rounds">
+					<Label text="1" id="1"/>
+					<Label text="3" id="3"/>
+					<Label text="5" id="5"/>
+					<Label text="7" id="7"/>
+				</DropDown>
+			</Panel>
+		</Panel>
+
+		<Panel class="SecondColumn">
+
+			<Panel class="GameModeOptions" id="GameModeOptions">
+
+				<Label text="#sheeptag_options_title" id="game_options_title"/>
+				
+				<ToggleButton id="enabled_view" text="#sheeptag_settings_view"/>
+				
+				<Label text="#sheeptag_settings_gold_start" id="gold_start_title"/>
+				<DropDown id="gold_start">
+					<Label text="0" id="0"/>
+					<Label text="100" id="100"/>
+					<Label text="1000" id="1000"/>
+					<Label text="10000" id="10000"/>
+				</DropDown>
+
+				<Label text="#sheeptag_settings_round_time" id="round_time_title"/>
+				<DropDown id="round_time">
+					<Label text="5 Minutes" id="5"/>
+					<Label text="10 Minutes" id="10"/>
+					<Label text="15 Minutes" id="15"/>
+					<Label text="20 Minutes" id="20"/>
+				</DropDown>
+
+			</Panel>
+		</Panel>
+
+		<Panel id="SettingsInfo">
+			<Label text="#sheeptag_host_msg" id="SettingInfoText"/>
+		</Panel>
+
+		<Panel class="SetSettingsButton">
+			<Button id="set_settings_button" class="ButtonBevel" onactivate="SetGameSettings();" style="" >
+				<Label text="#sheeptag_set_settings"/>
+			</Button>
+		</Panel>
+	</Panel>
+</root>
