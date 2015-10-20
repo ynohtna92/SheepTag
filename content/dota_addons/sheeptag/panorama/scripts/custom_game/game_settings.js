@@ -1,10 +1,12 @@
-"use strict"
+"use strict";
 
 function CheckForHostPrivileges(panel) {
 	var playerInfo = Game.GetLocalPlayerInfo();
-	$.Msg(playerInfo);
-	if ( !playerInfo )
+
+	if ( !playerInfo ){
+		$.Msg(playerInfo);
 		return undefined;
+	}
 
 	// Set the "player_has_host_privileges" class on the panel, this can be used 
 	// to have some sub-panels on display or be enabled for the host player.
@@ -26,6 +28,10 @@ function SelectDefaultGameMode(panel) {
 function DrawGameSettingsUI() {
 	var isHost = CheckForHostPrivileges()
 	//isHost = false;
+	if (isHost === undefined) {
+		$.Schedule(1, DrawGameSettingsUI);
+		return;
+	}
 
 	if (!isHost) {
 		return;
@@ -38,7 +44,7 @@ function DrawGameSettingsUI() {
 	SelectDefaultGameMode(gameModePanel);
 
 	$.Msg("Drawing Settings UI!");
-	
+
 	// startup animation
 	gameModePanel.style.x = '-250px';
 	gameModePanel.style.opacity = 0;
