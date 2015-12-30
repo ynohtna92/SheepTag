@@ -278,6 +278,7 @@ function BuildingHelper:AddBuilding(keys)
     local mgd = CreateUnitByName(unitName, builder:GetAbsOrigin(), false, nil, nil, builder:GetTeam())
     mgd:AddEffects(EF_NODRAW)
     mgd:AddNewModifier(mgd, nil, "modifier_out_of_world", {})
+    print("Add out of world")
     playerTable.activeBuildingTable.mgd = mgd
 
     -- Make a pedestal dummy if required
@@ -539,7 +540,7 @@ function BuildingHelper:RemoveBuilding( building, bForcedKill )
         UTIL_Remove(building.prop)
     end
 
-    BuildingHelper:FreeGridSquares(building.construction_size, building:GetAbsOrigin())
+    BuildingHelper:FreeGridSquares(building.construction_size, self:GetBlockPathingSize(building), building:GetAbsOrigin())
 
     if not building.blockers then 
         return 
@@ -1060,6 +1061,7 @@ end
       * pathing_size: square of pathing obstructions that will be spawned 
 ]]--
 function BuildingHelper:BlockGridSquares(construction_size, pathing_size, location)
+    construction_size = (construction_size >= pathing_size) and construction_size or pathing_size
     local originX = GridNav:WorldToGridPosX(location.x)
     local originY = GridNav:WorldToGridPosY(location.y)
 
@@ -1137,7 +1139,8 @@ end
       FreeGridSquares
       * Clears out an area for construction
 ]]--
-function BuildingHelper:FreeGridSquares(construction_size, location)
+function BuildingHelper:FreeGridSquares(construction_size, pathing_size, location)
+    construction_size = (construction_size >= pathing_size) and construction_size or pathing_size
     local originX = GridNav:WorldToGridPosX(location.x)
     local originY = GridNav:WorldToGridPosY(location.y)
 

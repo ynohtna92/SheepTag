@@ -210,7 +210,7 @@ function ToggleOff( ability )
 end
 
 function IsMultiOrderAbility( ability )
-	if IsValidEntity(ability) then
+	if IsValidEntity(ability) and not ability:IsItem() then
 		local ability_name = ability:GetAbilityName()
 		local ability_table = GameRules.AbilityKV[ability_name]
 

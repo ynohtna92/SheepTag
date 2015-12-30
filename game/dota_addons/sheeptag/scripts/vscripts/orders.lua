@@ -1,10 +1,8 @@
 function SheepTag:FilterExecuteOrder( filterTable )
-    --[[
     print("-----------------------------------------")
     for k, v in pairs( filterTable ) do
         print("Order: " .. k .. " " .. tostring(v) )
     end
-    ]]
 
     local units = filterTable["units"]
     local order_type = filterTable["order_type"]

@@ -213,7 +213,7 @@ function SheepTag:OnHeroInGame(hero)
   elseif heroName == "npc_dota_hero_riki" then -- Sheep
     Timers:CreateTimer(function()
       local spawnpoint = SpawnPointsSheep[spawnid]
-      hero:SetAbsOrigin( spawnpoint:GetAbsOrigin() )
+      FindClearSpaceForUnit(hero, spawnpoint:GetAbsOrigin(), true)
       FindClearSpaceForUnit(hero, spawnpoint:GetAbsOrigin(), false)
       hero:SetForwardVector( spawnpoint:GetForwardVector() )
       Timers:CreateTimer(0.1,function()
@@ -256,7 +256,7 @@ function SheepTag:OnHeroInGame(hero)
 
     Timers:CreateTimer(function()
       local spawnpoint = SpawnPointsShepherd[spawnid]
-      hero:SetAbsOrigin( spawnpoint:GetAbsOrigin() )
+      FindClearSpaceForUnit(hero, spawnpoint:GetAbsOrigin(), true)
       hero:SetForwardVector( spawnpoint:GetForwardVector() )
       Timers:CreateTimer(0.1,function()
         PlayerResource:SetCameraTarget(id, nil)
@@ -1021,7 +1021,13 @@ function SheepTag:PlayerSay(keys)
   end
   
   if args[1] == "-end" and plyID == GetListenServerHost():GetPlayerID() then
-    GameRules:SetGameWinner(hero:GetTeam())
+    if self.nRadiantKills > self.nDireKills then
+      GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+    elseif self.nRadiantKills < self.nDireKills then
+      GameRules:SetGameWinner(DOTA_TEAM_BADGUYS)
+    else
+      GameRules:SetGameWinner(hero:GetTeamNumber())
+    end
     GameRules:SetSafeToLeave( true )
     self.EndMessage()
   end
@@ -1191,30 +1197,38 @@ end
 function SheepTag:HideAllHeroes()
   for i,v in ipairs(self.vRadiant) do
     local hero = PlayerResource:GetSelectedHeroEntity( v )
-    hero:AddNoDraw()
-    hero:AddAbility('shepherd_pregame')
-    hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+    if hero then
+      hero:AddNoDraw()
+      hero:AddAbility('shepherd_pregame')
+      hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+    end
   end
   for i,v in ipairs(self.vDire) do
     local hero = PlayerResource:GetSelectedHeroEntity( v )
-    hero:AddNoDraw()
-    hero:AddAbility('shepherd_pregame')
-    hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+    if hero then
+      hero:AddNoDraw()
+      hero:AddAbility('shepherd_pregame')
+      hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
+    end
   end
 end
 
 function SheepTag:ShowAllHeroes()
   for _,v in ipairs(self.vRadiant) do
     local hero = PlayerResource:GetSelectedHeroEntity( v )
-    hero:RemoveNoDraw()
-    hero:RemoveAbility('shepherd_pregame')
-    hero:RemoveModifierByName('modifier_shepherd_pregame')
+    if hero then
+      hero:RemoveNoDraw()
+      hero:RemoveAbility('shepherd_pregame')
+      hero:RemoveModifierByName('modifier_shepherd_pregame')
+    end
   end
   for _,v in ipairs(self.vDire) do
     local hero = PlayerResource:GetSelectedHeroEntity( v )
-    hero:RemoveNoDraw()
-    hero:RemoveAbility('shepherd_pregame')
-    hero:RemoveModifierByName('modifier_shepherd_pregame')
+    if hero then
+      hero:RemoveNoDraw()
+      hero:RemoveAbility('shepherd_pregame')
+      hero:RemoveModifierByName('modifier_shepherd_pregame')
+    end
   end
 end
 

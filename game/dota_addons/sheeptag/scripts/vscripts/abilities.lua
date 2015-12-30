@@ -264,6 +264,7 @@ end
 function mirror_image_start ( keys )
 	print('Mirror Image Cast')
 	keys.caster:Stop()
+	keys.caster:AddNewModifier(keys.caster, nil, "modifier_out_of_world", {})
 	keys.caster:AddNoDraw()
 
 	local caster = keys.caster
@@ -380,6 +381,7 @@ function mirror_image ( keys, positions, rand, rand2)
 	table.insert(caster.mirrorimage, illusion)
 
 	--caster:SetAbsOrigin(positions[rand2])
+	caster:RemoveModifierByName("modifier_out_of_world")
 	caster:Stop()
 	FindClearSpaceForUnit(caster, positions[rand2], true)
 	caster:RemoveNoDraw()

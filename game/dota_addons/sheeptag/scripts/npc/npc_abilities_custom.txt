@@ -448,7 +448,7 @@
 					"MODIFIER_STATE_NO_UNIT_COLLISION"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 
-				"ThinkInterval"  "0.03"
+				"ThinkInterval"  "0.02"
 				"OnIntervalThink"
 				{
 					"ActOnTargets"
@@ -463,12 +463,6 @@
 					
 						"Action"    
 						{
-							"RemoveModifier"
-							{
-								"ModifierName"	"modifier_sentry_ward_reveal"
-								"Target" 		"TARGET"
-							}
-
 							"ApplyModifier"
 							{
 								"ModifierName"	"modifier_sentry_ward_reveal"
@@ -481,7 +475,7 @@
 
 			"modifier_sentry_ward_reveal"
 			{
-				"IsHidden"	"1"
+				"IsHidden"	"0"
 				"Duration"	"0.1"
 				"Priority"	"MODIFIER_PRIORITY_ULTRA"
 				"States"
@@ -1109,7 +1103,7 @@
 				"Passive"			"1"
 				"IsHidden"			"1"
 		
-				"ThinkInterval"  "0.03"
+				"ThinkInterval"  "0.01"
 				"OnIntervalThink"
 				{
 					"ActOnTargets"
@@ -1136,7 +1130,7 @@
 
 			"modifier_truesight_reveal"
 			{
-				"IsHidden"			"1"
+				"IsHidden"			"0"
 				"Duration"			"0.1"	//The True Sight effect lingers for 0.1 seconds.
 				"Priority"			"MODIFIER_PRIORITY_ULTRA"
 				"States"

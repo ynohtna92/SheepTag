@@ -28,6 +28,9 @@ function Build( event )
 		building_name = AbilityKV[ability_name].UnitName --Building Helper value
 	end
 
+    local construction_size = BuildingHelper:GetConstructionSize(building_name)
+    local construction_radius = construction_size * 64 - 32
+
 	-- Checks if there is enough custom resources to start the building, else stop.
 	local unit_table = UnitKV[building_name]
 	local build_time = ability:GetSpecialValueFor("build_time")
@@ -62,14 +65,14 @@ function Build( event )
        		end
        	end
 
-       	-- If not enough resources to queue, stop
-       	if not PlayerHasEnoughGold( player, gold_cost ) then
-       		SendErrorMessage(caster:GetPlayerOwnerID(), "#error_not_enough_gold")
-			return false
-		end
+       	if building_name == "stack_farm" then
+       		if caster:HasModifier("modifier_shepherd_antistack") then
+       			return false
+       		end
+       	end
 
-       	if not PlayerHasEnoughLumber( player, lumber_cost ) then
-       		SendErrorMessage(caster:GetPlayerOwnerID(), "#error_not_enough_lumber")
+		-- If not enough resources to queue, stop
+		if PlayerResource:GetGold(playerID) < gold_cost then
 			return false
 		end
 
@@ -81,7 +84,6 @@ function Build( event )
 		
     	-- Spend resources
     	hero:ModifyGold(-gold_cost, false, 0)
-    	ModifyLumber( player, -lumber_cost)
 
     	-- Play a sound
     	EmitSoundOnClient("DOTA_Item.ObserverWard.Activate", player)
@@ -106,7 +108,6 @@ function Build( event )
 		-- Refund resources for this cancelled work
 		if work.refund then
 			hero:ModifyGold(gold_cost, false, 0)
-    		ModifyLumber( player, lumber_cost)
     	end
 	end)
 
@@ -208,24 +209,6 @@ function Build( event )
 		elseif unit.units_repairing then
 			builders = unit.units_repairing
 		end
-
-		--[[
-		-- Add 1 to the player building tracking table for that name
-		if not player.buildings[building_name] then
-			player.buildings[building_name] = 1
-		else
-			player.buildings[building_name] = player.buildings[building_name] + 1
-		end
-
-		-- Update the abilities of the builders and buildings
-    	for k,units in pairs(player.units) do
-    		CheckAbilityRequirements( units, player )
-    	end
-
-    	for k,structure in pairs(player.structures) do
-    		CheckAbilityRequirements( structure, player )
-    	end
-		]]
 
 		-- SheepTag Specific Functions
 		-- Remove Health Bar and set deniable
