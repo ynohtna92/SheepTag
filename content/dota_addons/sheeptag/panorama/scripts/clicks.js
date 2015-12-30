@@ -173,24 +173,6 @@ function OnLeftButtonPressed() {
     var mainSelected = Players.GetLocalPlayerPortraitUnit() 
     var mainSelectedName = Entities.GetUnitName( mainSelected )
     var targetIndex = GetMouseTarget()
-    
-    Hide_All_Shops()
-
-    if (targetIndex)
-    {
-        if ((IsShop(targetIndex) && IsAlliedUnit(mainSelected,targetIndex)) || IsTavern(targetIndex))
-        {
-            $.Msg("Player "+iPlayerID+" Clicked on a Shop")
-            ShowShop(targetIndex)
-
-            // Hero or unit with inventory
-            if (UnitCanPurchase(mainSelected))
-            {
-                GameEvents.SendCustomGameEventToServer( "shop_active_order", { shop: targetIndex, unit: mainSelected, targeted: true})
-                return true
-            }
-        }
-    }
 
     return false
 }
