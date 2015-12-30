@@ -154,6 +154,7 @@ function Build( event )
 
         -- GridNav Blocker is used
         if GetUnitKeyValue(building_name, "BlockPathingSize") > 0 then
+        	print("add no collision to unit")
             unit:AddNewModifier(unit, nil, "modifier_no_collision", {})
         end
 

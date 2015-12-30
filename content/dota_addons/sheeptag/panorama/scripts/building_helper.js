@@ -4,25 +4,19 @@ var state = 'disabled';
 var size = 0;
 var overlay_size = 0;
 var grid_alpha = 30;
-var overlay_alpha = 10;
+var overlay_alpha = 90;
 var model_alpha = 100;
 var recolor_ghost = false;
 var pressedShift = false;
 var altDown = false;
 var modelParticle;
 var gridParticles;
-var rangeOverlay;
-var overlayActive;
-var range = 0;
-var numberParticle;
+var overlayParticles;
 var builderIndex;
 var entityGrid;
 var cutTrees = [];
 var BLOCKED = 2;
-var propParticle;
-var offsetZ;
 var Root = $.GetContextPanel()
-var constructionSize = CustomNetTables.GetAllTableValues( "construction_size" )
 
 if (! Root.loaded)
 {
@@ -40,16 +34,13 @@ function StartBuildingHelper( params )
         // Set the parameters passed by AddBuilding
         state = params.state;
         size = params.size;
-        range = params.range;
-        overlay_size = size*2;
+        overlay_size = size*3;
         grid_alpha = Number(params.grid_alpha);
         model_alpha = Number(params.model_alpha);
         recolor_ghost = Number(params.recolor_ghost);
         builderIndex = params.builderIndex;
         var scale = params.scale;
         var entindex = params.entindex;
-        var propScale = params.propScale;
-        offsetZ = params.offsetZ;
         
         // If we chose to not recolor the ghost model, set it white
         var ghost_color = [0, 255, 0]
@@ -63,21 +54,20 @@ function StartBuildingHelper( params )
         if (modelParticle !== undefined) {
             Particles.DestroyParticleEffect(modelParticle, true)
         }
-        if (propParticle !== undefined) {
-            Particles.DestroyParticleEffect(propParticle, true)
-        }
         if (gridParticles !== undefined) {
             for (var i in gridParticles) {
                 Particles.DestroyParticleEffect(gridParticles[i], true)
             }
         }
-        if (rangeOverlay !== undefined) {
-            Particles.DestroyParticleEffect(rangeOverlay, true)
+        if (overlayParticles !== undefined) {
+            for (var i in overlayParticles) {
+                Particles.DestroyParticleEffect(overlayParticles[i], true)
+            }
         }
 
         // Building Ghost
         modelParticle = Particles.CreateParticle("particles/buildinghelper/ghost_model.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, localHeroIndex);
-        Particles.SetParticleControlEnt(modelParticle, 1, entindex, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", Entities.GetAbsOrigin(entindex), true)
+        Particles.SetParticleControlEnt(modelParticle, 1, entindex, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, "follow_origin", Entities.GetAbsOrigin(entindex), true)
         Particles.SetParticleControl(modelParticle, 2, ghost_color)
         Particles.SetParticleControl(modelParticle, 3, [model_alpha,0,0])
         Particles.SetParticleControl(modelParticle, 4, [scale,0,0])
@@ -92,21 +82,11 @@ function StartBuildingHelper( params )
             gridParticles.push(particle)
         }
 
-        // Prop particle attachment
-        if (params.propIndex !== undefined)
-        {
-            propParticle = Particles.CreateParticle("particles/buildinghelper/ghost_model.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, localHeroIndex);
-            Particles.SetParticleControlEnt(propParticle, 1, params.propIndex, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", Entities.GetAbsOrigin(params.propIndex), true)
-            Particles.SetParticleControl(propParticle, 2, ghost_color)
-            Particles.SetParticleControl(propParticle, 3, [model_alpha,0,0])
-            Particles.SetParticleControl(propParticle, 4, [propScale,0,0])
-        }
-            
-        overlayActive = false;     
+        overlayParticles = [];
     }
 
     if (state == 'active')
-    {
+    {   
         $.Schedule(1/60, StartBuildingHelper);
 
         // Get all the creature entities on the screen
@@ -124,10 +104,10 @@ function StartBuildingHelper( params )
             if (!Entities.IsAlive(entities[i]) || Entities.IsOutOfGame(entities[i])) continue
             var entPos = Entities.GetAbsOrigin( entities[i] )
             var squares = GetConstructionSize(entities[i])
-
-            if (squares > 0)
+            
+            if (squares > 0 && ( IsCustomBuilding(entities[i]) || IsGoldMine(entities[i])))
             {
-                // Block squares centered on the origin 
+                // Block squares centered on the origin
                 BlockGridSquares(entPos, squares)
             }
             else
@@ -161,7 +141,7 @@ function StartBuildingHelper( params )
         {
             SnapToGrid(GamePos, size)
 
-            var invalid = false;
+            var invalid;
             var color = [0,255,0]
             var part = 0
             var halfSide = (size/2)*64
@@ -196,42 +176,75 @@ function StartBuildingHelper( params )
 
                     Particles.SetParticleControl(gridParticle, 2, color)   
                 }
-            }            
+            }
 
-            // Update the particle model
-            Particles.SetParticleControl(modelParticle, 0, GamePos)
-            if (propParticle !== undefined) Particles.SetParticleControl(propParticle, 0, [GamePos[0],GamePos[1],GamePos[2]+offsetZ])
-
-            // Destroy the overlay if its not a valid building location
-            if (invalid)
+            // Overlay Grid, visible with Alt pressed
+            altDown = GameUI.IsAltDown();
+            if (altDown)
             {
-                if (overlayActive && rangeOverlay !== undefined)
+                // Create the particles
+                if (overlayParticles && overlayParticles.length == 0)
                 {
-                    Particles.DestroyParticleEffect(rangeOverlay, true)
-                    overlayActive = false
+                    for (var y=0; y < overlay_size*overlay_size; y++)
+                    {
+                        var particle = Particles.CreateParticle("particles/buildinghelper/square_overlay.vpcf", ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+                        Particles.SetParticleControl(particle, 1, [32,0,0])
+                        Particles.SetParticleControl(particle, 3, [0,0,0])
+                        overlayParticles.push(particle)
+                    }
+                }
+
+                color = [255,255,255]
+                var part2 = 0
+                var halfSide2 = (overlay_size/2)*64
+                var boundingRect2 = {}
+                boundingRect2["leftBorderX"] = GamePos[0]-halfSide2
+                boundingRect2["rightBorderX"] = GamePos[0]+halfSide2
+                boundingRect2["topBorderY"] = GamePos[1]+halfSide2
+                boundingRect2["bottomBorderY"] = GamePos[1]-halfSide2
+
+                for (var x2=boundingRect2["leftBorderX"]+32; x2 <= boundingRect2["rightBorderX"]-32; x2+=64)
+                {
+                    for (var y2=boundingRect2["topBorderY"]-32; y2 >= boundingRect2["bottomBorderY"]+32; y2-=64)
+                    {
+                        var pos2 = [x2,y2,GamePos[2]]
+                        if (part2>=overlay_size*overlay_size)
+                            return
+
+                        color = [255,255,255] //White on empty positions
+                        var overlayParticle = overlayParticles[part2]
+                        Particles.SetParticleControl(overlayParticle, 0, pos2)     
+                        part2++;
+
+                        if (IsBlocked(pos2))
+                            color = [255,0,0]                        
+
+                        Particles.SetParticleControl(overlayParticle, 2, color)        
+                        Particles.SetParticleControl(overlayParticle, 3, [overlay_alpha,0,0])
+                    }
                 }
             }
             else
             {
-                if (!overlayActive)
+                // Destroy the particles, only once
+                if (overlayParticles && overlayParticles.length != 0)
                 {
-                    var localHeroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer())
-                    rangeOverlay = Particles.CreateParticle("particles/buildinghelper/range_overlay.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, localHeroIndex)
-                    Particles.SetParticleControl(rangeOverlay, 1, [range,0,0])
-                    Particles.SetParticleControl(rangeOverlay, 2, [255,255,255])
-                    Particles.SetParticleControl(rangeOverlay, 3, [overlay_alpha,0,0])
-                    overlayActive = true
-                }              
+                    for (var i in overlayParticles) {
+                        Particles.DestroyParticleEffect(overlayParticles[i], true)
+                    }
+                    overlayParticles = [];
+                }
             }
 
-            if (rangeOverlay !== undefined)
-                Particles.SetParticleControl(rangeOverlay, 0, GamePos)
+            // Update the model particle
+            Particles.SetParticleControl(modelParticle, 0, GamePos)
 
             // Turn the model red if we can't build there
             if (recolor_ghost){
-                invalid ? Particles.SetParticleControl(modelParticle, 2, [255,0,0]) : Particles.SetParticleControl(modelParticle, 2, [255,255,255])
-                if (propParticle !== undefined)
-                    invalid ? Particles.SetParticleControl(propParticle, 2, [255,0,0]) : Particles.SetParticleControl(propParticle, 2, [255,255,255])
+                if (invalid)
+                    Particles.SetParticleControl(modelParticle, 2, [255,0,0])
+                else
+                    Particles.SetParticleControl(modelParticle, 2, [255,255,255])
             }
         }
 
@@ -248,14 +261,11 @@ function EndBuildingHelper()
     if (modelParticle !== undefined){
          Particles.DestroyParticleEffect(modelParticle, true)
     }
-    if (propParticle !== undefined){
-         Particles.DestroyParticleEffect(propParticle, true)
-    }
-    if (rangeOverlay !== undefined){
-        Particles.DestroyParticleEffect(rangeOverlay, true)
-    }
     for (var i in gridParticles) {
         Particles.DestroyParticleEffect(gridParticles[i], true)
+    }
+    for (var i in overlayParticles) {
+        Particles.DestroyParticleEffect(overlayParticles[i], true)
     }
 }
 
@@ -290,10 +300,6 @@ function RegisterGNV(msg){
     var squareX = msg.squareX
     var squareY = msg.squareY
     $.Msg("Registering GNV ["+squareX+","+squareY+"]")
-
-    // Handle odd sizes
-    if (squareX % 2) squareX+=1
-    if (squareY % 2) squareX+=1
 
     var arr = [];
     // Thanks to BMD for this method
@@ -344,6 +350,7 @@ function RequestGNV () {
     
     GameEvents.Subscribe( "gnv_register", RegisterGNV);
 })();
+
 //-----------------------------------
 
 function SnapToGrid(vec, size) {
@@ -372,7 +379,7 @@ function IsBlocked(position) {
     var x = WorldToGridPosX(position[0]) + Root.squareX/2
     var y = WorldToGridPosY(position[1]) + Root.squareY/2
     
-    return position[2] < 380 || Root.GridNav[x][y] == BLOCKED || IsEntityGridBlocked(x,y)
+    return (Root.GridNav[x][y] == BLOCKED) || IsEntityGridBlocked(x,y)
 }
 
 function IsEntityGridBlocked(x,y) {

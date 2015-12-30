@@ -9,6 +9,7 @@ BASE_MODULES = {
 	'orders',
 	'builder',
 	'mechanics',
+	'players',
 	'keyvalues',
 	'libraries/notifications',
 	'libraries/popups',
