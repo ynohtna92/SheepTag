@@ -10,6 +10,10 @@ function Build( event )
 	local AbilityKV = GameRules.AbilityKV
 	local UnitKV = GameRules.UnitKV
 
+    if caster:IsIdle() then
+        caster:Interrupt()
+    end
+
     -- Hold needs an Interrupt
 	if caster.bHold then
 		caster.bHold = false
@@ -88,9 +92,10 @@ function Build( event )
 
     -- The construction failed and was never confirmed due to the gridnav being blocked in the attempted area
 	event:OnConstructionFailed(function()
-		local name = player.activeBuilding
-		DebugPrint("[BH] Failed placement of " .. name)
-		SendErrorMessage(caster:GetPlayerOwnerID(), "#error_invalid_build_position")
+        local playerTable = BuildingHelper:GetPlayerTable(playerID)
+        local name = playerTable.activeBuilding
+        BuildingHelper:print("Failed placement of " .. name)
+        SendErrorMessage(caster:GetPlayerOwnerID(), "#error_invalid_build_position")
 	end)
 
 	-- Cancelled due to ClearQueue
@@ -116,6 +121,20 @@ function Build( event )
 	    unit.LumberCost = lumber_cost
 	    unit.BuildTime = build_time
 
+        -- If it's an item-ability and has charges, remove a charge or remove the item if no charges left
+        if ability.GetCurrentCharges and not ability:IsPermanent() then
+            local charges = ability:GetCurrentCharges()
+            charges = charges-1
+            if charges == 0 then
+                ability:RemoveSelf()
+            else
+                ability:SetCurrentCharges(charges)
+            end
+        end
+
+        -- Units can't attack while building
+        unit:AddNewModifier(unit, nil, "modifier_attack_disabled", {})
+
 		-- Give item to cancel
 		local item = CreateItem("item_building_cancel", playersHero, playersHero)
 		unit:AddItem(item)
@@ -131,6 +150,16 @@ function Build( event )
     	ApplyModifier(unit, "modifier_construction")
 
     	unit:AddAbility("ability_building")
+
+        -- GridNav Blocker is used
+        if GetUnitKeyValue(building_name, "BlockPathingSize") > 0 then
+            unit:AddNewModifier(unit, nil, "modifier_no_collision", {})
+        end
+
+        -- Cast angles and various building-creature properties
+        if GetUnitKeyValue(building_name, "DisableTurning") then
+            unit:AddNewModifier(unit, nil, "modifier_disable_turning", {})
+        end
 
     	-- Check the abilities of this building, disabling those that don't meet the requirements
     	--CheckAbilityRequirements( unit, player )
@@ -156,6 +185,8 @@ function Build( event )
 		DebugPrint("[BH] Completed construction of " .. unit:GetUnitName() .. " " .. unit:GetEntityIndex())
 		
 		-- Play construction complete sound
+        -- Give the unit their original attack capability
+        unit:RemoveModifierByName("modifier_attack_disabled")
 
 		-- Let the building cast abilities
 		unit:RemoveModifierByName("modifier_construction")

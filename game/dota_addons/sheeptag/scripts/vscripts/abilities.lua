@@ -19,171 +19,6 @@ LEVEL2_ABILITIES =
 	[6] = "level1_abilities",
 }
 
--- The following three functions are necessary for building helper.
-function build( keys )
-    local player = keys.caster:GetPlayerOwner()
-    local pID = player:GetPlayerID()
-    local ability = keys.ability
-
-    -- We don't want to charge the player resources at this point
-    -- This is only relevent for abilities that use AbilityGoldCost
-    local goldCost = keys.ability:GetGoldCost(-1)
-    PlayerResource:ModifyGold(pID, goldCost, false, 7) 
-    ability:EndCooldown()
-
-    BuildingHelper:AddBuilding(keys)
-
-    keys:OnBuildingPosChosen(function(vPos)
-        --print("OnBuildingPosChosen")
-        -- in WC3 some build sound was played here.
-    end)
-
-    keys:OnPreConstruction(function ()
-        -- Use this function to check/modify player resources before the construction begins
-        -- Return false to abort the build. It cause OnConstructionFailed to be called
-        if PlayerResource:GetGold(pID) < goldCost then
-            return false
-        end
-
-        PlayerResource:ModifyGold(pID, -1 * goldCost, false, 7)
-    end)
-
-	keys:OnConstructionStarted(function(unit)
-
-		if Debug_BH then
-			print("Started construction of " .. unit:GetUnitName())
-		end
-		-- Unit is the building be built.
-		-- Play construction sound
-		-- FindClearSpace for the builder
-
-		FindClearSpaceForUnit(keys.caster, keys.caster:GetAbsOrigin(), false)
-		ability:StartCooldown(ability:GetCooldown(-1))
-
-		-- Break Sheep Invis
-		keys.caster:RemoveModifierByName("modifier_invisibility_datadriven")
-
-		-- This modifier will delete the farm, manage particle effects when it dies.
-		GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_death_datadriven", -1)
-		GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_no_turn_datadriven", -1)
-
-		-- start the building with 0 mana.
-		unit:SetMana(0)
-
-		-- Custom for this map
-		color_unit(unit)
-		table.insert(keys.caster.farms, 1, unit)
-		name = unit:GetUnitName()
-		-- One tick later this will happen
-		if name ~= "tiny_farm" then
-			Timers:CreateTimer(0, function()
-				if name == "hard_farm" or name == "wide_farm" then
-					local origin = unit:GetAbsOrigin()
-					local size = 64
-					if name == "wide_farm" then
-						size = 32
-					end
-						
-					local points = { Vector(origin.x-size, origin.y-size, origin.z),
-						Vector(origin.x-size, origin.y+size, origin.z),
-						Vector(origin.x+size, origin.y-size, origin.z),
-						Vector(origin.x+size, origin.y+size, origin.z)
-					}
-
-					unit.blocker = {}
-					for i=1,#points do
-						local obstruction = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = points[i]})
-						unit.blocker[i] = obstruction
-					end
-					unit:SetAbsOrigin(origin)
-				else
-					local point = unit:GetAbsOrigin()
-					local gridNavBlocker = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = point})
-					unit.blocker = {}
-					unit.blocker[1] = gridNavBlocker	
-					unit:SetAbsOrigin(point)
-				end		
-			end)
-		end
-	end)
-
-	keys:OnConstructionCompleted(function(unit)
-		if Debug_BH then
-			print("Completed construction of " .. unit:GetUnitName())
-		end
-
-		-- Remove Health Bar and set deniable
-		Timers:CreateTimer(0, function()
-			GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_built_datadriven", -1)
-			GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_no_health_bar_datadriven", -1)
-		end)
-
-		-- Play construction complete sound.
-		-- Give building its abilities
-		InitAbilities(unit)
-		-- add the mana
-		unit:SetMana(unit:GetMaxMana())
-	end)
-
-	-- These callbacks will only fire when the state between below half health/above half health changes.
-	-- i.e. it won't unnecessarily fire multiple times.
-	keys:OnBelowHalfHealth(function(unit)
-		if Debug_BH then
-			print(unit:GetUnitName() .. " is below half health.")
-		end
-		unit:RemoveModifierByName("modifier_farm_no_health_bar_datadriven")
-	end)
-
-	keys:OnAboveHalfHealth(function(unit)
-		if Debug_BH then
-			print(unit:GetUnitName() .. " is above half health.")
-		end
-	end)
-
-    keys:OnConstructionFailed(function( building )
-        -- This runs when a building cannot be placed, you should refund resources if any. building is the unit that would've been built.
-    end)
-
-    keys:OnConstructionCancelled(function( building )
-        -- This runs when a building is cancelled, building is the unit that would've been built.
-    end)
-
-	-- Have a fire effect when the building goes below 50% health.
-	-- It will turn off it building goes above 50% health again.
-	keys:EnableFireEffect("modifier_jakiro_liquid_fire_burn")
-end
---[[
-function building_canceled( keys )
-	BuildingHelper:CancelBuilding(keys)
-end
-
-function create_building_entity( keys )
-	BuildingHelper:InitializeBuildingEntity(keys)
-end
-
-function builder_queue( keys )
-    local ability = keys.ability
-    local caster = keys.caster
-
-    if caster.ProcessingBuilding ~= nil then
-        -- caster is probably a builder, stop them
-        player = PlayerResource:GetPlayer(caster:GetMainControllingPlayer())
-        player.activeBuilding = nil
-        if player.activeBuilder and IsValidEntity(player.activeBuilder) then
-            if player.activeBuilder == caster then
-                player.activeBuilder:ClearQueue()
-                player.activeBuilder:Stop()
-                player.activeBuilder.ProcessingBuilding = false
-            else
-                player.activeBuilder = caster
-                player.activeBuilder:ClearQueue()
-                player.activeBuilder.ProcessingBuilding = false
-            end
-        end
-    end
-end
-]]
-
 --[[
 	Author: Noya
 	Date: 19.02.2015.
@@ -204,6 +39,8 @@ function UpgradeBuilding( event )
 	local hull_radius = caster:GetHullRadius()
 	local flag = caster.flag
 
+	local contructionSize = caster.construction_size
+
 	-- Remove the old building from the structures list
 	if IsValidEntity(caster) then	
 		-- Remove old building entity
@@ -214,9 +51,10 @@ function UpgradeBuilding( event )
 	local bID = GetIndex(caster.builder.farms, caster)
 
     -- New building
-	local building = BuildingHelper:PlaceBuilding(player, new_unit, position, false, nil) 
+	local building = BuildingHelper:PlaceBuilding(player, new_unit, position, contructionSize, 2, nil) 
 	building.blockers = blockers
 	building.builder = builder
+	building.construction_size = contructionSize
 	building:SetHullRadius(hull_radius)
 	building:SetModelScale(event.MaxScale)
 	InitAbilities(building)

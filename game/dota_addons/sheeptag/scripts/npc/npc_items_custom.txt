@@ -1062,7 +1062,7 @@
 					{
 						"ScriptFile"	"scripts/vscripts/abilities.lua"
 						"Function"		"get_golem_summon_point"
-						"Target"	"CASTER"
+						"Target"		"CASTER"
 						"Count"	"1"
 					}
 				}

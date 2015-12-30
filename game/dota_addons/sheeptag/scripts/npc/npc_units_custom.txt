@@ -171,6 +171,10 @@
 		"LumberCost"				"0"
 		"BuildTime"					"6"
 
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
+
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"0"			// Experience earn.
@@ -249,6 +253,10 @@
 		"GoldCost"					"12"
 		"LumberCost"				"0"
 		"BuildTime"					"4"
+
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -329,6 +337,10 @@
 		"LumberCost"				"0"
 		"BuildTime"					"10"
 
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
+
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"0"			// Experience earn.
@@ -407,6 +419,10 @@
 		"GoldCost"					"45"
 		"LumberCost"				"0"
 		"BuildTime"					"10"
+
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -487,6 +503,10 @@
 		"LumberCost"				"0"
 		"BuildTime"					"1"
 
+		// Building Size
+		"ConstructionSize"			"0"
+		"BlockPathingSize"			"2"
+
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"0"			// Experience earn.
@@ -565,6 +585,10 @@
 		"GoldCost"					"30"
 		"LumberCost"				"0"
 		"BuildTime"					"1"
+
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -645,6 +669,10 @@
 		"LumberCost"				"0"
 		"BuildTime"					"1"
 
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
+
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"0"			// Experience earn.
@@ -723,6 +751,10 @@
 		"GoldCost"					"12"
 		"LumberCost"				"0"
 		"BuildTime"					"1"
+
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -803,6 +835,10 @@
 		"LumberCost"				"0"
 		"BuildTime"					"1"
 
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
+
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"0"			// Experience earn.
@@ -881,6 +917,10 @@
 		"GoldCost"					"10"
 		"LumberCost"				"0"
 		"BuildTime"					"1"
+
+		// Building Size
+		"ConstructionSize"			"4"
+		"BlockPathingSize"			"4"
 
 		// Bounty
 		//----------------------------------------------------------------
@@ -961,6 +1001,10 @@
 		"LumberCost"				"0"
 		"BuildTime"					"1"
 
+		// Building Size
+		"ConstructionSize"			"3"
+		"BlockPathingSize"			"3"
+
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"0"			// Experience earn.
@@ -1040,6 +1084,10 @@
 		"LumberCost"				"0"
 		"BuildTime"					"1"
 
+		// Building Size
+		"ConstructionSize"			"1"
+		"BlockPathingSize"			"0"
+
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"0"			// Experience earn.
@@ -1118,6 +1166,10 @@
 		"GoldCost"					"0"
 		"LumberCost"				"0"
 		"BuildTime"					"1"
+
+		// Building Size
+		"ConstructionSize"			"2"
+		"BlockPathingSize"			"2"
 
 		// Bounty
 		//----------------------------------------------------------------

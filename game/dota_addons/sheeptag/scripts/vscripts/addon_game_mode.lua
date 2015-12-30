@@ -9,9 +9,10 @@ BASE_MODULES = {
 	'orders',
 	'builder',
 	'mechanics',
-	'lib/notifications',
-	'lib/popups',
-	'lib/scoreboard',
+	'keyvalues',
+	'libraries/notifications',
+	'libraries/popups',
+	'libraries/scoreboard',
 }
 
 local function load_module(mod_name)
