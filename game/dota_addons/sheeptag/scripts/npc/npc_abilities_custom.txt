@@ -407,23 +407,17 @@
 				"SpawnRadius"	"0"
 				"OnSpawn"
 				{
-					"FireSound"
-					{
-						"Target" "TARGET"
-						"EffectName" "DOTA_Item.SentryWard.Activate"
-					}
-
-					"FireEffect"
-					{
-						"Target"			"TARGET"
-						"EffectName"		"particles/items2_fx/ward_spawn_generic.vpcf"
-						"EffectAttachType" 	"follow_origin"
-					}
-
 					"ApplyModifier"
 					{
 						"ModifierName"	"modifier_sentry_ward"
 						"Target" 		"TARGET"
+					}
+
+					"RunScript"
+					{
+						"Target"		"TARGET"
+						"ScriptFile"	"scripts/vscripts/abilities.lua"
+						"Function"		"sentry_placed"
 					}
 
 					"RunScript"
@@ -513,6 +507,7 @@
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"terrorblade_conjure_image"
 		"HotKeyOverride"				"R"
+		"AbilityCastAnimation"			"ACT_DOTA_IDLE"
 	
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------
@@ -576,6 +571,7 @@
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"centaur_hoof_stomp"
 		"HotKeyOverride"				"D"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_2"
 	
 		// Stats
 		//-------------------------------------------------------------------------------------------------------------

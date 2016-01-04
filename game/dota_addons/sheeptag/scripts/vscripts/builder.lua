@@ -60,7 +60,7 @@ function Build( event )
        		local bHasBlight = HasBlight(vPos)
        		DebugPrint("[BH] Blight check for "..building_name..":", bHasBlight)
        		if not bHasBlight then
-       			SendErrorMessage(caster:GetPlayerOwnerID(), "#error_must_build_on_blight")
+       			SendErrorMessage(caster:GetPlayerOwnerID(), "#error_invalid_build_position")
        			return false
        		end
        	end
@@ -86,7 +86,7 @@ function Build( event )
     	hero:ModifyGold(-gold_cost, false, 0)
 
     	-- Play a sound
-    	EmitSoundOnClient("DOTA_Item.ObserverWard.Activate", player)
+    	Sounds:EmitSoundOnClient(playerID, "DOTA_Item.ObserverWard.Activate")
 
     	-- Move the units away from the building place
 
@@ -147,9 +147,6 @@ function Build( event )
     	-- Remove invulnerability on npc_dota_building baseclass
     	unit:RemoveModifierByName("modifier_invulnerable")
 
-    	-- Particle effect
-    	ApplyModifier(unit, "modifier_construction")
-
     	unit:AddAbility("ability_building")
 
         -- GridNav Blocker is used
@@ -189,9 +186,6 @@ function Build( event )
 		-- Play construction complete sound
         -- Give the unit their original attack capability
         unit:RemoveModifierByName("modifier_attack_disabled")
-
-		-- Let the building cast abilities
-		unit:RemoveModifierByName("modifier_construction")
 
 		-- Remove item_building_cancel
         for i=0,5 do

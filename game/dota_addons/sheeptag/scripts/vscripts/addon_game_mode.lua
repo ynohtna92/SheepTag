@@ -11,6 +11,7 @@ BASE_MODULES = {
 	'mechanics',
 	'players',
 	'keyvalues',
+	'libraries/sounds',
 	'libraries/notifications',
 	'libraries/popups',
 	'libraries/scoreboard',

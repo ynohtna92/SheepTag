@@ -1771,7 +1771,7 @@
 				}
 			}
 
-						"modifier_construction"
+			"modifier_construction"
 			{
 				"IsHidden"				"1"
 				"OnCreated"

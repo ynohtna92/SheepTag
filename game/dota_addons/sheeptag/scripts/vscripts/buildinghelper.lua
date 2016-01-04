@@ -931,9 +931,11 @@ function BuildingHelper:CancelBuilding(keys)
     local lumber_cost = math.floor(GetLumberCost(building) * refund_factor)
 
     Players:ModifyGold(playerID, gold_cost)
-    Players:ModifyLumber(playerID, lumber_cost)
     PopupGoldGain(building, gold_cost)
-    PopupLumber(building, lumber_cost)
+    if lumber_cost ~= 0 then
+        Players:ModifyLumber(playerID, lumber_cost)
+        PopupLumber(building, lumber_cost)
+    end
 
     -- Eject builder
     local builder = building.builder_inside
@@ -968,10 +970,6 @@ function BuildingHelper:CancelBuilding(keys)
         if item then
             if item:GetAbilityName() == "item_building_cancel" then
                 item:RemoveSelf()
-            else
-                Timers:CreateTimer(i*1/30, function() 
-                    building:CastAbilityImmediately(item, playerID)
-                end)
             end
         end
     end
@@ -992,9 +990,7 @@ function BuildingHelper:CancelBuilding(keys)
     end
 
     building.state = "canceled"
-    Timers:CreateTimer(1/5, function() 
-        BuildingHelper:RemoveBuilding(building, true)
-    end)
+    BuildingHelper:RemoveBuilding(building, true)
 end
 
 --[[

@@ -252,8 +252,14 @@ function far_sight( event )
 		end
 	end
 
-	-- Sound
-	caster:EmitSound("DOTA_Item.DustOfAppearance.Activate")
+	-- Sound dummy unit
+	local dummy = CreateUnitByName("npc_dummy_unit", target, true, caster, nil, caster:GetTeam())
+	dummy:AddNewModifier(dummy, nil, "modifier_dummy_unit", {})
+	EmitSoundOnLocationForAllies(dummy:GetAbsOrigin(), "DOTA_Item.DustOfAppearance.Activate", caster)
+
+	Timers:CreateTimer(duration, function()
+		dummy:RemoveSelf()
+	end)
 
 	-- Vision
 	if level == 1 then
@@ -264,7 +270,7 @@ end
 function mirror_image_start ( keys )
 	print('Mirror Image Cast')
 	keys.caster:Stop()
-	keys.caster:AddNewModifier(keys.caster, nil, "modifier_out_of_world", {})
+	keys.caster:AddNewModifier(keys.caster, nil, "modifier_shepherd_illusion_begin", {})
 	keys.caster:AddNoDraw()
 
 	local caster = keys.caster
@@ -381,7 +387,7 @@ function mirror_image ( keys, positions, rand, rand2)
 	table.insert(caster.mirrorimage, illusion)
 
 	--caster:SetAbsOrigin(positions[rand2])
-	caster:RemoveModifierByName("modifier_out_of_world")
+	caster:RemoveModifierByName("modifier_shepherd_illusion_begin")
 	caster:Stop()
 	FindClearSpaceForUnit(caster, positions[rand2], true)
 	caster:RemoveNoDraw()
@@ -396,6 +402,13 @@ function place_sentry ( keys )
 	local caster = keys.caster
 	local team = caster:GetTeamNumber()
 	CreateUnitByName("sentry_ward_datadriven", point, true, nil, nil, team)
+end
+
+function sentry_placed ( keys )
+	local caster = keys.caster
+	local target = keys.target
+	EmitSoundOnLocationForAllies(target:GetAbsOrigin(), "DOTA_Item.SentryWard.Activate", caster)
+	local particle = ParticleManager:CreateParticleForTeam("particles/items2_fx/ward_spawn_generic.vpcf", PATTACH_ABSORIGIN_FOLLOW, target, caster:GetTeamNumber())
 end
 
 function remove_player_control ( keys )

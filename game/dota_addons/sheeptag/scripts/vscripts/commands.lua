@@ -31,7 +31,7 @@ function CommandBuy ( hero , args )
 				hero:SpendGold( shopItems[args][1], DOTA_ModifyGold_PurchaseItem)
 				local item = CreateItem(shopItems[args][2], hero, hero)
 				hero:AddItem(item)
-				EmitSoundOnClient("General.Buy", PlayerResource:GetPlayer(hero:GetPlayerID()))
+				Sounds:EmitSoundOnClient(hero:GetPlayerID() , "General.Buy")
 			else
 				SendErrorMessage( hero:GetPlayerID(), "#error_no_inventory_room" )
 			end
@@ -51,7 +51,7 @@ function CommandSell ( hero , args )
 		if item then
 			hero:ModifyGold(item:GetCost()/3 , false, DOTA_ModifyGold_SellItem)
 			hero:RemoveItem(item)
-			EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
+			Sounds:EmitSoundOnClient(hero:GetPlayerID() , "General.Sell")
 		else
 			SendErrorMessage( hero:GetPlayerID(), "#error_item_missing" )
 		end
@@ -67,7 +67,7 @@ function CommandSellAll ( hero )
 		if item then
 			hero:ModifyGold(item:GetCost()/3 , false, DOTA_ModifyGold_SellItem)
 			hero:RemoveItem(item)
-			EmitSoundOnClient("General.Sell", PlayerResource:GetPlayer(hero:GetPlayerID()))
+			Sounds:EmitSoundOnClient(hero:GetPlayerID() , "General.Sell")
 		end
 	end
 end
