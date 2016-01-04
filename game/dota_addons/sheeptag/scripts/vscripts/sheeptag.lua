@@ -270,23 +270,15 @@ function SheepTag:OnHeroInGame(hero)
 
   -- Remove Wearables
   if heroName == "npc_dota_hero_riki" or heroName == "npc_dota_hero_lycan" then
-    --print('Removing Wearables')
+    print('Removing Wearables')
     hero.wearableNames = {} -- In here we'll store the wearable names to revert the change
     hero.hiddenWearables = {} 
     local wearable = hero:FirstMoveChild()
     while wearable ~= nil do
-     --print(wearable:GetClassname())     
-     if wearable:GetClassname() == "dota_item_wearable" then
-        local modelName = wearable:GetModelName()
-        if string.find(modelName, "invisiblebox") == nil then
-          -- Add the original model name to revert later
-          table.insert(hero.wearableNames,modelName)
-          --print("Hidden "..modelName.."")
-
-          -- Set model invisible
-          wearable:SetModel("models/development/invisiblebox.vmdl")
-          table.insert(hero.hiddenWearables,wearable)
-        end
+      --print(wearable:GetClassname())     
+      if wearable:GetClassname() == "dota_item_wearable" then
+        print("Added NODRAW")
+        wearable:AddEffects(EF_NODRAW)
       end
       wearable = wearable:NextMovePeer()
       if model ~= nil then
@@ -690,13 +682,13 @@ function SheepTag:InitSheepTag()
     -- Register Listener
   CustomGameEventManager:RegisterListener( "update_selected_entities", Dynamic_Wrap(SheepTag, 'OnPlayerSelectedEntities'))
   CustomGameEventManager:RegisterListener( "repair_order", Dynamic_Wrap(SheepTag, "RepairOrder"))   
-  CustomGameEventManager:RegisterListener( "building_helper_build_command", Dynamic_Wrap(BuildingHelper, "BuildCommand"))
-  CustomGameEventManager:RegisterListener( "building_helper_cancel_command", Dynamic_Wrap(BuildingHelper, "CancelCommand"))
   CustomGameEventManager:RegisterListener("set_game_settings", OnSetGameSettings)
   -- Fill server with fake clients
   -- Fake clients don't use the default bot AI for buying items or moving down lanes and are sometimes necessary for debugging
   
     -- Lua Modifiers
+  LinkLuaModifier("modifier_shepherd_illusion_begin", "libraries/modifiers/modifier_shepherd_illusion_begin", LUA_MODIFIER_MOTION_NONE)
+  LinkLuaModifier("modifier_dummy_unit", "libraries/modifiers/modifier_dummy_unit", LUA_MODIFIER_MOTION_NONE)
   LinkLuaModifier("modifier_no_collision", "libraries/modifiers/modifier_no_collision", LUA_MODIFIER_MOTION_NONE)
   LinkLuaModifier("modifier_no_health_bar", "libraries/modifiers/modifier_no_health_bar", LUA_MODIFIER_MOTION_NONE)
   LinkLuaModifier("modifier_disabled", "libraries/modifiers/modifier_disabled", LUA_MODIFIER_MOTION_NONE)
@@ -834,7 +826,9 @@ function SheepTag:InitSheepTag()
   end
 
   --SendToServerConsole( "dota_wearables_clientside 1" )
-  --SendToServerConsole( "dota_combine_models 0" )
+  SendToServerConsole( "dota_combine_models 0" )
+  -- Don't end the game if everyone is unassigned
+  SendToServerConsole("dota_surrender_on_disconnect 0")
 
   -- BH Snippet
 
