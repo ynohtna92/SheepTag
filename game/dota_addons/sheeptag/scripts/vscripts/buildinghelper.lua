@@ -512,6 +512,10 @@ function BuildingHelper:RemoveBuilding( building, bForcedKill )
         return 
     end
 
+    if building.buildingSplat then
+        ParticleManager:DestroyParticle(building.buildingSplat, false)
+    end
+
     for k, v in pairs(building.blockers) do
         DoEntFireByInstanceHandle(v, "Disable", "1", 0, nil, nil)
         DoEntFireByInstanceHandle(v, "Kill", "1", 1, nil, nil)

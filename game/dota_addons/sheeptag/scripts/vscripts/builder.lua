@@ -166,6 +166,35 @@ function Build( event )
 		-- Add the building handle to the list of structures
 		--table.insert(player.structures, unit)
 
+		-- Building Splat
+		local alpha = 0
+		local increment = build_time / 0.03
+		local a_increment = 80 / increment
+		local current = 0
+		local size = (64 * construction_size) * 0.75
+		if size == 0 then
+			size = (64 * 2) * 0.75
+		end
+		unit.buildingSplat = ParticleManager:CreateParticle("particles/buildinghelper/building_splat.vpcf", PATTACH_CUSTOMORIGIN, nil)
+		ParticleManager:SetParticleControl(unit.buildingSplat, 0, unit:GetAbsOrigin()+Vector(0,0,2))
+		ParticleManager:SetParticleControl(unit.buildingSplat, 1, Vector(size ,0,0))
+		ParticleManager:SetParticleControl(unit.buildingSplat, 2, Vector(255,255,255))
+		ParticleManager:SetParticleControl(unit.buildingSplat, 3, Vector(80,0,0))
+		--[[
+		Timers:CreateTimer(0, function()
+			print("Building Splat Alpha: ".. alpha)
+			alpha = alpha + a_increment
+			current = current + 1
+			ParticleManager:SetParticleControl(unit.buildingSplat, 3, Vector(math.floor(alpha),0,0))
+			if current >= increment then
+				alpha = 100
+				ParticleManager:SetParticleControl(unit.buildingSplat, 3, Vector(math.floor(alpha),0,0))
+				return nil
+			end
+			return 0.03
+		end)
+		]]
+
 		--SheepTag Specific Functions
 		color_unit(unit)
 		table.insert(caster.farms, 1, unit)

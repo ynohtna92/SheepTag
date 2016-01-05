@@ -470,7 +470,7 @@
 		//
 		"BaseClass"					"npc_dota_creep"	// Class of entity of link to.
 		"Model"						"models/buildings/building_racks_melee_reference.vmdl"	// Model.
-		"ModelScale"				"1"
+		"ModelScale"				"0.8"
 		//"SoundSet"					"Creep_Good_Range"					// Name of sound set.
 		"Level"						"0"
 		"UnitLabel"					"healing_ward"
