@@ -49,7 +49,7 @@
 		{
 			_class = "C_OP_RenderSprites"
 			m_nOrientationType = 2
-			m_hTexture = resource:"materials/humangroundsplat.vtex"
+			m_hTexture = resource:"materials/HumanGroundSplat.vtex"
 			VisibilityInputs =
 			{
 				m_flInputMax = 0.000000
