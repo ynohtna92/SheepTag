@@ -176,7 +176,7 @@ function Build( event )
 			size = (64 * 2) * 0.75
 		end
 		unit.buildingSplat = ParticleManager:CreateParticle("particles/buildinghelper/building_splat.vpcf", PATTACH_CUSTOMORIGIN, unit)
-		ParticleManager:SetParticleControl(unit.buildingSplat, 0, unit:GetAbsOrigin()+Vector(0,0,2))
+		ParticleManager:SetParticleControl(unit.buildingSplat, 0, unit:GetAbsOrigin()+Vector(0,0,1))
 		ParticleManager:SetParticleControl(unit.buildingSplat, 1, Vector(size ,0,0))
 		ParticleManager:SetParticleControl(unit.buildingSplat, 2, Vector(255,255,255))
 		ParticleManager:SetParticleControl(unit.buildingSplat, 3, Vector(80,0,0))
@@ -238,7 +238,9 @@ function Build( event )
 		-- Remove Health Bar and set deniable
 		Timers:CreateTimer(0, function()
 			GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_built_datadriven", -1)
-			GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_no_health_bar_datadriven", -1)
+			if unit:GetHealth() == unit:GetMaxHealth() then
+				GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_no_health_bar_datadriven", -1)
+			end
 		end)
 		-- Play construction complete sound.
 		-- Give building its abilities
@@ -265,6 +267,16 @@ function Build( event )
 
 		unit:RemoveModifierByName("modifier_onfire")
 		
+	end)
+
+	event:OnMaxHealth(function(unit)
+		DebugPrint("[BH] " ..unit:GetUnitName().. " has max health.")
+		GiveUnitDataDrivenModifier(unit, unit, "modifier_farm_no_health_bar_datadriven", -1)
+	end)
+
+	event:OnNotMaxHealth(function(unit)
+		DebugPrint("[BH] " ..unit:GetUnitName().. " does not have max health.")
+		unit:RemoveModifierByName("modifier_farm_no_health_bar_datadriven")
 	end)
 end
 

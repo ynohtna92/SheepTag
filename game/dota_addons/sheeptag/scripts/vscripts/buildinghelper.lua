@@ -360,6 +360,14 @@ function BuildingHelper:SetCallbacks(keys)
         callbacks.onAboveHalfHealth = callback
     end
 
+    function keys:OnMaxHealth( callback )
+        callbacks.onMaxHealth = callback
+    end
+
+    function keys:OnNotMaxHealth( callback )
+        callbacks.onNotMaxHealth = callback
+    end
+
     return callbacks
 end
 
@@ -718,6 +726,7 @@ function BuildingHelper:StartBuilding( builder )
                     end
                     
                     BuildingHelper:print("HP was off by:", fMaxHealth - fAddedHealth)
+                    building.bUpdatingHealth = false
 
                     -- Eject Builder
                     if bBuilderInside then
@@ -886,7 +895,8 @@ function BuildingHelper:StartBuilding( builder )
 
     -- OnBelowHalfHealth timer
     building.onBelowHalfHealthProc = false
-    building.healthChecker = Timers:CreateTimer(.2, function()
+    building.onMaxHealthProc = false
+    building.healthChecker = Timers:CreateTimer(.1, function()
         if IsValidEntity(building) then
             if building:GetHealth() < fMaxHealth/2.0 and not building.onBelowHalfHealthProc and not building.bUpdatingHealth then
                 if callbacks.fireEffect then
@@ -901,12 +911,18 @@ function BuildingHelper:StartBuilding( builder )
                 end
                 callbacks.onAboveHalfHealth(building)
                 building.onBelowHalfHealthProc = false
+            elseif building:GetHealth() == building:GetMaxHealth() and building.onMaxHealthProc and not building.bUpdatingHealth then
+                callbacks.onMaxHealth(building)
+                building.onMaxHealthProc = false
+            elseif building:GetHealth() < building:GetMaxHealth() and not building.onMaxHealthProc and not building.bUpdatingHealth then
+                callbacks.onNotMaxHealth(building)
+                building.onMaxHealthProc = true                
             end
         else
             return nil
         end
 
-        return .2
+        return .1
     end)
 
     if callbacks.onConstructionStarted then

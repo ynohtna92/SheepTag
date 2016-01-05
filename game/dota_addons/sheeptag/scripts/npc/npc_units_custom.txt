@@ -444,8 +444,8 @@
 		//----------------------------------------------------------------
 		"StatusHealth"				"200"			// Base health.
 		"StatusHealthRegen"			"0"			// Health regeneration rate.
-		"StatusMana"				"300"			// Base mana.
-		"StatusManaRegen"			"2"			// Mana regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0"			// Mana regeneration rate.
 
 		// Team
 		//----------------------------------------------------------------
@@ -930,8 +930,8 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
-		"RingRadius"				"120"
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"150"
 
 		// Movement
 		//----------------------------------------------------------------
@@ -1013,8 +1013,8 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
-		"RingRadius"				"90"
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
+		"RingRadius"				"120"
 
 		// Movement
 		//----------------------------------------------------------------
