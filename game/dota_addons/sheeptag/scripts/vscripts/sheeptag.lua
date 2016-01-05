@@ -1,15 +1,15 @@
 --[[
-Last modified: 20/10/2015
+Last modified: 05/01/2016
 Author: A_Dizzle
 Co-Author: Myll
 ]]
 
 print ('[SHEEPTAG] sheeptag.lua' )
 
-DEBUG = true
+DEBUG = false
 THINK_TIME = 0.1
 
-VERSION = "B201015"
+VERSION = "B050116"
 
 -- Game Variables
 GAME_OPTIONS_SET = false
@@ -153,6 +153,8 @@ function SheepTag:OnHeroInGame(hero)
 
   -- Game Starts for the first time! Run Once!
   if not self.initStuff then
+    GAME_OPTIONS_SET = true
+    mode:SetFogOfWarDisabled(VIEW_MODE)
     self:RevealMap(30)
     Timers:CreateTimer(4, function()
       GameRules:SendCustomMessage("<b>Welcome to Sheep Tag!</b> [".. VERSION .. "]", 0, 0)
@@ -772,6 +774,8 @@ function SheepTag:InitSheepTag()
   self.goldSheepTimer = nil
   self.goldShepherdTimer = nil
 
+  self.nCurrentRound = 0
+
   self.RadiantSheep = true
 
   self.scoreboardSetup = true
@@ -1041,6 +1045,7 @@ end
 
 function SheepTag:StartRound( )
   -- Start Gold Tickers
+  self.nCurrentRound = self.nCurrentRound + 1
   if self.goldSheepTimer == nil then
     self.goldSheepTimer = Timers:CreateTimer(function()
       if #Sheeps > 0 then
@@ -1150,6 +1155,35 @@ function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
   end)
 end
 
+function SheepTag:CheckEndGame()
+  local endGame = false
+  if DEBUG then
+    return
+  end
+
+  if GAME_MODE == 1 and NO_OF_ROUNDS == self.nCurrentRound then -- BEST OF
+    if self.nRadiantKills > self.nDireKills then
+      GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+    else
+      GameRules:SetGameWinner(DOTA_TEAM_BADGUYS)
+    end
+    endGame = true
+  elseif GAME_MODE == 2 then -- FIRST TO
+    if self.nRadiantKills == NO_OF_ROUNDS then
+      GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+      endGame = true
+    elseif self.nDireKills == NO_OF_ROUNDS then
+      GameRules:SetGameWinner(DOTA_TEAM_BADGUYS)
+      endGame = true
+    end
+  end
+
+  if endGame then
+    GameRules:SetSafeToLeave( true )
+    self.EndMessage()
+  end
+end
+
 function SheepTag:ClearLevel() -- Cleanup
   -- Remove all farms
   if #Sheeps > 0 then
@@ -1171,6 +1205,14 @@ function SheepTag:ClearLevel() -- Cleanup
   if #golem > 0 then
     for _,v in ipairs(golem) do
       UTIL_Remove(v)
+    end
+  end
+  local illusion = Entities:FindAllByClassname('npc_dota_hero_lycan')
+  if #illusion > 0 then
+    for _,v in ipairs(illusion) do
+      if v:IsIllusion() then
+        UTIL_Remove(v)
+      end
     end
   end
   -- Remove all dropped items
@@ -1443,7 +1485,7 @@ function OnSetGameSettings( eventSourceIndex, args )
   local player = PlayerResource:GetPlayer(player_id)
   local is_host = GameRules:PlayerHasCustomGameHostPrivileges(player)
   local mode_info = args.modes
-  local game_mode_imba = GameRules:GetGameModeEntity()    
+  local game_mode = GameRules:GetGameModeEntity()    
 
   -- If the player who sent the game options is not the host, do nothing
   if not is_host then

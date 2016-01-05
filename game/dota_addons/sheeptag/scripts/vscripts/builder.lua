@@ -175,7 +175,7 @@ function Build( event )
 		if size == 0 then
 			size = (64 * 2) * 0.75
 		end
-		unit.buildingSplat = ParticleManager:CreateParticle("particles/buildinghelper/building_splat.vpcf", PATTACH_CUSTOMORIGIN, nil)
+		unit.buildingSplat = ParticleManager:CreateParticle("particles/buildinghelper/building_splat.vpcf", PATTACH_CUSTOMORIGIN, unit)
 		ParticleManager:SetParticleControl(unit.buildingSplat, 0, unit:GetAbsOrigin()+Vector(0,0,2))
 		ParticleManager:SetParticleControl(unit.buildingSplat, 1, Vector(size ,0,0))
 		ParticleManager:SetParticleControl(unit.buildingSplat, 2, Vector(255,255,255))

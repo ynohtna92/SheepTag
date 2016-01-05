@@ -61,6 +61,15 @@
 						}
 					}			
 				}
+				"OnAttackStart"
+				{
+					"RunScript"
+					{
+						"Target"				"TARGET"
+						"ScriptFile"			"scripts/vscripts/abilities.lua"
+						"Function"				"sheep_attack_check"
+					}
+				}
 			}
 			"modifier_shepherd_hit"
 			{
@@ -434,7 +443,7 @@
 		{
 			"modifier_sentry_ward"
 			{
-				//"IsHidden" "1"
+				"IsHidden" "1"
 				"Duration"			"%duration"
 				"States"
 				{
@@ -1126,7 +1135,7 @@
 
 			"modifier_truesight_reveal"
 			{
-				"IsHidden"			"0"
+				"IsHidden"			"1"
 				"Duration"			"0.1"	//The True Sight effect lingers for 0.1 seconds.
 				"Priority"			"MODIFIER_PRIORITY_ULTRA"
 				"States"

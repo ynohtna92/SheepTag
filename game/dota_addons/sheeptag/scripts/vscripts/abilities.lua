@@ -78,6 +78,15 @@ function UpgradeBuilding( event )
 end
 -- End Building Helper Functions
 
+-- Disable sheep auto attack
+function sheep_attack_check( keys )
+	local target = keys.target
+	local caster = keys.caster
+	if target:GetUnitName() == "npc_dota_hero_lycan" or target:GetUnitName() == "golem_datadriven" then
+		caster:Stop()
+	end
+end
+
 function color_unit( unit )
 	name = unit:GetUnitName()
 	if name == "money_farm" then
@@ -382,6 +391,12 @@ function mirror_image ( keys, positions, rand, rand2)
 	illusion:SetMana(caster:GetMana())
 	illusion:SetForwardVector(fv)
 	FindClearSpaceForUnit(illusion, positions[rand], true)
+	--[[
+	local newPos1 = FindGoodSpaceForUnit( illusion, positions[rand], 1800, nil )
+	if newPos1 ~= false then
+		FindClearSpaceForUnit(illusion, newPos1, true)
+	end
+	]]
 
 	-- Add to caster to find later
 	table.insert(caster.mirrorimage, illusion)
@@ -390,6 +405,12 @@ function mirror_image ( keys, positions, rand, rand2)
 	caster:RemoveModifierByName("modifier_shepherd_illusion_begin")
 	caster:Stop()
 	FindClearSpaceForUnit(caster, positions[rand2], true)
+	--[[
+	local newPos2 = FindGoodSpaceForUnit( caster, positions[rand2], 1800, nil )
+	if newPos2 ~= false then
+		FindClearSpaceForUnit(caster, newPos2, true)
+	end
+	]]
 	caster:RemoveNoDraw()
 
 
