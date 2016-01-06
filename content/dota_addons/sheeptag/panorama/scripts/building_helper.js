@@ -386,11 +386,21 @@ function IsBlocked(position) {
     var x = WorldToGridPosX(position[0]) + Root.squareX/2
     var y = WorldToGridPosY(position[1]) + Root.squareY/2
     
-    return (Root.GridNav[x][y] == BLOCKED) || IsEntityGridBlocked(x,y)
+    return (Root.GridNav[x][y] == BLOCKED) || IsEntityGridBlocked(x,y) || IsBlightGridBlocked(x,y)
 }
 
 function IsEntityGridBlocked(x,y) {
     return (entityGrid[x] && entityGrid[x][y] == BLOCKED)
+}
+
+function IsBlightGridBlocked(x,y) {
+    var blightXMin = 95
+    var blightXMax = 112
+
+    var blightYMin = 79
+    var blightYMax = 100
+    $.Msg(x,y)
+    return x >= blightXMin && x <= blightXMax && y >= blightYMin && y <= blightYMax
 }
 
 function BlockEntityGrid(position) {
