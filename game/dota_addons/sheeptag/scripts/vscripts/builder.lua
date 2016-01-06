@@ -56,14 +56,12 @@ function Build( event )
 	event:OnPreConstruction(function(vPos)
 
        	-- Blight check
-       	if string.match(building_name, "undead") and building_name ~= "undead_necropolis" then
-       		local bHasBlight = HasBlight(vPos)
-       		DebugPrint("[BH] Blight check for "..building_name..":", bHasBlight)
-       		if not bHasBlight then
-       			SendErrorMessage(caster:GetPlayerOwnerID(), "#error_invalid_build_position")
-       			return false
-       		end
-       	end
+		local bHasBlight = HasBlight(vPos)
+		DebugPrint("[BH] Blight check for "..building_name..":", bHasBlight)
+		if bHasBlight then
+			SendErrorMessage(caster:GetPlayerOwnerID(), "#error_invalid_build_position")
+			return false
+		end
 
        	if building_name == "stack_farm" then
        		if caster:HasModifier("modifier_shepherd_antistack") then
@@ -618,4 +616,22 @@ end
 function RepairAnimation( event )
 	local caster = event.caster
 	caster:StartGesture(ACT_DOTA_ATTACK)
+end
+
+-- Poor mans blight
+function HasBlight( vLocation )
+	local x = vLocation[1]
+	local y = vLocation[2]
+
+	local blightXMin = -544
+	local blightXMax = 544
+
+	local blightYMin = -800
+	local blightYMax = 544
+
+	if x >= blightXMin and x <= blightXMax and y >= blightYMin and y <= blightYMax then
+		return true
+	end
+
+	return false
 end

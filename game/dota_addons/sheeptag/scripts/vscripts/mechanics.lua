@@ -140,6 +140,133 @@ function FindGoodSpaceForUnit( unit, vTargetPos, searchLimit, initRadius )
 	return false			
 end
 
+--[[ Find a clear space for a unit based on gridnav, for a hull size bigger than 1x1 but smaller than 2x2. (Used to replace FindClearSpaceForUnit)
+	Author: a_dizzle
+	Date: 06.01.2016 
+	unit 		: The handle of the unit you are moving.
+	vTargetPos	: The target Vector you want to move this unit too.
+
+	returns boolean: true if a clear space has been found, false if it hasn't (this will not move the unit)
+]]
+function FindBigSpaceForUnit( unit, vTargetPos )
+	local newPos = nil
+	local checkSpace = {}
+	checkSpace[1] = Vector( -64, 64, 0 )
+	checkSpace[2] = Vector( 0, 64, 0 )
+	checkSpace[3] = Vector( 64, 64, 0 )
+	checkSpace[4] = Vector( -64, 0, 0 )
+	checkSpace[5] = Vector( 0, 0, 0 )
+	checkSpace[6] = Vector( 64, 0, 0 )
+	checkSpace[7] = Vector( -64, -64, 0 )
+	checkSpace[8] = Vector( 0, -64, 0 )
+	checkSpace[9] = Vector( 64, -64, 0 )
+	local goodSpace = {}
+	local vAlignedPos = Vector(SnapToGrid32(vTargetPos[1]), SnapToGrid32(vTargetPos[2]), vTargetPos[3])
+	DebugDrawCircle(vAlignedPos, Vector(0,255,255), 1, 32, true, 5)
+	DebugDrawCircle(vTargetPos, Vector(0,255,0), 1, 32, true, 5)
+	-- Check for valid spaces
+	for i,v in ipairs(checkSpace) do
+		local validSpace = true
+		if GridNav:IsBlocked(v + vAlignedPos) or GridNav:IsTraversable(v + vAlignedPos) == false then
+			validSpace = false
+			DebugDrawCircle(v + vAlignedPos, Vector(255,0,0), 1, 16, true, 5)
+		else
+			DebugDrawCircle(v + vAlignedPos, Vector(0,255,0), 1, 16, true, 5)
+		end
+		goodSpace[i] = validSpace
+	end
+
+	-- Case 1: All Clear
+	local case1 = true
+	for i,v in ipairs(goodSpace) do
+		if not v then
+			case1 = false
+		end
+	end
+	if case1 then
+		newPos = vTargetPos
+		print("Case 1")
+	end
+
+	-- Case 2: Corner Clear
+	if newPos == nil then
+		local cornerClear = {}
+		cornerClear[1] = false
+		cornerClear[2] = false
+		cornerClear[3] = false
+		cornerClear[4] = false
+		if goodSpace[1] == true and goodSpace[2] == true and goodSpace[4] == true and goodSpace[5] == true then
+			cornerClear[1] = true
+		end
+		if goodSpace[2] == true and goodSpace[3] == true and goodSpace[5] == true and goodSpace[6] == true then
+			cornerClear[2] = true
+		end
+		if goodSpace[4] == true and goodSpace[5] == true and goodSpace[7] == true and goodSpace[8] == true then
+			cornerClear[3] = true
+		end
+		if goodSpace[5] == true and goodSpace[6] == true and goodSpace[8] == true and goodSpace[9] == true then
+			cornerClear[4] = true
+		end
+
+		print(cornerClear[1],cornerClear[2],cornerClear[3],cornerClear[4])
+		-- Pick Spot
+		if cornerClear[1] and not cornerClear[2] and not cornerClear[3] and not cornerClear[4] then
+			print("1")
+			newPos = vAlignedPos + Vector( -32, 32, 0)
+		elseif cornerClear[2] and not cornerClear[1] and not cornerClear[3] and not cornerClear[4] then
+			print("2")
+			newPos = vAlignedPos + Vector( 32, 32, 0)
+		elseif cornerClear[3] and not cornerClear[1] and not cornerClear[2] and not cornerClear[4] then
+			print("3")
+			newPos = vAlignedPos + Vector( -32, -32, 0)
+		elseif cornerClear[4] and not cornerClear[1] and not cornerClear[2] and not cornerClear[3] then
+			print("4")
+			newPos = vAlignedPos + Vector( 32, -32, 0)
+		elseif cornerClear[1] and cornerClear[2] and not cornerClear[3] and not cornerClear[4] then
+			print("5")
+			newPos = vAlignedPos + Vector( 0, 32, 0)
+		elseif cornerClear[3] and cornerClear[4] and not cornerClear[1] and not cornerClear[2] then
+			print("6")
+			newPos = vAlignedPos + Vector( 0, -32, 0)
+		elseif cornerClear[2] and cornerClear[4] and not cornerClear[1] and not cornerClear[3] then
+			print("7")
+			newPos = vAlignedPos + Vector( 32, 0, 0)
+		elseif cornerClear[1] and cornerClear[3] and not cornerClear[2] and not cornerClear[4] then
+			print("8")
+			newPos = vAlignedPos + Vector( -32, 0, 0)
+		elseif cornerClear[1] and (cornerClear[2] or cornerClear[3] or cornerClear[4]) then
+			print("9")
+			newPos = vAlignedPos + Vector( -32, 32, 0)
+		elseif cornerClear[2] and (cornerClear[1] or cornerClear[3] or cornerClear[4]) then
+			print("10")
+			newPos = vAlignedPos + Vector( 32, 32, 0)
+		elseif cornerClear[3] and (cornerClear[1] or cornerClear[2] or cornerClear[4]) then
+			print("11")
+			newPos = vAlignedPos + Vector( -32, -32, 0)
+		elseif cornerClear[4] and (cornerClear[1] or cornerClear[2] or cornerClear[3]) then
+			print("12")
+			newPos = vAlignedPos + Vector( 32, -32, 0)
+		end
+		if newPos ~= nil then
+			print("Case 2")
+		end
+	end
+
+	-- Case Default: No Space
+	if newPos == nil then
+		newPos = vTargetPos
+		print("Case Default")
+		return false
+	end
+	DebugDrawCircle(newPos, Vector(255,255,0), 1, 8, true, 5)
+	FindClearSpaceForUnit( unit, newPos, true )
+	return true
+end
+
+function SnapToGrid32(coord)
+    return 32+64*math.floor(coord/64)
+end
+
 function SendErrorMessage( pID, string )
 	Notifications:ClearBottom(pID)
 	Notifications:Bottom(pID, {text=string, style={color='#E62020'}, duration=2})

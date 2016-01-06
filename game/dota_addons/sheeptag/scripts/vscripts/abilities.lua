@@ -336,6 +336,9 @@ function mirror_image ( keys, positions, rand, rand2)
 	local fv = caster:GetForwardVector()
 	local origin = caster:GetAbsOrigin()
 
+	local directionCaster = (positions[rand2] - origin):Normalized()
+	local directionIllusion = (positions[rand] - origin):Normalized()
+
 	--[[ ============================================================================================================
 		Author: Rook, with help from Noya
 		Date: February 2, 2015
@@ -390,7 +393,11 @@ function mirror_image ( keys, positions, rand, rand2)
 	illusion:SetHealth(caster:GetHealth())
 	illusion:SetMana(caster:GetMana())
 	illusion:SetForwardVector(fv)
-	local r1 = FindClearSpaceForUnit(illusion, positions[rand], true)
+	illusion:SetHullRadius(32)
+	FindMirrorImageSpace(illusion, positions[rand], 500, directionIllusion)
+	illusion:Stop()
+
+	--local r1 = FindClearSpaceForUnit(illusion, positions[rand], true)
 	--[[
 	local newPos1 = FindGoodSpaceForUnit( illusion, positions[rand], 1800, nil )
 	if newPos1 ~= false then
@@ -404,8 +411,9 @@ function mirror_image ( keys, positions, rand, rand2)
 	--caster:SetAbsOrigin(positions[rand2])
 	caster:RemoveModifierByName("modifier_shepherd_illusion_begin")
 	caster:Stop()
-	local r2 = FindClearSpaceForUnit(caster, positions[rand2], true)
-	print(r1, r2)
+	FindMirrorImageSpace(caster, positions[rand2], 500, directionCaster)
+	--local r2 = FindClearSpaceForUnit(caster, positions[rand2], true)
+	--print(r1, r2)
 	--[[
 	local newPos2 = FindGoodSpaceForUnit( caster, positions[rand2], 1800, nil )
 	if newPos2 ~= false then
@@ -417,6 +425,30 @@ function mirror_image ( keys, positions, rand, rand2)
 
 	print(illusion:IsIllusion())
 end
+
+-- This function drives the FindBigSpaceForUnit function in a line
+function FindMirrorImageSpace( unit, vTargetPos, speed, direction )
+	local nTickRate = 1/30
+	local nIncrement = speed * nTickRate
+	local vCheckSpace = vTargetPos
+	local iteration = 0
+	local iterationMax = 300
+	Timers:CreateTimer(nTickRate, function()
+		print(iteration, speed, nTickRate, nIncrement, direction, vCheckSpace)
+		if FindBigSpaceForUnit(unit, vCheckSpace) then
+			return nil
+		else
+			iteration = iteration + 1
+			vCheckSpace = vCheckSpace + (direction * nIncrement)
+		end
+		if iteration == iterationMax then -- Out of bounds
+			FindClearSpaceForUnit(unit, vTargetPos, true)
+			return nil
+		end
+		return nTickRate
+	end)
+end
+
 
 function place_sentry ( keys )
 	print('Sentry Placed')
