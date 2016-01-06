@@ -390,6 +390,7 @@ function mirror_image ( keys, positions, rand, rand2)
 
 	illusion:AddNewModifier(keys.caster, keys.ability, "modifier_illusion", {duration = illusion_duration, outgoing_damage = illusion_outgoing_damage, incoming_damage = illusion_incoming_damage})
 	illusion:AddNewModifier(keys.caster, nil, "modifier_shepherd_illusion_begin", {})
+	illusion:AddNewModifier(keys.caster, nil, "modifier_model_change_wolf", {})
 	illusion:AddNoDraw()
 	illusion:MakeIllusion()
 	illusion:SetHealth(caster:GetHealth())

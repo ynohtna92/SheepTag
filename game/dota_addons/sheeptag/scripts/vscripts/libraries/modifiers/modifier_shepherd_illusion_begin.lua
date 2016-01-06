@@ -12,3 +12,7 @@ function modifier_shepherd_illusion_begin:CheckState()
 
     return state
 end
+
+function modifier_shepherd_illusion_begin:IsHidden()
+	return true
+end

@@ -254,6 +254,8 @@ function SheepTag:OnHeroInGame(hero)
 
     local item = CreateItem("item_build_aura_farm", hero, hero)
     hero:AddItem(item)
+
+    hero:AddNewModifier(hero, nil, "modifier_model_change_sheep", {})
   elseif heroName == "npc_dota_hero_lycan" and id ~= -1 then -- Shepherd
     InitAbilities(hero)
 
@@ -271,9 +273,11 @@ function SheepTag:OnHeroInGame(hero)
     table.insert(Shepherds, hero)
 
     hero:SetHullRadius(32) -- A hull radius of 32 will make pathing do weird things.
+
+    hero:AddNewModifier(hero, nil, "modifier_model_change_wolf", {})
   end
 
-  -- Remove Wearables
+  --[[ Remove Wearables
   if heroName == "npc_dota_hero_riki" or heroName == "npc_dota_hero_lycan" then
     print('Removing Wearables')
     hero.wearableNames = {} -- In here we'll store the wearable names to revert the change
@@ -291,6 +295,7 @@ function SheepTag:OnHeroInGame(hero)
       end
     end
   end
+  ]]
 end
 
 --[[
@@ -694,6 +699,8 @@ function SheepTag:InitSheepTag()
   -- Fake clients don't use the default bot AI for buying items or moving down lanes and are sometimes necessary for debugging
   
     -- Lua Modifiers
+  LinkLuaModifier("modifier_model_change_sheep", "libraries/modifiers/modifier_model_change", LUA_MODIFIER_MOTION_NONE)
+  LinkLuaModifier("modifier_model_change_wolf", "libraries/modifiers/modifier_model_change", LUA_MODIFIER_MOTION_NONE)
   LinkLuaModifier("modifier_shepherd_illusion_begin", "libraries/modifiers/modifier_shepherd_illusion_begin", LUA_MODIFIER_MOTION_NONE)
   LinkLuaModifier("modifier_dummy_unit", "libraries/modifiers/modifier_dummy_unit", LUA_MODIFIER_MOTION_NONE)
   LinkLuaModifier("modifier_no_collision", "libraries/modifiers/modifier_no_collision", LUA_MODIFIER_MOTION_NONE)
