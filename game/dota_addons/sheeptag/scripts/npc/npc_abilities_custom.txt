@@ -478,8 +478,9 @@
 
 			"modifier_sentry_ward_reveal"
 			{
-				"IsHidden"	"0"
+				"IsHidden"	"1"
 				"Duration"	"0.1"
+				"IsDebuff"	"1"
 				"Priority"	"MODIFIER_PRIORITY_ULTRA"
 				"States"
 				{
@@ -571,6 +572,7 @@
 			"particle"	"particles/generic_gameplay/illusion_created.vpcf"
 			"particle"	"particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf"
 			"particle"	"particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_illlmove.vpcf"
+			"particle"	"particles/units/heroes/hero_phantom_lancer/phantomlancer_illusion_destroy.vpcf"
 		}
 	}
 
@@ -1136,6 +1138,7 @@
 			"modifier_truesight_reveal"
 			{
 				"IsHidden"			"1"
+				"IsDebuff"			"1"
 				"Duration"			"0.1"	//The True Sight effect lingers for 0.1 seconds.
 				"Priority"			"MODIFIER_PRIORITY_ULTRA"
 				"States"

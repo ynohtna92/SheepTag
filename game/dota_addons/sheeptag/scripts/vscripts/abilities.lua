@@ -348,7 +348,7 @@ function mirror_image ( keys, positions, rand, rand2)
 	local illusion = CreateUnitByName(caster:GetUnitName(), positions[rand], true, caster, nil, team)
 	illusion:SetPlayerID(player_id)
 	illusion:SetControllableByPlayer(player_id, true)
-
+	illusion:SetOwner(PlayerResource:GetPlayer(player_id))
 	--Level up the illusion to the caster's level.
 	local caster_level = keys.caster:GetLevel()
 	for i = 1, caster_level - 1 do
@@ -389,6 +389,8 @@ function mirror_image ( keys, positions, rand, rand2)
 	end
 
 	illusion:AddNewModifier(keys.caster, keys.ability, "modifier_illusion", {duration = illusion_duration, outgoing_damage = illusion_outgoing_damage, incoming_damage = illusion_incoming_damage})
+	illusion:AddNewModifier(keys.caster, nil, "modifier_shepherd_illusion_begin", {})
+	illusion:AddNoDraw()
 	illusion:MakeIllusion()
 	illusion:SetHealth(caster:GetHealth())
 	illusion:SetMana(caster:GetMana())
@@ -409,7 +411,6 @@ function mirror_image ( keys, positions, rand, rand2)
 	table.insert(caster.mirrorimage, illusion)
 
 	--caster:SetAbsOrigin(positions[rand2])
-	caster:RemoveModifierByName("modifier_shepherd_illusion_begin")
 	caster:Stop()
 	FindMirrorImageSpace(caster, positions[rand2], 500, directionCaster)
 	--local r2 = FindClearSpaceForUnit(caster, positions[rand2], true)
@@ -420,10 +421,6 @@ function mirror_image ( keys, positions, rand, rand2)
 		FindClearSpaceForUnit(caster, newPos2, true)
 	end
 	]]
-	caster:RemoveNoDraw()
-
-
-	print(illusion:IsIllusion())
 end
 
 -- This function drives the FindBigSpaceForUnit function in a line
@@ -434,8 +431,10 @@ function FindMirrorImageSpace( unit, vTargetPos, speed, direction )
 	local iteration = 0
 	local iterationMax = 300
 	Timers:CreateTimer(nTickRate, function()
-		print(iteration, speed, nTickRate, nIncrement, direction, vCheckSpace)
 		if FindBigSpaceForUnit(unit, vCheckSpace) then
+			ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantomlancer_illusion_destroy.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
+			unit:RemoveModifierByName("modifier_shepherd_illusion_begin")
+			unit:RemoveNoDraw()
 			return nil
 		else
 			iteration = iteration + 1
@@ -443,6 +442,9 @@ function FindMirrorImageSpace( unit, vTargetPos, speed, direction )
 		end
 		if iteration == iterationMax then -- Out of bounds
 			FindClearSpaceForUnit(unit, vTargetPos, true)
+			ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantomlancer_illusion_destroy.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
+			unit:RemoveModifierByName("modifier_shepherd_illusion_begin")
+			unit:RemoveNoDraw()
 			return nil
 		end
 		return nTickRate
