@@ -390,7 +390,7 @@ function mirror_image ( keys, positions, rand, rand2)
 	illusion:SetHealth(caster:GetHealth())
 	illusion:SetMana(caster:GetMana())
 	illusion:SetForwardVector(fv)
-	FindClearSpaceForUnit(illusion, positions[rand], true)
+	local r1 = FindClearSpaceForUnit(illusion, positions[rand], true)
 	--[[
 	local newPos1 = FindGoodSpaceForUnit( illusion, positions[rand], 1800, nil )
 	if newPos1 ~= false then
@@ -404,7 +404,8 @@ function mirror_image ( keys, positions, rand, rand2)
 	--caster:SetAbsOrigin(positions[rand2])
 	caster:RemoveModifierByName("modifier_shepherd_illusion_begin")
 	caster:Stop()
-	FindClearSpaceForUnit(caster, positions[rand2], true)
+	local r2 = FindClearSpaceForUnit(caster, positions[rand2], true)
+	print(r1, r2)
 	--[[
 	local newPos2 = FindGoodSpaceForUnit( caster, positions[rand2], 1800, nil )
 	if newPos2 ~= false then
@@ -564,6 +565,10 @@ function farm_death( keys )
 	if keys.attacker:GetUnitName() ~= "npc_dota_hero_riki" then
 		farm_bounty(keys)
 	end
+
+    if keys.caster.buildingSplat then
+        ParticleManager:DestroyParticle(keys.caster.buildingSplat, true)
+    end
 
 	EmitSoundOn("Building_Tombstone.Destruction", keys.caster)
 	local particle = ParticleManager:CreateParticle("particles/dire_fx/bad_barracks_destruction_fire2.vpcf", PATTACH_ABSORIGIN, keys.attacker)

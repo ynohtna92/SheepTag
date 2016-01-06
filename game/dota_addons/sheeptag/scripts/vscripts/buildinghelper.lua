@@ -639,8 +639,7 @@ function BuildingHelper:StartBuilding( builder )
     local fserverFrameRate = 1/30
 
     -- Max and Initial Health factor
-    local masonry_rank = Players:GetCurrentResearchRank(player:GetPlayerID(), "human_research_masonry1")
-    local fMaxHealth = building:GetMaxHealth() * (1 + 0.2 * masonry_rank) 
+    local fMaxHealth = building:GetMaxHealth()
     local nInitialHealth = 0.10 * ( fMaxHealth )
     local fUpdateHealthInterval = buildTime / math.floor(fMaxHealth-nInitialHealth) -- health to add every tick until build time is completed.
     ---------------------------------------------------------------------
@@ -725,7 +724,7 @@ function BuildingHelper:StartBuilding( builder )
                         callbacks.onConstructionCompleted(building)
                     end
                     
-                    BuildingHelper:print("HP was off by:", fMaxHealth - fAddedHealth)
+                    BuildingHelper:print("HP was off by: " .. fMaxHealth - fAddedHealth)
                     building.bUpdatingHealth = false
 
                     -- Eject Builder
@@ -771,6 +770,8 @@ function BuildingHelper:StartBuilding( builder )
             BuildingHelper:AdvanceQueue(builder)
         end
 
+        local fAddedHealth = 0
+
         building.updateHealthTimer = Timers:CreateTimer(function()
             if IsValidEntity(building) and building:IsAlive() then
                 local timesUp = GameRules:GetGameTime() >= fTimeBuildingCompleted
@@ -778,11 +779,15 @@ function BuildingHelper:StartBuilding( builder )
                     if building.bUpdatingHealth then
                         if building:GetHealth() < fMaxHealth then
                             building:SetHealth(building:GetHealth() + 1)
+                            fAddedHealth = fAddedHealth + 1
                         else
                             building.bUpdatingHealth = false
                         end
                     end
                 else
+                    -- round up the last little bit
+                    building:SetHealth(building:GetHealth() + fMaxHealth - fAddedHealth)
+                    BuildingHelper:print("HP was off by: " .. fMaxHealth - fAddedHealth)
                     -- completion: timesUp is true
                     if callbacks.onConstructionCompleted then
                         building.constructionCompleted = true
@@ -880,7 +885,7 @@ function BuildingHelper:StartBuilding( builder )
                     end
                 else
                     
-                    BuildingHelper:print("Scale was off by:", fMaxScale - fCurrentScale)
+                    BuildingHelper:print("Scale was off by: " .. fMaxScale - fCurrentScale)
                     building:SetModelScale(fMaxScale)
                     return
                 end

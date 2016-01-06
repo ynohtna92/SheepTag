@@ -41,7 +41,7 @@ function StartBuildingHelper( params )
         builderIndex = params.builderIndex;
         var scale = params.scale;
         var entindex = params.entindex;
-        
+
         // If we chose to not recolor the ghost model, set it white
         var ghost_color = [0, 255, 0]
         if (!recolor_ghost)
@@ -241,6 +241,13 @@ function StartBuildingHelper( params )
 
             // Turn the model red if we can't build there
             if (recolor_ghost){
+                if (invalid)
+                    Particles.SetParticleControl(modelParticle, 2, [255,0,0])
+                else
+                    Particles.SetParticleControl(modelParticle, 2, [0,255,0])
+            }
+            else
+            {
                 if (invalid)
                     Particles.SetParticleControl(modelParticle, 2, [255,0,0])
                 else

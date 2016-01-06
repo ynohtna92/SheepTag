@@ -128,6 +128,9 @@ end
 -- Store teams, players and heroes
 function SheepTag:HeroInit( hero )
   local pID = hero:GetPlayerID()
+  if pID == -1 then
+    return
+  end
   self.vPlayerIDToHero[pID] = hero
   if self.vPlayers[pID] ~= nil then
     return
@@ -353,11 +356,13 @@ function SheepTag:OnNPCSpawned(keys)
   --print("[SHEEPTAG] NPC Spawned")
   --PrintTable(keys)
   local npc = EntIndexToHScript(keys.entindex)
-
   if npc:IsRealHero() and npc.bFirstSpawned == nil then
     npc.bFirstSpawned = true
     SheepTag:OnHeroInGame(npc)
-    SheepTag:HeroInit(npc)
+    if not npc:IsIllusion() then
+      print("Hero stored for pid")
+      SheepTag:HeroInit(npc)
+    end
   end 
 
   if npc:GetUnitName() == "golem_datadriven" then
@@ -1232,7 +1237,8 @@ end
 
 function SheepTag:HideAllHeroes()
   for i,v in ipairs(self.vRadiant) do
-    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    print(v)
+    local hero = self.vPlayerIDToHero[v]
     if hero then
       hero:AddNoDraw()
       hero:AddAbility('shepherd_pregame')
@@ -1240,7 +1246,8 @@ function SheepTag:HideAllHeroes()
     end
   end
   for i,v in ipairs(self.vDire) do
-    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    print(v)
+    local hero = self.vPlayerIDToHero[v]
     if hero then
       hero:AddNoDraw()
       hero:AddAbility('shepherd_pregame')
@@ -1251,7 +1258,7 @@ end
 
 function SheepTag:ShowAllHeroes()
   for _,v in ipairs(self.vRadiant) do
-    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    local hero = self.vPlayerIDToHero[v]
     if hero then
       hero:RemoveNoDraw()
       hero:RemoveAbility('shepherd_pregame')
@@ -1259,7 +1266,7 @@ function SheepTag:ShowAllHeroes()
     end
   end
   for _,v in ipairs(self.vDire) do
-    local hero = PlayerResource:GetSelectedHeroEntity( v )
+    local hero = self.vPlayerIDToHero[v]
     if hero then
       hero:RemoveNoDraw()
       hero:RemoveAbility('shepherd_pregame')
@@ -1281,8 +1288,8 @@ function SheepTag:ResetRound()
   Shepherds = {}
   print(#self.vRadiant)
   for _,v in ipairs(self.vRadiant) do
-    --print('Radiant: ' .. v)
-    oldHero = PlayerResource:GetSelectedHeroEntity( v )
+    --print('Radiant: ' .. v)self.vPlayerIDToHero
+    oldHero = self.vPlayerIDToHero[v]
     -- Remove items from inventory
     for i=0,11 do
       local item = oldHero:GetItemInSlot(i)
@@ -1295,7 +1302,7 @@ function SheepTag:ResetRound()
   end
   for _,v in ipairs(self.vDire) do
     --print('Dire: ' .. v)
-    oldHero = PlayerResource:GetSelectedHeroEntity( v )
+    oldHero = self.vPlayerIDToHero[v]
     -- Remove items from inventory
     for i=0,11 do
       local item = oldHero:GetItemInSlot(i)
