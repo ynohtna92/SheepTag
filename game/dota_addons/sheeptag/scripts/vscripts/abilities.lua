@@ -95,7 +95,7 @@ end
 function sheep_attack_check( keys )
 	local target = keys.target
 	local caster = keys.caster
-	if target:GetUnitName() == "npc_dota_hero_lycan" or target:GetUnitName() == "golem_datadriven" then
+	if target:GetUnitName() == "npc_dota_hero_lycan" or target:GetUnitName() == "npc_dota_hero_riki" or target:GetUnitName() == "golem_datadriven" then
 		caster:Stop()
 	end
 end

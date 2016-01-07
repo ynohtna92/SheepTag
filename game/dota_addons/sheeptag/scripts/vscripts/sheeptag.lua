@@ -131,6 +131,7 @@ function SheepTag:HeroInit( hero )
   if pID == -1 then
     return
   end
+  print("Hero stored for pid")
   self.vPlayerIDToHero[pID] = hero
   if self.vPlayers[pID] ~= nil then
     return
@@ -191,11 +192,8 @@ function SheepTag:OnHeroInGame(hero)
     self.initStuff = true
   end
 
-  if hero.player == nil then
-    print ("hero.player is nil.")
-  end
-
-  ShowGenericPopupToPlayer(hero.player, "#sheeptag_instructions_title", "#sheeptag_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
+  print(hero:GetPlayerOwnerID())
+  --ShowGenericPopupToPlayer(hero.player, "#sheeptag_instructions_title", "#sheeptag_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
  
   local id = hero:GetPlayerID()
 
@@ -203,7 +201,7 @@ function SheepTag:OnHeroInGame(hero)
   if spawnid > 5 then
     spawnid = spawnid - 5
   end 
- -- print(id, spawnid)
+  print(id, spawnid)
 
   PlayerResource:SetCameraTarget(id, hero)
 
@@ -365,7 +363,6 @@ function SheepTag:OnNPCSpawned(keys)
     npc.bFirstSpawned = true
     SheepTag:OnHeroInGame(npc)
     if not npc:IsIllusion() then
-      print("Hero stored for pid")
       SheepTag:HeroInit(npc)
     end
   end 
@@ -1295,7 +1292,6 @@ function SheepTag:ResetRound()
   Sheeps = {}
   Shepherds = {}
   Spirits = {}
-  print(#self.vRadiant)
   for _,v in ipairs(self.vRadiant) do
     --print('Radiant: ' .. v)self.vPlayerIDToHero
     oldHero = self.vPlayerIDToHero[v]
@@ -1306,8 +1302,9 @@ function SheepTag:ResetRound()
         oldHero:RemoveItem(item)
       end
     end
-    PlayerResource:ReplaceHeroWith( v, heroRadiant, STARTING_GOLD, 0)
+    newHero = PlayerResource:ReplaceHeroWith( v, heroRadiant, STARTING_GOLD, 0)
     UTIL_Remove( oldHero )
+    print(newHero:GetPlayerID())
   end
   for _,v in ipairs(self.vDire) do
     --print('Dire: ' .. v)
@@ -1319,7 +1316,7 @@ function SheepTag:ResetRound()
         oldHero:RemoveItem(item)
       end
     end
-    PlayerResource:ReplaceHeroWith( v, heroDire, STARTING_GOLD, 0)
+    newHero = PlayerResource:ReplaceHeroWith( v, heroDire, STARTING_GOLD, 0)
     UTIL_Remove( oldHero )
   end
 end
@@ -1416,7 +1413,7 @@ function SheepTag:SetupScoreboard()
 
   for i=1,PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS) do
     local pID = PlayerResource:GetNthPlayerIDOnTeam(DOTA_TEAM_GOODGUYS, i)
-    local hero = PlayerResource:GetPlayer(pID):GetAssignedHero()
+    local hero = self.vPlayerIDToHero[pID]
     local unitName = hero:GetUnitName()
     self.vPlayerIDToTopBar[pID] = i - 1
     if unitName == "npc_dota_hero_riki" then
@@ -1433,8 +1430,8 @@ function SheepTag:SetupScoreboard()
   
   for i=1,PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_BADGUYS) do
     local pID = PlayerResource:GetNthPlayerIDOnTeam(DOTA_TEAM_BADGUYS, i)
-    local hero = PlayerResource:GetPlayer(pID):GetAssignedHero()
-    local unitName = PlayerResource:GetPlayer(pID):GetAssignedHero():GetUnitName()
+    local hero = self.vPlayerIDToHero[pID]
+    local unitName = hero:GetUnitName()
     self.vPlayerIDToTopBar[pID] = i + 4
     if unitName == "npc_dota_hero_riki" then
       ScoreBoard:CreatePlayer({playerID=pID, header="Sheep", style={color=self.m_TeamColors[i+4]}})
@@ -1475,7 +1472,7 @@ function SheepTag:UpdateScoreboard( pID )
   ScoreBoard:DeletePlayer(pID)
 
   Timers:CreateTimer(0.05, function()
-    local hero = PlayerResource:GetPlayer( pID ):GetAssignedHero()
+    local hero = self.vPlayerIDToHero[pID]
     local unitName = hero:GetUnitName()
     if unitName == "npc_dota_hero_riki" then
       ScoreBoard:CreatePlayer({playerID=pID, header="Sheep", style={color=self.m_TeamColors[self.vPlayerIDToTopBar[pID]]}})
