@@ -185,7 +185,7 @@ function FindBigSpaceForUnit( unit, vTargetPos )
 	end
 	if case1 then
 		newPos = vTargetPos
-		print("Case 1")
+		--print("Case 1")
 	end
 
 	-- Case 2: Corner Clear
@@ -208,54 +208,42 @@ function FindBigSpaceForUnit( unit, vTargetPos )
 			cornerClear[4] = true
 		end
 
-		print(cornerClear[1],cornerClear[2],cornerClear[3],cornerClear[4])
+		--print(cornerClear[1],cornerClear[2],cornerClear[3],cornerClear[4])
 		-- Pick Spot
 		if cornerClear[1] and not cornerClear[2] and not cornerClear[3] and not cornerClear[4] then
-			print("1")
 			newPos = vAlignedPos + Vector( -32, 32, 0)
 		elseif cornerClear[2] and not cornerClear[1] and not cornerClear[3] and not cornerClear[4] then
-			print("2")
 			newPos = vAlignedPos + Vector( 32, 32, 0)
 		elseif cornerClear[3] and not cornerClear[1] and not cornerClear[2] and not cornerClear[4] then
-			print("3")
 			newPos = vAlignedPos + Vector( -32, -32, 0)
 		elseif cornerClear[4] and not cornerClear[1] and not cornerClear[2] and not cornerClear[3] then
-			print("4")
 			newPos = vAlignedPos + Vector( 32, -32, 0)
 		elseif cornerClear[1] and cornerClear[2] and not cornerClear[3] and not cornerClear[4] then
-			print("5")
 			newPos = vAlignedPos + Vector( 0, 32, 0)
 		elseif cornerClear[3] and cornerClear[4] and not cornerClear[1] and not cornerClear[2] then
-			print("6")
 			newPos = vAlignedPos + Vector( 0, -32, 0)
 		elseif cornerClear[2] and cornerClear[4] and not cornerClear[1] and not cornerClear[3] then
-			print("7")
 			newPos = vAlignedPos + Vector( 32, 0, 0)
 		elseif cornerClear[1] and cornerClear[3] and not cornerClear[2] and not cornerClear[4] then
-			print("8")
 			newPos = vAlignedPos + Vector( -32, 0, 0)
 		elseif cornerClear[1] and (cornerClear[2] or cornerClear[3] or cornerClear[4]) then
-			print("9")
 			newPos = vAlignedPos + Vector( -32, 32, 0)
 		elseif cornerClear[2] and (cornerClear[1] or cornerClear[3] or cornerClear[4]) then
-			print("10")
 			newPos = vAlignedPos + Vector( 32, 32, 0)
 		elseif cornerClear[3] and (cornerClear[1] or cornerClear[2] or cornerClear[4]) then
-			print("11")
 			newPos = vAlignedPos + Vector( -32, -32, 0)
 		elseif cornerClear[4] and (cornerClear[1] or cornerClear[2] or cornerClear[3]) then
-			print("12")
 			newPos = vAlignedPos + Vector( 32, -32, 0)
 		end
 		if newPos ~= nil then
-			print("Case 2")
+			--print("Case 2")
 		end
 	end
 
 	-- Case Default: No Space
 	if newPos == nil then
 		newPos = vTargetPos
-		print("Case Default")
+		--print("Case Default")
 		return false
 	end
 	DebugDrawCircle(newPos, Vector(255,255,0), 1, 8, true, 5)
