@@ -162,16 +162,22 @@ function FindBigSpaceForUnit( unit, vTargetPos )
 	checkSpace[9] = Vector( 64, -64, 0 )
 	local goodSpace = {}
 	local vAlignedPos = Vector(SnapToGrid32(vTargetPos[1]), SnapToGrid32(vTargetPos[2]), vTargetPos[3])
-	DebugDrawCircle(vAlignedPos, Vector(0,255,255), 1, 32, true, 5)
-	DebugDrawCircle(vTargetPos, Vector(0,255,0), 1, 32, true, 5)
+	if DEBUG then
+		DebugDrawCircle(vAlignedPos, Vector(0,255,255), 1, 32, true, 5)
+		DebugDrawCircle(vTargetPos, Vector(0,255,0), 1, 32, true, 5)
+	end
 	-- Check for valid spaces
 	for i,v in ipairs(checkSpace) do
 		local validSpace = true
 		if GridNav:IsBlocked(v + vAlignedPos) or GridNav:IsTraversable(v + vAlignedPos) == false then
 			validSpace = false
-			DebugDrawCircle(v + vAlignedPos, Vector(255,0,0), 1, 16, true, 5)
+			if DEBUG then
+				DebugDrawCircle(v + vAlignedPos, Vector(255,0,0), 1, 16, true, 5)
+			end
 		else
-			DebugDrawCircle(v + vAlignedPos, Vector(0,255,0), 1, 16, true, 5)
+			if DEBUG then
+				DebugDrawCircle(v + vAlignedPos, Vector(0,255,0), 1, 16, true, 5)
+			end
 		end
 		goodSpace[i] = validSpace
 	end
@@ -246,7 +252,9 @@ function FindBigSpaceForUnit( unit, vTargetPos )
 		--print("Case Default")
 		return false
 	end
-	DebugDrawCircle(newPos, Vector(255,255,0), 1, 8, true, 5)
+	if DEBUG then
+		DebugDrawCircle(newPos, Vector(255,255,0), 1, 8, true, 5)
+	end
 	FindClearSpaceForUnit( unit, newPos, true )
 	return true
 end

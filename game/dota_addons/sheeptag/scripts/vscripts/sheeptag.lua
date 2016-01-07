@@ -6,7 +6,7 @@ Co-Author: Myll
 
 print ('[SHEEPTAG] sheeptag.lua' )
 
-DEBUG = false
+DEBUG = true
 THINK_TIME = 0.1
 
 VERSION = "B070116"

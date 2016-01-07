@@ -45,7 +45,6 @@ function UpgradeBuilding( event )
 	if IsValidEntity(caster) then	
 		-- Remove old building entity
 		caster:RemoveSelf()
-
     end
 
 	local bID = GetIndex(caster.builder.farms, caster)
@@ -59,11 +58,21 @@ function UpgradeBuilding( event )
 	building:SetModelScale(event.MaxScale)
 	InitAbilities(building)
 
+	local size = (64 * contructionSize) * 0.75
+	if size == 0 then
+		size = (64 * 2) * 0.75
+	end
+	building.buildingSplat = ParticleManager:CreateParticle("particles/buildinghelper/building_splat.vpcf", PATTACH_CUSTOMORIGIN, building)
+	ParticleManager:SetParticleControl(building.buildingSplat, 0, building:GetAbsOrigin()+Vector(0,0,1))
+	ParticleManager:SetParticleControl(building.buildingSplat, 1, Vector(size ,0,0))
+	ParticleManager:SetParticleControl(building.buildingSplat, 2, Vector(255,255,255))
+	ParticleManager:SetParticleControl(building.buildingSplat, 3, Vector(80,0,0))
+
 	GiveUnitDataDrivenModifier(building, building, "modifier_farm_death_datadriven", -1)
 	GiveUnitDataDrivenModifier(building, building, "modifier_farm_no_turn_datadriven", -1)
 	GiveUnitDataDrivenModifier(building, building, "modifier_farm_built_datadriven", -1)
 	GiveUnitDataDrivenModifier(building, building, "modifier_farm_no_health_bar_datadriven", -1)
-	
+
 	if bID ~= -1 then
 		building.builder.farms[bID] = building
 	end
@@ -495,6 +504,8 @@ end
 -- ITEMS
 function potion_of_strength( keys )
 	print('Potion of Strength Attack')
+	local target = keys.target
+	target:Kill(keys.ability, keys.caster)
 end
 
 function beam_of_strength( keys )
@@ -514,7 +525,49 @@ function beam_of_strength( keys )
 	local startTime = GameRules:GetGameTime()
 	local endTime = startTime + 3
 
-	-- Create linear projectile
+	local projectile = {
+		EffectName = keys.proj_particle,
+		vSpawnOrigin = casterOrigin,
+		fDistance = distance,
+		fStartRadius = radius,
+		fEndRadius = radius,
+		Source = caster,
+		fExpireTime = 3.0,
+		vVelocity = projVelocity,
+		UnitBehavior = PROJECTILES_NOTHING,
+		bMultipleHits = false,
+		bIgnoreSource = true,
+		TreeBehavior = PROJECTILES_NOTHING,
+		bCutTrees = false,
+		bTreeFullCollision = false,
+		WallBehavior = PROJECTILES_NOTHING,
+		GroundBehavior = PROJECTILES_NOTHING,
+		fGroundOffset = 80,
+		nChangeMax = 1,
+		bRecreateOnChange = true,
+		bZCheck = false,
+		bGroundLock = true,
+		bProvidesVision = true,
+		iVisionRadius = 350,
+		iVisionTeamNumber = caster:GetTeam(),
+		bFlyingVision = false,
+		fVisionTickTime = .1,
+		fVisionLingerDuration = 1,
+		draw = false,
+
+		UnitTest = function(self, unit) return unit:GetUnitName() ~= "npc_dummy_unit" and unit:GetTeamNumber() ~= caster:GetTeamNumber() and unit:GetClassname() == "npc_dota_creep" end,
+		OnUnitHit = function(self, unit) 
+			beam_of_strength_hit({target=unit,caster=caster,ability=ability})
+		end,
+		--OnTreeHit = function(self, tree) ... end,
+		--OnWallHit = function(self, gnvPos) ... end,
+		--OnGroundHit = function(self, groundPos) ... end,
+		--OnFinish = function(self, pos) ... end,
+	}
+
+	Projectiles:CreateProjectile(projectile)
+
+	--[[ Create linear projectile ValveCode
 	local projID = ProjectileManager:CreateLinearProjectile( {
 		Ability = ability,
 		EffectName = keys.proj_particle,
@@ -527,7 +580,7 @@ function beam_of_strength( keys )
 		bReplaceExisting = false,
 		iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
 		iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
-		iUnitTargetType = DOTA_UNIT_TARGET_BASIC,
+		iUnitTargetType = DOTA_UNIT_TARGET_CREEP,
 		fExpireTime = endTime,
 		bDeleteOnHit = true,
 		vVelocity = projVelocity,
@@ -535,13 +588,17 @@ function beam_of_strength( keys )
 		iVisionRadius = 1000,
 		iVisionTeamNumber = caster:GetTeamNumber()
 	} )
+	]]
 end
 
 function beam_of_strength_hit( keys )
 	print('Beam of Strength: Hit')
 	local target = keys.target
-	local caster = keys.Source
-	local ability = keys.Ability
+	local caster = keys.caster
+	local ability = keys.ability
+
+	EmitSoundOn("Hero_Magnataur.ShockWave.Target", target)
+	local particle = ParticleManager:CreateParticle("particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil_hit.vpcf", PATTACH_ABSORIGIN_FOLLOW, target)
 
 	target:Kill(ability, caster)
 end
@@ -611,6 +668,22 @@ function farm_death( keys )
 	ParticleManager:SetParticleControl( particle, 0, keys.caster:GetAbsOrigin())
 	local particle2 = ParticleManager:CreateParticle("particles/sun_strike/invoker_sun_strike_ground.vpcf", PATTACH_ABSORIGIN, keys.attacker)
 	ParticleManager:SetParticleControl( particle2, 0, keys.caster:GetAbsOrigin())
+	local x = 2.6
+	local y = 0.4
+	local z = 0.4
+	if keys.caster:GetUnitName() == "tiny_farm" then
+		x = 1
+		y = 0.15
+		z = 0.15
+	elseif keys.caster:GetUnitName() == "hard_farm" or keys.caster:GetUnitName() == "wide_farm" then
+		x = 4
+		y = 0.8
+		z = 0.8
+	end
+	ParticleManager:SetParticleControl( particle2, 1, Vector(x,y,z))
+	-- 1   0.15 0.15 1x1
+	-- 2.6 0.4  0.3  2x2
+	-- 4   0.8  0.8  3x3 4x4
 
 	BuildingHelper:RemoveBuilding(keys.caster, true)
 end

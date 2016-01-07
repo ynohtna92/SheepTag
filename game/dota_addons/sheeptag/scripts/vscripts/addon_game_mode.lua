@@ -13,6 +13,7 @@ BASE_MODULES = {
 	'keyvalues',
 	'libraries/sounds',
 	'libraries/notifications',
+	'libraries/projectiles',
 	'libraries/popups',
 	'libraries/scoreboard',
 }
@@ -59,8 +60,11 @@ function Precache( context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_silencer/silencer_last_word_status_ring_edge.vpcf", context )
 		PrecacheResource( "particle", "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf", context )
 		PrecacheResource("particle", "particles/units/heroes/hero_beastmaster/beastmaster_primal_target_flash.vpcf", context)
-		PrecacheResource("particle", "particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf", context)	
-
+		PrecacheResource("particle", "particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf", context)
+		PrecacheResource("particle", "particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil.vpcf", context)
+		PrecacheResource("particle", "particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil_hit.vpcf", context)
+		PrecacheResource("particle", "particles/units/heroes/hero_phantom_lancer/phantomlancer_spiritlance_projectile.vpcf", context)
+		
 		PrecacheResource("particle_folder", "particles/econ/items/earthshaker/earthshaker_gravelmaw/", context)
 
 		-- Items
@@ -101,6 +105,7 @@ function Precache( context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_items.vsndevts", context )
 		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_lich.vsndevts", context )
+		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_magnataur.vsndevts", context )
 					
 		-- Custom Particles
 		PrecacheResource("particle_folder", "particles/sun_strike", context)

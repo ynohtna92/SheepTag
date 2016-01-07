@@ -494,6 +494,7 @@
 		"ItemInitialCharges"			"1"
 		"SideShop"						"0"
 		"ItemPurchasable"				"1"
+		"AbilityCooldown"				"5"
 
 		"OnSpellStart"
 		{
@@ -522,6 +523,11 @@
 				"Duration" 			"%duration"
 				"OnAttack"
 				{
+					"FireSound"
+					{
+						"Target"		"CASTER"
+						"EffectName"	"Hero_Magnataur.ShockWave.Particle"
+					}
 					"RunScript"
 					{
 						"ScriptFile" 	"scripts/vscripts/abilities.lua"
@@ -531,20 +537,39 @@
 						"range"			"%range"
 						"proj_speed"	"%proj_speed"
 
-						"proj_particle"	"particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf"
+						"proj_particle"	"particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil.vpcf"
 					}
-				}
-				"OnProjectileHitUnit"
-				{
-					"DeleteOnHit"		"0"
-					
-					"RunScript"
+					"RemoveModifier"
 					{
-						"ScriptFile"	"scripts/vscripts/abilities.lua"
-						"Function"		"beam_of_strength_hit"
-						"Target"		"TARGET"
+						"Target"		"CASTER"
+						"ModifierName"	"modifier_item_beam_of_strength_datadriven"
 					}
 				}
+			}
+		}				
+
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"		"0"
+
+			"FireSound"
+			{
+				"Target"		"TARGET"
+				"EffectName"	"Hero_Magnataur.ShockWave.Target"
+			}
+
+			"FireEffect"
+			{
+				"Target"			"TARGET"
+				"EffectName"		"particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil_hit.vpcf"
+				"EffectAttachType"	"follow_origin"
+			}
+
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities.lua"
+				"Function"		"beam_of_strength_hit"
+				"Target"		"TARGET"
 			}
 		}
 
@@ -576,7 +601,8 @@
 
 		"precache"
 		{
-			"particle"		"particles/units/heroes/hero_magnataur/magnataur_shockwave.vpcf"
+			"particle"		"particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil.vpcf"
+			"particle"		"particles/econ/items/magnataur/shock_of_the_anvil/magnataur_shockanvil_hit.vpcf"
 		}
 	}
 
