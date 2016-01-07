@@ -1411,6 +1411,9 @@ end
     * Stop panorama ghost
 ]]--
 function BuildingHelper:StopGhost( builder )
+    if builder:IsNull() then
+        return
+    end
     local player = builder:GetPlayerOwner()
 
     local playerTable = BuildingHelper:GetPlayerTable(builder:GetPlayerOwnerID())

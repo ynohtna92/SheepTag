@@ -39,6 +39,11 @@ function UpgradeBuilding( event )
 	local hull_radius = caster:GetHullRadius()
 	local flag = caster.flag
 
+    for k, v in pairs(blockers) do
+        DoEntFireByInstanceHandle(v, "Disable", "1", 0, nil, nil)
+        DoEntFireByInstanceHandle(v, "Kill", "1", 1, nil, nil)
+    end
+
 	local contructionSize = caster.construction_size
 
 	-- Remove the old building from the structures list
@@ -51,7 +56,6 @@ function UpgradeBuilding( event )
 
     -- New building
 	local building = BuildingHelper:PlaceBuilding(player, new_unit, position, contructionSize, 2, nil) 
-	building.blockers = blockers
 	building.builder = builder
 	building.construction_size = contructionSize
 	building:SetHullRadius(hull_radius)

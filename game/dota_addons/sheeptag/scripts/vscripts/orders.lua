@@ -98,6 +98,9 @@ function SheepTag:FilterExecuteOrder( filterTable )
     ------------------------------------------------
     if order_type == DOTA_UNIT_ORDER_ATTACK_TARGET then
         local target = EntIndexToHScript(targetIndex)
+        if target == nil then
+            return true
+        end
         local units = unit
         if target:GetClassname() == "dota_item_drop" then
             return true
