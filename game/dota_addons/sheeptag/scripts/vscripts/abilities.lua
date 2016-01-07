@@ -441,11 +441,19 @@ function FindMirrorImageSpace( unit, vTargetPos, speed, direction )
 	local vCheckSpace = vTargetPos
 	local iteration = 0
 	local iterationMax = 300
+
+	local dummy = MirrorImageProjectile( unit, vTargetPos, speed, direction )
+
 	Timers:CreateTimer(nTickRate, function()
 		if FindBigSpaceForUnit(unit, vCheckSpace) then
 			ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantomlancer_illusion_destroy.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
 			unit:RemoveModifierByName("modifier_shepherd_illusion_begin")
 			unit:RemoveNoDraw()
+			EmitSoundOn("Hero_PhantomLancer.Doppelganger.Appear", unit)
+			dummy:SetAbsOrigin(unit:GetAbsOrigin())
+			Timers:CreateTimer(1, function()
+				dummy:RemoveSelf()				
+			end)
 			return nil
 		else
 			iteration = iteration + 1
@@ -456,12 +464,34 @@ function FindMirrorImageSpace( unit, vTargetPos, speed, direction )
 			ParticleManager:CreateParticle("particles/units/heroes/hero_phantom_lancer/phantomlancer_illusion_destroy.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
 			unit:RemoveModifierByName("modifier_shepherd_illusion_begin")
 			unit:RemoveNoDraw()
+			EmitSoundOn("Hero_PhantomLancer.Doppelganger.Appear", unit)
+			dummy:RemoveSelf()
 			return nil
 		end
 		return nTickRate
 	end)
 end
 
+function MirrorImageProjectile( unit, origin, speed, direction )
+	-- Create linear projectile ValveCode
+	local dummyLoc = origin + (direction * 2000)
+	local dummy = CreateUnitByName("npc_dummy_unit", dummyLoc, true, unit, nil, unit:GetTeam())
+	dummy:AddNewModifier(dummy, nil, "modifier_dummy_unit", {})
+	local info = 
+	{
+		Target = dummy,
+		Source = unit,
+		Ability = nil,	
+		EffectName = "particles/units/heroes/hero_phantom_lancer/phantomlancer_spiritlance_projectile.vpcf",
+		iMoveSpeed = speed,
+		vSourceLoc = unit:GetAbsOrigin(),
+		bProvidesVision = false,
+	}
+
+	print("projectile created")
+	ProjectileManager:CreateTrackingProjectile(info)
+	return dummy
+end
 
 function place_sentry ( keys )
 	print('Sentry Placed')
@@ -547,12 +577,7 @@ function beam_of_strength( keys )
 		bRecreateOnChange = true,
 		bZCheck = false,
 		bGroundLock = true,
-		bProvidesVision = true,
-		iVisionRadius = 350,
-		iVisionTeamNumber = caster:GetTeam(),
-		bFlyingVision = false,
-		fVisionTickTime = .1,
-		fVisionLingerDuration = 1,
+		bProvidesVision = false,
 		draw = false,
 
 		UnitTest = function(self, unit) return unit:GetUnitName() ~= "npc_dummy_unit" and unit:GetTeamNumber() ~= caster:GetTeamNumber() and unit:GetClassname() == "npc_dota_creep" end,

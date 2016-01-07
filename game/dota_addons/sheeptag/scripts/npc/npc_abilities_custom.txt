@@ -573,6 +573,7 @@
 			"particle"	"particles/units/heroes/hero_phantom_lancer/phantom_lancer_spawn_illusion.vpcf"
 			"particle"	"particles/units/heroes/hero_phantom_lancer/phantom_lancer_doppleganger_illlmove.vpcf"
 			"particle"	"particles/units/heroes/hero_phantom_lancer/phantomlancer_illusion_destroy.vpcf"
+			"particle"	"particles/units/heroes/hero_phantom_lancer/phantomlancer_spiritlance_projectile.vpcf"
 		}
 	}
 

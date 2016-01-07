@@ -1,12 +1,12 @@
 --[[
-Last modified: 05/01/2016
+Last modified: 07/01/2016
 Author: A_Dizzle
 Co-Author: Myll
 ]]
 
 print ('[SHEEPTAG] sheeptag.lua' )
 
-DEBUG = true
+DEBUG = false
 THINK_TIME = 0.1
 
 VERSION = "B070116"
