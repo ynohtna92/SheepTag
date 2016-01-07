@@ -9,7 +9,7 @@ print ('[SHEEPTAG] sheeptag.lua' )
 DEBUG = false
 THINK_TIME = 0.1
 
-VERSION = "B050116"
+VERSION = "B070116"
 
 -- Game Variables
 GAME_OPTIONS_SET = false
@@ -1084,7 +1084,7 @@ function SheepTag:StartRound( )
     self:SetupScoreboard()
     self.scoreboardSetup = false
   else
-    self:UpdateScoreboard()
+    self:UpdateScoreboardAll()
   end
   CustomGameEventManager:Send_ServerToAllClients("display_timer", {msg="Wolves Spawn", duration=SHEPHERD_SPAWN, mode=0, endfade=true, position=0, warning=5, paused=false, sound=true} )
   print(#Shepherds)
@@ -1294,6 +1294,7 @@ function SheepTag:ResetRound()
   end
   Sheeps = {}
   Shepherds = {}
+  Spirits = {}
   print(#self.vRadiant)
   for _,v in ipairs(self.vRadiant) do
     --print('Radiant: ' .. v)self.vPlayerIDToHero
@@ -1451,8 +1452,23 @@ function SheepTag:SetupScoreboard()
   ScoreBoard:Edit({key="SECTION_HEADER", header="Wolves", text="Wolves: ".. #Shepherds .. "                     (Kills)"})
 end
 
+function SheepTag:UpdateScoreboardAll()
+  if Sheeps then
+    for i,v in ipairs(Sheeps) do
+      local pID = v:GetPlayerID()
+      self:UpdateScoreboard(pID)
+    end
+  end
+  if Shepherds then
+    for i,v in ipairs(Shepherds) do
+      local pID = v:GetPlayerID()
+      self:UpdateScoreboard(pID)
+    end
+  end
+end
+
 function SheepTag:UpdateScoreboard( pID )
-  if not pID then
+  if not pID or pID == -1 then
     return
   end
 
@@ -1548,6 +1564,7 @@ function OnSetGameSettings( eventSourceIndex, args )
     VIEW_MODE = true
     print("View: Enabled")
   else
+    VIEW_MODE = false
     print("View: Disabled")
   end
 

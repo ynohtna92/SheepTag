@@ -399,7 +399,7 @@ function IsBlightGridBlocked(x,y) {
 
     var blightYMin = 79
     var blightYMax = 100
-    $.Msg(x,y)
+
     return x >= blightXMin && x <= blightXMax && y >= blightYMin && y <= blightYMax
 }
 

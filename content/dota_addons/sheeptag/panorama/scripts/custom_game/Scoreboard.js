@@ -173,8 +173,6 @@ function Create_Player_ScoreBoard ( data ){
 	} 
 	//CreateButton(parent, playerID)   
 } 
- 
-
 
 function CreateButton(parent, playerID){
 	var TPButton = $.CreatePanel('Button', parent, 'PlayerButton')
@@ -254,11 +252,7 @@ var PanelText = null
 	if(data.style != null){ 
 		stylize(data.style, PanelToEdit)
 	}   		
-} 
-/*
-function SortScoreboard(){
-	var list 
-}*/
+}
 
 // Button that collapse/expands the scoreboard
 function HideShowPlayerScoreboard(){

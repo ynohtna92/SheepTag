@@ -7,10 +7,10 @@
 
 #HudContainerButton
 {
-	horizontal-align: right;
+	horizontal-align: left;
 
 	margin-top: 8px;
-	margin-right: 45px;
+	margin-left: 65px;
 	
 	background-color: black;
 	
@@ -56,9 +56,9 @@
 #HUDContainer
 {	
 	flow-children: down;	
-	horizontal-align: right;
+	horizontal-align: left;
 	margin-top: 110px;
-	margin-right: 4px;
+	margin-left: 4px;
 	visibility: visible;
 }
 
