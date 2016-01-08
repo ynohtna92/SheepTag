@@ -152,7 +152,7 @@ end
 
   The hero parameter is the hero entity that just spawned in
 ]]
-function SheepTag:OnHeroInGame(hero)
+function SheepTag:OnHeroInGame( hero, id )
   --print("[SHEEPTAG] Hero spawned in game for first time -- " .. hero:GetUnitName())
 
   -- Game Starts for the first time! Run Once!
@@ -194,8 +194,10 @@ function SheepTag:OnHeroInGame(hero)
 
   print(hero:GetPlayerOwnerID())
   --ShowGenericPopupToPlayer(hero.player, "#sheeptag_instructions_title", "#sheeptag_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
- 
-  local id = hero:GetPlayerID()
+  
+  if id == nil then
+    id = hero:GetPlayerID()
+  end
 
   local spawnid = id + 1
   if spawnid > 5 then
@@ -203,7 +205,11 @@ function SheepTag:OnHeroInGame(hero)
   end 
   print(id, spawnid)
 
-  PlayerResource:SetCameraTarget(id, hero)
+  if id == -1 then
+    return
+  end
+
+  PlayerResource:SetCameraTarget( id, hero )
 
   local heroName = hero:GetUnitName()
   if heroName == "npc_dota_hero_wisp" then -- Dead Sheep
@@ -254,7 +260,7 @@ function SheepTag:OnHeroInGame(hero)
     hero:AddItem(item)
 
     hero:AddNewModifier(hero, nil, "modifier_model_change_sheep", {})
-  elseif heroName == "npc_dota_hero_lycan" and id ~= -1 then -- Shepherd
+  elseif heroName == "npc_dota_hero_lycan" then -- Shepherd
     InitAbilities(hero)
 
     hero.sheepKills = 0
@@ -274,26 +280,6 @@ function SheepTag:OnHeroInGame(hero)
 
     hero:AddNewModifier(hero, nil, "modifier_model_change_wolf", {})
   end
-
-  --[[ Remove Wearables
-  if heroName == "npc_dota_hero_riki" or heroName == "npc_dota_hero_lycan" then
-    print('Removing Wearables')
-    hero.wearableNames = {} -- In here we'll store the wearable names to revert the change
-    hero.hiddenWearables = {} 
-    local wearable = hero:FirstMoveChild()
-    while wearable ~= nil do
-      --print(wearable:GetClassname())     
-      if wearable:GetClassname() == "dota_item_wearable" then
-        print("Added NODRAW")
-        wearable:AddEffects(EF_NODRAW)
-      end
-      wearable = wearable:NextMovePeer()
-      if model ~= nil then
-        --print("Next Peer:" .. wearable:GetModelName())
-      end
-    end
-  end
-  ]]
 end
 
 --[[
@@ -1248,7 +1234,7 @@ function SheepTag:HideAllHeroes()
   for i,v in ipairs(self.vRadiant) do
     print(v)
     local hero = self.vPlayerIDToHero[v]
-    if hero then
+    if hero and not hero:IsNull() then
       hero:AddNoDraw()
       hero:AddAbility('shepherd_pregame')
       hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
@@ -1257,7 +1243,7 @@ function SheepTag:HideAllHeroes()
   for i,v in ipairs(self.vDire) do
     print(v)
     local hero = self.vPlayerIDToHero[v]
-    if hero then
+    if hero and not hero:IsNull() then
       hero:AddNoDraw()
       hero:AddAbility('shepherd_pregame')
       hero:FindAbilityByName("shepherd_pregame"):SetLevel(1)
@@ -1268,7 +1254,7 @@ end
 function SheepTag:ShowAllHeroes()
   for _,v in ipairs(self.vRadiant) do
     local hero = self.vPlayerIDToHero[v]
-    if hero then
+    if hero and not hero:IsNull() then
       hero:RemoveNoDraw()
       hero:RemoveAbility('shepherd_pregame')
       hero:RemoveModifierByName('modifier_shepherd_pregame')
@@ -1276,11 +1262,21 @@ function SheepTag:ShowAllHeroes()
   end
   for _,v in ipairs(self.vDire) do
     local hero = self.vPlayerIDToHero[v]
-    if hero then
+    if hero and not hero:IsNull() then
       hero:RemoveNoDraw()
       hero:RemoveAbility('shepherd_pregame')
       hero:RemoveModifierByName('modifier_shepherd_pregame')
     end
+  end
+end
+
+function SheepTag:FixDisconnectedPlayer( playerID, hero )
+  local player = PlayerResource:GetPlayer( playerID )
+  local connectionState = PlayerResource:GetConnectionState( playerID )
+  if connectionState == 3 then
+    print("Fixing Disconnected Player")
+    self.vPlayerIDToHero[playerID] = hero
+    SheepTag:OnHeroInGame( hero, playerID )
   end
 end
 
@@ -1307,6 +1303,7 @@ function SheepTag:ResetRound()
       end
     end
     newHero = PlayerResource:ReplaceHeroWith( v, heroRadiant, STARTING_GOLD, 0)
+    self:FixDisconnectedPlayer( v, newHero )
     UTIL_Remove( oldHero )
     print(newHero:GetPlayerID())
   end
@@ -1321,6 +1318,7 @@ function SheepTag:ResetRound()
       end
     end
     newHero = PlayerResource:ReplaceHeroWith( v, heroDire, STARTING_GOLD, 0)
+    self:FixDisconnectedPlayer( v, newHero )
     UTIL_Remove( oldHero )
   end
 end
@@ -1344,6 +1342,7 @@ function SheepTag:OnSheepKilled( hero )
   remove_farms(oldHero, false)
 
   local newHero = PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
+  self:FixDisconnectedPlayer( plyID, newHero )
   local index = GetIndex(Sheeps, oldHero)
   if index ~= -1 then
     table.remove(Sheeps, index)
@@ -1361,6 +1360,7 @@ function SheepTag:OnWispKilled( hero )
   local plyID = hero:GetPlayerID()
   local oldHero = self.vPlayerIDToHero[plyID]
   local newHero = PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", 0, 0)
+  self:FixDisconnectedPlayer( plyID, newHero )
   --local newHero = self.vPlayerIDToHero[plyID]
   local id = plyID + 1
   if plyID > 5 then

@@ -768,7 +768,7 @@ function farm_bounty( keys )
 	end
 	print(bounty)
 	PopupNumbers(shep, "gold", Vector(255,200,33), 1.0, bounty, '#', nil)
-	shep:GetPlayerOwner():GetAssignedHero():ModifyGold(bounty,false,0)
+	shep:ModifyGold(bounty,false,0)
 end
 
 function shepherd_pregame_create( keys )

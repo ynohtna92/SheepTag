@@ -37,17 +37,13 @@ function Build( event )
 	local gold_cost = ability:GetSpecialValueFor("gold_cost")
 	local lumber_cost = ability:GetSpecialValueFor("lumber_cost")
 
-	local hero = caster:GetPlayerOwner():GetAssignedHero()
-	local playerID = hero:GetPlayerID()
+	local playerID = caster:GetPlayerID()
+	local hero = SheepTag.vPlayerIDToHero[playerID]
 	local player = PlayerResource:GetPlayer(playerID)	
 
 	-- If the ability has an AbilityGoldCost, it's impossible to not have enough gold the first time it's cast
 	-- Always refund the gold here, as the building hasn't been placed yet
 	hero:ModifyGold(gold_cost, false, 0)
-
-	if not PlayerHasEnoughLumber( player, lumber_cost ) then
-		return
-	end
 
     -- Makes a building dummy and starts panorama ghosting
 	BuildingHelper:AddBuilding(event)
