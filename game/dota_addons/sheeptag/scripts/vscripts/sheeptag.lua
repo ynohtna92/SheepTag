@@ -1156,19 +1156,21 @@ function SheepTag:EndRound( sheeporwolf ) -- 1 Sheep win, 0 wolves win
   self:ClearLevel()
   self:HideAllHeroes()
   self:RevealMap(10)
-  Timers:CreateTimer(6, function()
-    self:SwapTeams()
-  end)
-  Timers:CreateTimer(10, function()
-    self:ResetRound()
-    self:StartRound()
-  end)
+  if not self:CheckEndGame() then
+    Timers:CreateTimer(6, function()
+      self:SwapTeams()
+    end)
+    Timers:CreateTimer(10, function()
+      self:ResetRound()
+      self:StartRound()
+    end)
+  end
 end
 
 function SheepTag:CheckEndGame()
   local endGame = false
   if DEBUG then
-    return
+    return false
   end
 
   if GAME_MODE == 1 and NO_OF_ROUNDS == self.nCurrentRound then -- BEST OF
@@ -1191,7 +1193,9 @@ function SheepTag:CheckEndGame()
   if endGame then
     GameRules:SetSafeToLeave( true )
     self.EndMessage()
+    return true
   end
+  return false
 end
 
 function SheepTag:ClearLevel() -- Cleanup
@@ -1339,14 +1343,14 @@ function SheepTag:OnSheepKilled( hero )
 
   remove_farms(oldHero, false)
 
-  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
+  local newHero = PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_wisp", 0, 0)
   local index = GetIndex(Sheeps, oldHero)
   if index ~= -1 then
     table.remove(Sheeps, index)
   end
   self:UpdateScoreboard(plyID)
   UTIL_Remove( oldHero )
-  local newHero = self.vPlayerIDToHero[plyID]
+  --local newHero = self.vPlayerIDToHero[plyID]
   FindClearSpaceForUnit(newHero, Entities:FindByName(nil, "spawn_center"):GetAbsOrigin(), false)
   newHero:SetGold( gold, false )
   self:CheckRoundEnd()
@@ -1356,8 +1360,8 @@ function SheepTag:OnWispKilled( hero )
   local gold = hero:GetGold()
   local plyID = hero:GetPlayerID()
   local oldHero = self.vPlayerIDToHero[plyID]
-  PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", 0, 0)
-  local newHero = self.vPlayerIDToHero[plyID]
+  local newHero = PlayerResource:ReplaceHeroWith(plyID, "npc_dota_hero_riki", 0, 0)
+  --local newHero = self.vPlayerIDToHero[plyID]
   local id = plyID + 1
   if plyID > 5 then
     id = plyID - 5
@@ -1473,6 +1477,9 @@ function SheepTag:UpdateScoreboard( pID )
 
   Timers:CreateTimer(0.05, function()
     local hero = self.vPlayerIDToHero[pID]
+    if hero:IsNull() then
+      return
+    end
     local unitName = hero:GetUnitName()
     if unitName == "npc_dota_hero_riki" then
       ScoreBoard:CreatePlayer({playerID=pID, header="Sheep", style={color=self.m_TeamColors[self.vPlayerIDToTopBar[pID]]}})
