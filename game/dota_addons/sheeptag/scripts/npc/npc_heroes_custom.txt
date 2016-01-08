@@ -20,8 +20,8 @@
 		"Ability4"					"build_upgraded_farm"					// Ability 4
 		"Ability5"					"build_stack_farm"
 		"Ability6"					"level2_abilities"
-		"Ability7"					"true_sight"							// Hidden Abilities onwards
-		"Ability8"					"sheep_evade"
+		//"Ability7"					"true_sight"							// Hidden Abilities onwards
+		"Ability7"					"sheep_evade"
 
 		"UnitLabel"					"builder"
 
