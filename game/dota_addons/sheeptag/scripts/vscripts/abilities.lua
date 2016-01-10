@@ -680,6 +680,11 @@ function bomber( keys )
 	ParticleManager:SetParticleControl(bomber_particle_effect, 0, Vector(target[1], target[2], 1500 + target[3] - 128))
 	ParticleManager:SetParticleControl(bomber_particle_effect, 1, Vector(target[1], target[2], -1800 + target[3] - 128))
 	ParticleManager:SetParticleControl(bomber_particle_effect, 2, Vector(0.6, 0, 0))
+
+	Timers:CreateTimer(0.5, function()
+		local bomber_particle_effect_cracks = ParticleManager:CreateParticle("particles/elder_titan_echo_stomp_cracks.vpcf", PATTACH_ABSORIGIN, keys.caster)
+		ParticleManager:SetParticleControl(bomber_particle_effect_cracks, 0, target)
+	end)
 end
 
 -- Modifiers

@@ -1,5 +1,5 @@
 --[[
-Last modified: 08/01/2016
+Last modified: 10/01/2016
 Author: A_Dizzle
 Co-Author: Myll
 ]]
@@ -9,7 +9,7 @@ print ('[SHEEPTAG] sheeptag.lua' )
 DEBUG = false
 THINK_TIME = 0.1
 
-VERSION = "B080116"
+VERSION = "B100116"
 
 -- Game Variables
 GAME_OPTIONS_SET = false
@@ -1015,6 +1015,7 @@ function SheepTag:PlayerSay(keys)
   end
   
   if args[1] == "-end" and plyID == GetListenServerHost():GetPlayerID() then
+    GameRules:SendCustomMessage("The host has ended the game.", 0, 0)
     if self.nRadiantKills > self.nDireKills then
       GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
     elseif self.nRadiantKills < self.nDireKills then

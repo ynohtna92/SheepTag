@@ -853,10 +853,35 @@
 				"ModifierName"	"modifier_far_sight_datadriven"
 				"Target" 		"POINT"
 			}
+
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_far_sight_buff"
+				"Target"		"CASTER"
+			}
 		}
 
 		"Modifiers"
 		{
+			"modifier_far_sight_buff"
+			{
+				"Target"			"CASTER"
+				"Duration"			"%duration"
+
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"Target"
+						{
+							"Center"	"TARGET"
+							"Types"		"DOTA_UNIT_TARGET_HERO"
+						}
+						"EffectName"		"particles/units/heroes/hero_skywrath_mage/skywrath_mage_ancient_seal_debuff_rune.vpcf"
+						"EffectAttachType" 	"follow_origin"
+					}
+				}
+			}
 			"modifier_far_sight_datadriven"
 			{	
 				"IsHidden"			"1"
@@ -897,6 +922,7 @@
 
 		"precache"
 		{
+			"particle"		"particles/units/heroes/hero_skywrath_mage/skywrath_mage_ancient_seal_debuff_rune.vpcf"
 			"particle"		"particles/items_fx/dust_of_appearance.vpcf"
 			"soundfile"		"soundevents/game_sounds_items.vsndevts"
 		}

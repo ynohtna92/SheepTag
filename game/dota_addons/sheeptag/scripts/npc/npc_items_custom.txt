@@ -1048,6 +1048,7 @@
 		{
 			"particle"	"particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf"
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
+			"particle"	"particles/elder_titan_echo_stomp_cracks.vpcf"
 		}
 	}
 
