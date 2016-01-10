@@ -131,7 +131,7 @@ function SheepTag:HeroInit( hero )
   if pID == -1 then
     return
   end
-  print("Hero stored for pid")
+  print("Hero stored for pid: "..pID)
   self.vPlayerIDToHero[pID] = hero
   if self.vPlayers[pID] ~= nil then
     return
@@ -169,6 +169,16 @@ function SheepTag:OnHeroInGame( hero, id )
       GameRules:SendCustomMessage("Support this project on Github at https://github.com/ynohtna92/SheepTag", 0, 0)
     end)
 
+    Timers:CreateTimer(1, function()
+      for i,v in pairs(self.vPlayers) do
+        if v ~= -1 then
+          print("Show popup to player: ".. v)
+          local player = PlayerResource:GetPlayer(v)
+          ShowGenericPopupToPlayer(player, "#sheeptag_instructions_title", "#sheeptag_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
+        end
+      end
+    end)
+
     Timers:CreateTimer(12, function()
       self:GameSettings()
     end)
@@ -191,10 +201,7 @@ function SheepTag:OnHeroInGame( hero, id )
 
     self.initStuff = true
   end
-
-  print(hero:GetPlayerOwnerID())
-  --ShowGenericPopupToPlayer(hero.player, "#sheeptag_instructions_title", "#sheeptag_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
-  
+ 
   if id == nil then
     id = hero:GetPlayerID()
   end
@@ -202,8 +209,10 @@ function SheepTag:OnHeroInGame( hero, id )
   local spawnid = id + 1
   if spawnid > 5 then
     spawnid = spawnid - 5
-  end 
-  print(id, spawnid)
+  end
+  if DEBUG then
+    print(id, spawnid)
+  end
 
   if id == -1 then
     return
