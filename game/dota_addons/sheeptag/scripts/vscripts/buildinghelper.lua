@@ -514,8 +514,6 @@ end
     * Removes a building, removing it from the gridnav, with an optional parameter to kill it
 ]]--
 function BuildingHelper:RemoveBuilding( building, bForcedKill )
-    BuildingHelper:FreeGridSquares(building.construction_size, self:GetBlockPathingSize(building), building:GetAbsOrigin())
-
     if not building.blockers then 
         return 
     end
@@ -528,6 +526,8 @@ function BuildingHelper:RemoveBuilding( building, bForcedKill )
         DoEntFireByInstanceHandle(v, "Disable", "1", 0, nil, nil)
         DoEntFireByInstanceHandle(v, "Kill", "1", 1, nil, nil)
     end
+
+    BuildingHelper:FreeGridSquares(building.construction_size, self:GetBlockPathingSize(building), building:GetAbsOrigin())
 
     if bForcedKill then
         --building:ForceKill(bForcedKill)
@@ -1119,30 +1119,68 @@ end
       * Clears out an area for construction
 ]]--
 function BuildingHelper:FreeGridSquares(construction_size, pathing_size, location)
-    if not construction_size or construction_size == 0 then return end
-    construction_size = (construction_size >= pathing_size) and construction_size or pathing_size
-    local originX = GridNav:WorldToGridPosX(location.x)
-    local originY = GridNav:WorldToGridPosY(location.y)
-
-    local boundX1 = originX + math.floor(construction_size/2)
-    local boundX2 = originX - math.floor(construction_size/2)
-    local boundY1 = originY + math.floor(construction_size/2)
-    local boundY2 = originY - math.floor(construction_size/2)
-
-    local lowerBoundX = math.min(boundX1, boundX2)
-    local upperBoundX = math.max(boundX1, boundX2)
-    local lowerBoundY = math.min(boundY1, boundY2)
-    local upperBoundY = math.max(boundY1, boundY2)
-
-    -- Adjust even size
-    if (construction_size % 2) == 0 then
-        upperBoundX = upperBoundX-1
-        upperBoundY = upperBoundY-1
+    if not construction_size then return end
+    local freeUnblockedOnly = false
+    if construction_size == 0 then
+        freeUnblockedOnly = true
     end
 
-    for x = lowerBoundX, upperBoundX do
-        for y = lowerBoundY, upperBoundY do
-            BuildingHelper.Grid[x][y] = GRID_FREE
+    construction_size = (construction_size >= pathing_size) and construction_size or pathing_size
+
+    if freeUnblockedOnly then
+        local worldBoundX1 = location.x + math.floor(construction_size/2) * 64 + 32
+        local worldBoundX2 = location.x - math.floor(construction_size/2) * 64 + 32
+        local worldBoundY1 = location.y + math.floor(construction_size/2) * 64 + 32
+        local worldBoundY2 = location.y - math.floor(construction_size/2) * 64 + 32
+
+        local lowerWorldBoundX = math.min(worldBoundX1, worldBoundX2)
+        local upperWorldBoundX = math.max(worldBoundX1, worldBoundX2)
+        local lowerWorldBoundY = math.min(worldBoundY1, worldBoundY2)
+        local upperWorldBoundY = math.max(worldBoundY1, worldBoundY2)
+
+        if (construction_size % 2) == 0 then
+            upperWorldBoundX = upperWorldBoundX - 64
+            upperWorldBoundY = upperWorldBoundY - 64
+        end
+
+        Timers:CreateTimer(0.03, function()
+            for x = lowerWorldBoundX, upperWorldBoundX, 64 do
+                for y = lowerWorldBoundY, upperWorldBoundY, 64 do
+                    --print(x,y, GridNav:IsBlocked(Vector(x,y,130)), GridNav:IsTraversable(Vector(x,y,130)))
+                    --DebugDrawCircle(Vector(x,y,128), Vector(0,255,0), 1, 32, true, 5)
+                    if GridNav:IsTraversable(Vector(x,y,0)) then
+                        local xBH = GridNav:WorldToGridPosX(x)
+                        local yBH = GridNav:WorldToGridPosY(y)
+                        BuildingHelper.Grid[xBH][yBH] = GRID_FREE
+                    end
+                end
+            end
+        end)
+    else
+        local originX = GridNav:WorldToGridPosX(location.x)
+        local originY = GridNav:WorldToGridPosY(location.y)
+
+        local boundX1 = originX + math.floor(construction_size/2)
+        local boundX2 = originX - math.floor(construction_size/2)
+        local boundY1 = originY + math.floor(construction_size/2)
+        local boundY2 = originY - math.floor(construction_size/2)
+
+        local lowerBoundX = math.min(boundX1, boundX2)
+        local upperBoundX = math.max(boundX1, boundX2)
+        local lowerBoundY = math.min(boundY1, boundY2)
+        local upperBoundY = math.max(boundY1, boundY2)
+
+        -- Adjust even size
+        if (construction_size % 2) == 0 then
+            upperBoundX = upperBoundX-1
+            upperBoundY = upperBoundY-1
+        end
+
+        for x = lowerBoundX, upperBoundX do
+            for y = lowerBoundY, upperBoundY do
+                print(x,y)
+                BuildingHelper.Grid[x][y] = GRID_FREE
+            end
         end
     end
 end
