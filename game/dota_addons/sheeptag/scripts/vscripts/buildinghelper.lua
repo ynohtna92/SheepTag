@@ -526,6 +526,7 @@ function BuildingHelper:RemoveBuilding( building, bForcedKill )
         DoEntFireByInstanceHandle(v, "Disable", "1", 0, nil, nil)
         DoEntFireByInstanceHandle(v, "Kill", "1", 1, nil, nil)
     end
+    building.blockers = nil
 
     BuildingHelper:FreeGridSquares(building.construction_size, self:GetBlockPathingSize(building), building:GetAbsOrigin())
 
