@@ -752,7 +752,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"900"
+				"radius"					"99999"
 			}
 			"02"
 			{
@@ -824,7 +824,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"900"
+				"radius"					"99999"
 			}
 			"02"
 			{
@@ -891,7 +891,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"900"
+				"radius"					"99999"
 			}
 			"02"
 			{
@@ -958,7 +958,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"AbilityTextureName"			"item_bomber"
 		"AOERadius"						"%radius"
-		"AbilityCastRange"				"900"
+		"AbilityCastRange"				"1200"
 		"AbilityCooldown"				"60"
 
 		// Item Info
@@ -1025,7 +1025,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"135"
+				"radius"					"270"
 			}
 			"02"
 			{
@@ -1492,7 +1492,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed"    "23"
+				"bonus_attack_speed"    "33"
 			}
 		}
 	}

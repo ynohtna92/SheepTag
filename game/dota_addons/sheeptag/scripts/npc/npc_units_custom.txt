@@ -15,7 +15,7 @@
 		"IsAncient"					"1"
 		"ModelScale"				".70"
 		//"ConsideredHero"			"1"
-		"UnitLabel"			"golem"
+		"UnitLabel"					"golem"
 	
 		// Abilities
 		//----------------------------------------------------------------
@@ -36,8 +36,9 @@
 		"AttackDamageMax"			"29"		// Damage range max.	
 		"AttackRate"				"0.6"		// Speed of attack.
 		"AttackAnimationPoint"		"0.26"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"150"		// Range within a target can be acquired.
-		"AttackRange"				"150"		// Range within a target can be attacked.
+		"AttackAcquisitionRange"	"120"		// Range within a target can be acquired.
+		"AttackRange"				"120"		// Range within a target can be attacked.
+		//"AttackRangeBuffer"			"132"		// Range within a target can be attacked.
 		"ProjectileModel"			""			// Particle system model for projectile.
 		"ProjectileSpeed"			"0"			// Speed of projectile.		   
 
@@ -54,7 +55,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"420"		// Speed.
+		"MovementSpeed"				"300"		// Speed.
 
 		// Status
 		//----------------------------------------------------------------

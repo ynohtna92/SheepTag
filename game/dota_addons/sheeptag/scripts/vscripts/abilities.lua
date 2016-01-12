@@ -100,6 +100,14 @@ function sheep_attack_check( keys )
 	end
 end
 
+-- Apply hit modifier to shepherd
+function sheep_shepherd_check( keys )
+	local target = keys.target
+	local caster = keys.caster
+	local ability = keys.ability
+	ability:ApplyDataDrivenModifier(caster, target, "modifier_shepherd_hit", {})
+end
+
 function color_unit( unit )
 	name = unit:GetUnitName()
 	if name == "money_farm" then
@@ -773,7 +781,8 @@ function farm_bounty( keys )
 	end
 	print(bounty)
 	PopupNumbers(shep, "gold", Vector(255,200,33), 1.0, bounty, '#', nil)
-	shep:ModifyGold(bounty,false,0)
+	local pid = shep:GetPlayerOwnerID()
+	SheepTag.vPlayerIDToHero[pid]:ModifyGold(bounty,false,0)
 end
 
 function shepherd_pregame_create( keys )

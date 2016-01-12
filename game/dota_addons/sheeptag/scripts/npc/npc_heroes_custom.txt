@@ -49,7 +49,7 @@
 		"StatusHealth"				"20"			// Base health.
 		"StatusHealthRegen"			"0"				// Health regeneration rate.
 		"StatusMana"				"50"			// Base mana.
-		"StatusManaRegen"			"0.1"			// Mana regeneration rate.
+		"StatusManaRegen"			"1"				// Mana regeneration rate.
 
 		// Bounty
 		//-----------------------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@
 		"RingRadius"				"70"
 
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"360"									// Speed.
+		"MovementSpeed"				"380"									// Speed.
 		"MovementTurnRate"			"0.6"									// Turning rate.
 
 		"VisionDaytimeRange"		"800"
@@ -124,8 +124,8 @@
 		"RingRadius"				"70"
 
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"200"									// Speed.
-		"MovementTurnRate"			"3"									// Turning rate.
+		"MovementSpeed"				"190"									// Speed.
+		"MovementTurnRate"			"3"										// Turning rate.
 
 		"VisionDaytimeRange"		"600"
 		"VisionNighttimeRange"		"600"									// Range of vision at night time.
@@ -150,13 +150,15 @@
 
 		// Attack
 		//-----------------------------------------------------------------------------------------------------------
-		"AttackCapabilities"	"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackCapabilities"         "DOTA_UNIT_CAP_MELEE_ATTACK"
 
-		"AttackDamageMin"            "150"       // Damage range min.
-		"AttackDamageMax"            "150"       // Damage range max.
-		"AttackRate"                 "1.5"     // Speed of attack.
-		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
+		"AttackDamageMin"            "146"       // Damage range min.
+		"AttackDamageMax"            "146"       // Damage range max.
+		"AttackRate"                 "1.5"       // Speed of attack.
+		"AttackAnimationPoint"       "0.6"       // Normalized time in animation cycle to attack.
+		//"AttackRange"                "150"       // Range within a target can be acquired.
+		"AttackAcquisitionRange"     "150"       // Range within a target can be acquired.
+		//"AttackRangeBuffer"          "74"        // Extra range the target can move without canceling the attack
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------
@@ -170,8 +172,8 @@
 
 		"StatusHealth"				"2000"			// Base health.
 		"StatusHealthRegen"			"0.5"			// Health regeneration rate.
-		"StatusMana"				"300"			// Base mana.
-		"StatusManaRegen"			"0.25"			// Mana regeneration rate.
+		"StatusMana"				"360"			// Base mana.
+		"StatusManaRegen"			"0.55"			// Mana regeneration rate.
 
 		// Bounty
 		//-----------------------------------------------------------------------------------------------------------
