@@ -149,6 +149,10 @@ function Build( event )
             unit:AddNewModifier(unit, nil, "modifier_no_collision", {})
         end
 
+        if building_name == "hard_farm" then
+        	unit:SetHullRadius(164)
+        end
+
         -- Cast angles and various building-creature properties
         if GetUnitKeyValue(building_name, "DisableTurning") then
             unit:AddNewModifier(unit, nil, "modifier_disable_turning", {})

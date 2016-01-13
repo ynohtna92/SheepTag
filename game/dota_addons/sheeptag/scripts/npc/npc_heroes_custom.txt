@@ -32,9 +32,10 @@
 		"AttackDamageMin"            "900"       // Damage range min.
 		"AttackDamageMax"            "900"       // Damage range max.
 		"AttackRate"                 "1.5"     // Speed of attack.
-		"AttackAnimationPoint"       "0.6"    // Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"     "150"     // Range within a target can be acquired.
-		"AttackRange"                "150"     // Range within a target can be attacked.
+		"AttackAnimationPoint"       "0.4"    // Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"     "250"     // Range within a target can be acquired.
+		"AttackRange"                "32"     // Range within a target can be attacked.
+		"AttackRangeBuffer"          "250"        // Extra range the target can move without canceling the attack
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------
@@ -152,13 +153,13 @@
 		//-----------------------------------------------------------------------------------------------------------
 		"AttackCapabilities"         "DOTA_UNIT_CAP_MELEE_ATTACK"
 
-		"AttackDamageMin"            "146"       // Damage range min.
-		"AttackDamageMax"            "146"       // Damage range max.
-		"AttackRate"                 "1.5"       // Speed of attack.
-		"AttackAnimationPoint"       "0.6"       // Normalized time in animation cycle to attack.
-		//"AttackRange"                "150"       // Range within a target can be acquired.
-		"AttackAcquisitionRange"     "150"       // Range within a target can be acquired.
-		//"AttackRangeBuffer"          "74"        // Extra range the target can move without canceling the attack
+		"AttackDamageMin"            "148"       // Damage range min.
+		"AttackDamageMax"            "148"       // Damage range max.
+		"AttackRate"                 "1.75"       // Speed of attack.
+		"AttackAnimationPoint"       "0.3"       // Normalized time in animation cycle to attack.
+		"AttackRange"                "32"       // Range within a target can be acquired.
+		"AttackAcquisitionRange"     "650"       // Range within a target can be acquired.
+		"AttackRangeBuffer"          "192"        // Extra range the target can move without canceling the attack
 
 		// Attributes
 		//-----------------------------------------------------------------------------------------------------------

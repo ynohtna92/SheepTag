@@ -35,10 +35,10 @@
 		"AttackDamageMin"			"29"		// Damage range min.
 		"AttackDamageMax"			"29"		// Damage range max.	
 		"AttackRate"				"0.6"		// Speed of attack.
-		"AttackAnimationPoint"		"0.26"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"120"		// Range within a target can be acquired.
-		"AttackRange"				"120"		// Range within a target can be attacked.
-		//"AttackRangeBuffer"			"132"		// Range within a target can be attacked.
+		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
+		"AttackRange"				"32"		// Range within a target can be attacked.
+		"AttackRangeBuffer"			"225"		// Range within a target can be attacked.
 		"ProjectileModel"			""			// Particle system model for projectile.
 		"ProjectileSpeed"			"0"			// Speed of projectile.		   
 
@@ -184,7 +184,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -267,7 +267,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -350,7 +350,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -433,7 +433,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -516,7 +516,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -599,7 +599,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -682,7 +682,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -765,7 +765,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -848,7 +848,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
@@ -931,7 +931,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_TOWER"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"150"
 
 		// Movement
@@ -1014,7 +1014,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_TOWER"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"120"
 
 		// Movement
@@ -1180,7 +1180,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"		// Hull type used for navigation/locomotion.
+		"BoundsHullName"			"DOTA_HULL_SIZE_HUGE"		// Hull type used for navigation/locomotion.
 		"RingRadius"				"90"
 
 		// Movement
